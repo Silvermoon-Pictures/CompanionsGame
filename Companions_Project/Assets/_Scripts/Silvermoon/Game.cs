@@ -5,9 +5,9 @@ using Silvermoon.Utils;
 
 namespace Silvermoon.Core
 {
-    public interface ICompanionComponent { }
+    public interface ICoreComponent { }
 
-    public interface ISystem  : ICompanionComponent
+    public interface ISystem  : ICoreComponent
     {
         void Initialize() { }
         void Cleanup() { }
