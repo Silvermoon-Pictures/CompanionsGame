@@ -6,7 +6,7 @@ using UnityEngine;
 public partial class Player : MonoBehaviour
 {
     private InputComponent inputComponent;
-    private MovementController movementController;
+    private MovementComponent movementComponent;
     
     private void Awake()
     {
@@ -21,13 +21,13 @@ public partial class Player : MonoBehaviour
     // TODO OK: Move this into a partial class called Player.Movement
     private void SetupMovement()
     {
-        movementController = GetComponent<MovementController>();
+        movementComponent = GetComponent<MovementComponent>();
         List<State> states = new List<State>
         {
-            new WalkingMoveState(movementController),
-            new IdleMoveState(movementController),
+            new WalkingMoveState(movementComponent),
+            new IdleMoveState(movementComponent),
         };
 
-        movementController.Initialize(states);
+        movementComponent.Initialize(states);
     }
 }

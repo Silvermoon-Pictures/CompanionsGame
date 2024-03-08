@@ -7,7 +7,7 @@ public partial class Player
     public class WalkingMoveState : MoveState
     {
         private Player player;
-        public WalkingMoveState(MovementController owner) : base(owner)
+        public WalkingMoveState(MovementComponent owner) : base(owner)
         {
             player = owner.GetComponent<Player>();
         }

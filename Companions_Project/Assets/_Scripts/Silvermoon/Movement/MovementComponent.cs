@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Silvermoon.Movement
 {
-    public class MovementController : MonoBehaviour
+    public class MovementComponent : MonoBehaviour
     {
         [field: SerializeField] private bool hasCustomInitialization;
     

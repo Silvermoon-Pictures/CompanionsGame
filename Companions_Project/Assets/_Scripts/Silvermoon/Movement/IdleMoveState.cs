@@ -4,7 +4,7 @@ namespace Silvermoon.Movement
 {
     public class IdleMoveState : MoveState
     {
-        public IdleMoveState(MovementController owner) : base(owner)
+        public IdleMoveState(MovementComponent owner) : base(owner)
         {
         }
 

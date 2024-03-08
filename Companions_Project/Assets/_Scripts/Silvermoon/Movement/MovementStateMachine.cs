@@ -5,11 +5,11 @@ namespace Silvermoon.Movement
 {
     public class MovementStateMachine : PriorityStateMachine
     {
-        private MovementController owner;
+        private MovementComponent owner;
         
         private MovementStateMachine(List<State> states) : base(states) { }
         
-        public static MovementStateMachine Make(MovementController owner)
+        public static MovementStateMachine Make(MovementComponent owner)
         {
             List<State> states = new List<State>
             {
@@ -19,7 +19,7 @@ namespace Silvermoon.Movement
             return Make(owner, states);
         }
 
-        public static MovementStateMachine Make(MovementController owner, List<State> states)
+        public static MovementStateMachine Make(MovementComponent owner, List<State> states)
         {
             return new MovementStateMachine(states);
         }
@@ -44,10 +44,10 @@ namespace Silvermoon.Movement
 
     public abstract class MoveState : State
     {
-        public MovementController MovementController { get; protected set; }
-        protected MoveState(MovementController owner)
+        public MovementComponent MovementComponent { get; protected set; }
+        protected MoveState(MovementComponent owner)
         {
-            MovementController = owner;
+            MovementComponent = owner;
         }
         
         protected abstract bool CanEnter(MovementContext context);
