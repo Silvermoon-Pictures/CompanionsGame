@@ -16,7 +16,9 @@ namespace Companions.Core
         {
             CreateSystems();
             CreateGameManager();
+            SpawnPlayerIfNull();
             
+            // Might need IEnumerator later for loading addressables etc.
             yield return null;
         }
 
@@ -45,6 +47,14 @@ namespace Companions.Core
 
                 systemsGameObject.AddComponent(systemType);
             }
+        }
+
+        void SpawnPlayerIfNull()
+        {
+            if (FindObjectOfType<Player>() != null)
+                return;
+            
+            Instantiate(GameManager.PlayerPrefab);
         }
     }
 }
