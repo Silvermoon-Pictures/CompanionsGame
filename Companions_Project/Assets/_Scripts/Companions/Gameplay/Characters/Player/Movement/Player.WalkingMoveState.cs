@@ -20,8 +20,8 @@ public partial class Player
             base.Update(context);
 
             Vector2 moveInput = player.inputComponent.MoveInput;
+            Vector3 movement = (context.transform.right * moveInput.x + context.transform.forward * moveInput.y) * context.speed;
             
-            Vector3 movement = new Vector3(moveInput.x, 0f, moveInput.y) * context.speed;
             context.velocity = movement.WithY(context.velocity.y);
         }
     }
