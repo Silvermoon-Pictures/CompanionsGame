@@ -16,6 +16,7 @@ namespace Companions.Core
         {
             CreateSystems();
             CreateGameManager();
+            yield return MapGenerationManager.GenerateMap();
             SpawnPlayerIfNull();
             
             // Might need IEnumerator later for loading addressables etc.
