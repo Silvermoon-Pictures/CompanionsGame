@@ -2,15 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICompanionComponent { }
-
-public interface ISystem  : ICompanionComponent
+namespace Silvermoon.Core
 {
-    void Initialize() { }
-    void Cleanup() { }
-}
-
-public class EntitySystem : MonoBehaviour, ISystem
-{
+    [RequiredSystem]
+    public class EntitySystem : MonoBehaviour, ISystem
+    {
     
+    }
 }
