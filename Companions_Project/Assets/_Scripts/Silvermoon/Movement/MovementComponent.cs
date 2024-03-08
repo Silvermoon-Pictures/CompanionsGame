@@ -83,7 +83,7 @@ namespace Silvermoon.Movement
             stateMachine.Transition(context);
             stateMachine.Update(context);
             
-            collisionFlags = CharacterController.Move(velocity * Time.deltaTime);
+            collisionFlags = CharacterController.Move(context.velocity * Time.deltaTime);
             
             context.position = transform.position;
             stateMachine.PostUpdate(context);
