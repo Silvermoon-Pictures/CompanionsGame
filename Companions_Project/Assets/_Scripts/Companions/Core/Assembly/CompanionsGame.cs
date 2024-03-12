@@ -2,6 +2,7 @@ using System;
 using Silvermoon.Core;
 using System.Collections;
 using System.Linq;
+using Companions.Common;
 using UnityEngine;
 
 namespace Companions.Core
@@ -15,13 +16,15 @@ namespace Companions.Core
         
         IEnumerator IGame.Initialize()
         {
+            // TODO OK: Create GameContext with relevant data to pass into Initialize methods
             CreateSystems();
+            InitializeSystems();
             CreateGameManager();
 
-            TrackObjects();
-            InitializeSystems();
             yield return MapGenerationManager.GenerateMap();
             SpawnPlayerIfNull();
+            TrackObjects();
+            InitializeComponents();
         }
 
         private void TrackObjects()
@@ -31,16 +34,33 @@ namespace Companions.Core
                 foreach (ICoreComponent coreComponent in gameObject.GetComponentsInChildren<ICoreComponent>(true))
                 {
                     ComponentSystem.TrackComponent(coreComponent);
-                    coreComponent.Initialize();
                 }
             }
         }
 
         void IGame.Quit()
         {
+            CleanupComponents();
+            CleanupSystems();
             ComponentSystem.UntrackAll();
         }
-        
+
+        private void CleanupComponents()
+        {
+            foreach (var component in ComponentSystem<ICompanionComponent>.Components)
+            {
+                component.Cleanup();
+            }
+        }
+
+        private void CleanupSystems()
+        {
+            foreach (var system in ComponentSystem<ISystem>.Components)
+            {
+                system.Cleanup();
+            }
+        }
+
         private void CreateGameManager()
         {
             if (gameManager == null)
@@ -63,6 +83,12 @@ namespace Companions.Core
             }
         }
 
+        void InitializeComponents()
+        {
+            foreach (var component in ComponentSystem<ICompanionComponent>.Components)
+                component.Initialize();
+        }
+        
         void InitializeSystems()
         {
             foreach (var system in ComponentSystem<ISystem>.Components)

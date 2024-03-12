@@ -5,20 +5,19 @@ using Silvermoon.Utils;
 
 namespace Silvermoon.Core
 {
-    public interface ICoreComponent
+    public interface ICoreComponent { }
+    
+    public interface ISystem : ICoreComponent
     {
         void Initialize() { }
+        void Cleanup() { }
     }
+
     
     public interface IGame
     {
         IEnumerator Initialize();
         void Quit();
-    }
-
-    public interface ISystem : ICoreComponent
-    {
-        new void Initialize() { }
     }
     
     public static class Game
