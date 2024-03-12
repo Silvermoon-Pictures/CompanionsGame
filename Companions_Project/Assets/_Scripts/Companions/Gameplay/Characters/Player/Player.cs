@@ -28,4 +28,13 @@ public partial class Player : MonoBehaviour, ICompanionComponent
         GameInputSystem.onInteract -= OnInteract;
     }
 
+    private void OnInteract()
+    {
+        if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out RaycastHit hit, 50)) 
+            return;
+        if (!hit.transform.TryGetComponent(out InteractionComponent interactionComponent))
+            return;
+            
+        interactionComponent.Interact();
+    } 
 }
