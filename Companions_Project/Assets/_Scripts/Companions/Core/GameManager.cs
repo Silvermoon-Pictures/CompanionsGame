@@ -24,4 +24,9 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
     }
+
+    private void OnApplicationQuit()
+    {
+        companionsGame.Quit();
+    }
 }

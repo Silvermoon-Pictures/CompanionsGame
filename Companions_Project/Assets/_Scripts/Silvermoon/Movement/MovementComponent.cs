@@ -4,7 +4,13 @@ using System.Collections.Generic;
 
 namespace Silvermoon.Movement
 {
-    public class MovementController : MonoBehaviour
+    public interface IDirectionProvider
+    {
+        Vector3 ForwardDirection { get; }
+        Vector3 RightDirection { get; }
+    }
+    
+    public class MovementComponent : MonoBehaviour
     {
         [field: SerializeField] private bool hasCustomInitialization;
     
@@ -24,24 +30,27 @@ namespace Silvermoon.Movement
         
         private MovementRequest request;
         private MovementStateMachine stateMachine;
-        
-        
-        public CharacterController CharacterController { get; private set; }
+
+        private CharacterController characterController;
         
         private Vector2 inputVector = Vector2.zero;
         private Vector3 velocity;
         private CollisionFlags collisionFlags;
 
+        private IDirectionProvider directionProvider;
+
         private void Awake()
         {
-            CharacterController = GetComponent<CharacterController>();
-            if (CharacterController == null)
-                CharacterController = gameObject.AddComponent<CharacterController>();
+            characterController = GetComponent<CharacterController>();
+            if (characterController == null)
+                characterController = gameObject.AddComponent<CharacterController>();
             
-            CharacterController.center = colliderCenter;
-            CharacterController.radius = colliderRadius;
-            CharacterController.height = colliderHeight;
-            CharacterController.material = physicMaterial;
+            characterController.center = colliderCenter;
+            characterController.radius = colliderRadius;
+            characterController.height = colliderHeight;
+            characterController.material = physicMaterial;
+            
+            directionProvider = GetComponent(typeof(IDirectionProvider)) as IDirectionProvider;
         }
 
         private void Start()
@@ -63,10 +72,13 @@ namespace Silvermoon.Movement
 
         private void Update()
         {
-            if (!CharacterController.isGrounded)
+            if (!characterController.isGrounded)
                 velocity.y -= Gravity * Time.deltaTime;
             else
                 velocity.y = 0f;
+            
+            Vector3 direction = directionProvider?.ForwardDirection ?? transform.forward;
+            Vector3 rightDirection = directionProvider?.RightDirection ?? transform.right;
             
             var context = new MovementContext(Time.deltaTime)
             {
@@ -77,13 +89,15 @@ namespace Silvermoon.Movement
                 collisionFlags = collisionFlags,
                 drag = Drag,
                 request = request,
-                position = transform.position
+                position = transform.position,
+                forwardDirection = direction,
+                rightDirection = rightDirection
             };
             
             stateMachine.Transition(context);
             stateMachine.Update(context);
             
-            collisionFlags = CharacterController.Move(velocity * Time.deltaTime);
+            collisionFlags = characterController.Move(context.velocity * Time.deltaTime);
             
             context.position = transform.position;
             stateMachine.PostUpdate(context);

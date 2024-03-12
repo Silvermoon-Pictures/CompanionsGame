@@ -6,12 +6,13 @@ using Silvermoon.Utils;
 namespace Silvermoon.Core
 {
     public interface ICoreComponent { }
-
-    public interface ISystem  : ICoreComponent
+    
+    public interface ISystem : ICoreComponent
     {
         void Initialize() { }
         void Cleanup() { }
     }
+
     
     public interface IGame
     {

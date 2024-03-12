@@ -7,7 +7,7 @@ public partial class Player
     public class WalkingMoveState : MoveState
     {
         private Player player;
-        public WalkingMoveState(MovementController owner) : base(owner)
+        public WalkingMoveState(MovementComponent owner) : base(owner)
         {
             player = owner.GetComponent<Player>();
         }
@@ -20,8 +20,8 @@ public partial class Player
             base.Update(context);
 
             Vector2 moveInput = player.inputComponent.MoveInput;
+            Vector3 movement = (context.rightDirection * moveInput.x + context.forwardDirection * moveInput.y) * context.speed;
             
-            Vector3 movement = new Vector3(moveInput.x, 0f, moveInput.y) * context.speed;
             context.velocity = movement.WithY(context.velocity.y);
         }
     }
