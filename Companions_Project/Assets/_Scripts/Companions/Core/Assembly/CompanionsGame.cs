@@ -20,11 +20,11 @@ namespace Companions.Core
             CreateSystems();
             InitializeSystems();
             CreateGameManager();
-
-            yield return MapGenerationManager.GenerateMap();
+            
             SpawnPlayerIfNull();
             TrackObjects();
             InitializeComponents();
+            yield return null;
         }
 
         private void TrackObjects()
