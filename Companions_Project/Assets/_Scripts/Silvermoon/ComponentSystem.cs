@@ -28,12 +28,12 @@ namespace Silvermoon.Core
             Type type = component.GetType();
             Instance.allComponents.Add(component);
 
-            if (!Instance.componentMap.ContainsKey(type)) 
-                Instance.componentMap[type] = new HashSet<ICoreComponent>();
-            
-            if (type.IsInstanceOfType(component))
+            foreach ((Type mapType, HashSet<ICoreComponent> mapComponents) in Instance.componentMap)
             {
-                Instance.componentMap[type].Add(component);
+                if (mapType.IsAssignableFrom(type))
+                {
+                    mapComponents.Add(component);
+                }
             }
         }
 
@@ -48,6 +48,8 @@ namespace Silvermoon.Core
             if (Instance == null)
                 yield break;
 
+            Instance.EnsureComponentMapExists(type);
+
             var components = Instance.componentMap;
             foreach (T component in components[type])
             {
@@ -57,6 +59,22 @@ namespace Silvermoon.Core
                 
                 if (includeInactive || comp.gameObject.activeInHierarchy)
                     yield return component;
+            }
+        }
+        
+        private void EnsureComponentMapExists(Type type)
+        {
+            if (!Instance.componentMap.ContainsKey(type))
+            {
+                Instance.componentMap[type] = new HashSet<ICoreComponent>();
+
+                foreach (var component in Instance.allComponents)
+                {
+                    if (type.IsAssignableFrom(component.GetType()))
+                    {
+                        Instance.componentMap[type].Add(component);
+                    }
+                }
             }
         }
     }

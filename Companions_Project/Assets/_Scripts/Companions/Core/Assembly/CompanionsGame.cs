@@ -1,6 +1,7 @@
 using System;
 using Silvermoon.Core;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace Companions.Core
@@ -16,16 +17,28 @@ namespace Companions.Core
         {
             CreateSystems();
             CreateGameManager();
+
+            TrackObjects();
+            InitializeSystems();
             yield return MapGenerationManager.GenerateMap();
             SpawnPlayerIfNull();
-            
-            // Might need IEnumerator later for loading addressables etc.
-            yield return null;
+        }
+
+        private void TrackObjects()
+        {
+            foreach (var gameObject in FindObjectsOfType<GameObject>(true).Where(obj => obj.transform.parent == null))
+            {
+                foreach (ICoreComponent coreComponent in gameObject.GetComponentsInChildren<ICoreComponent>(true))
+                {
+                    ComponentSystem.TrackComponent(coreComponent);
+                    coreComponent.Initialize();
+                }
+            }
         }
 
         void IGame.Quit()
         {
-        
+            ComponentSystem.UntrackAll();
         }
         
         private void CreateGameManager()
@@ -48,6 +61,12 @@ namespace Companions.Core
 
                 systemsGameObject.AddComponent(systemType);
             }
+        }
+
+        void InitializeSystems()
+        {
+            foreach (var system in ComponentSystem<ISystem>.Components)
+                system.Initialize();
         }
 
         void SpawnPlayerIfNull()

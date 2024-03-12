@@ -4,17 +4,14 @@ namespace Silvermoon.Core
 {
     public abstract class BaseSystem : MonoBehaviour, ISystem
     {
-        protected virtual void Initialize() { }
-        protected virtual void Cleanup() { }
+        protected virtual void Initialize()
+        {
+            
+        }
 
         void ISystem.Initialize()
         {
             Initialize();
-        }
-
-        void ISystem.Cleanup()
-        {
-            Cleanup();
         }
     }
 
