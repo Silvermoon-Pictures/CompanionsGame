@@ -32,8 +32,7 @@ public class PlayerCamera : MonoBehaviour
         yaw += lookInput.x * sensitivity * Time.deltaTime;
         pitch -= lookInput.y * sensitivity * Time.deltaTime;
         pitch = Mathf.Clamp(pitch, -maxlookAngle, maxlookAngle);
-
-        // Rotate the root transform. Subject to change
-        transform.parent.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+        
+        transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
     }
 }
