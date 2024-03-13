@@ -16,6 +16,9 @@ public class SpawnBehavior : GameEffectBehavior
     {
         base.Execute(context);
 
+        if (prefab == null)
+            return;
+
         var gameobject = Object.Instantiate(prefab);
         Vector3 position = positionContext == EPositionContext.Target
             ? context.target.transform.position
