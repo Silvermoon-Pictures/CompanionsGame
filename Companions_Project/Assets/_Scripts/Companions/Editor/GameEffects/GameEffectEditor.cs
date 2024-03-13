@@ -18,6 +18,8 @@ public class GameEffectEditor : Editor
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
+        behaviorsProperty = serializedObject.FindProperty(nameof(GameEffect.behaviors)); 
+        
         UpdateBehaviorSerializedObjects();
         
         DrawAddBehaviorButton();
@@ -49,7 +51,16 @@ public class GameEffectEditor : Editor
         behaviorSerializedObject.Update();
         
         GameEffectBehavior behavior = behaviorSerializedObject.targetObject as GameEffectBehavior;
+        
+        EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField(behavior.GetType().Name, EditorStyles.boldLabel);
+        
+        if (GUILayout.Button("x", GUILayout.Width(20)))
+        {
+            DeleteBehavior(index);
+            return;
+        }
+        EditorGUILayout.EndHorizontal();
 
         SerializedProperty iterator = behaviorSerializedObject.GetIterator();
         bool enterChildren = true;
@@ -70,18 +81,29 @@ public class GameEffectEditor : Editor
         behaviorSerializedObject.ApplyModifiedProperties();
     }
     
-    private void UpdateBehaviorSerializedObjects()
+    private void DeleteBehavior(int index)
     {
-        behaviorSerializedObjects.Clear();
+        SerializedProperty behaviorProperty = behaviorsProperty.GetArrayElementAtIndex(index);
+        Undo.RecordObject(target, "Delete Behavior");
         
-        for (int i = 0; i < behaviorsProperty.arraySize; i++)
+        if (behaviorProperty.objectReferenceValue != null)
         {
-            SerializedProperty behaviorProperty = behaviorsProperty.GetArrayElementAtIndex(i);
-            if (behaviorProperty.objectReferenceValue != null)
+            GameEffectBehavior behavior = behaviorProperty.objectReferenceValue as GameEffectBehavior;
+            if (AssetDatabase.IsSubAsset(behavior))
             {
-                behaviorSerializedObjects.Add(new SerializedObject(behaviorProperty.objectReferenceValue));
+                Undo.DestroyObjectImmediate(behavior);
             }
         }
+
+        behaviorsProperty = serializedObject.FindProperty(nameof(GameEffect.behaviors)); 
+        behaviorsProperty.DeleteArrayElementAtIndex(index);
+        
+        serializedObject.ApplyModifiedProperties();
+        
+        behaviorsProperty = serializedObject.FindProperty(nameof(GameEffect.behaviors));
+        
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
     }
     
     private void DrawAddBehaviorButton()
@@ -127,6 +149,20 @@ public class GameEffectEditor : Editor
         newElement.objectReferenceValue = newBehavior;
 
         serializedObject.ApplyModifiedProperties();
+    }
+    
+    private void UpdateBehaviorSerializedObjects()
+    {
+        behaviorSerializedObjects.Clear();
+        
+        for (int i = 0; i < behaviorsProperty.arraySize; i++)
+        {
+            SerializedProperty behaviorProperty = behaviorsProperty.GetArrayElementAtIndex(i);
+            if (behaviorProperty.objectReferenceValue != null)
+            {
+                behaviorSerializedObjects.Add(new SerializedObject(behaviorProperty.objectReferenceValue));
+            }
+        }
     }
 
     private IEnumerable<Type> GetDerivedTypes<T>() where T : class
