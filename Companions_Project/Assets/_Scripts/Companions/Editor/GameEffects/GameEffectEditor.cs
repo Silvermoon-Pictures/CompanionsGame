@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [CustomEditor(typeof(GameEffect))]
-public class GameEffectWindow : Editor
+public class GameEffectEditor : Editor
 {
     SerializedProperty behaviorsProperty;
     private List<SerializedObject> behaviorSerializedObjects = new();
@@ -13,44 +13,61 @@ public class GameEffectWindow : Editor
     private void OnEnable()
     {
         behaviorsProperty = serializedObject.FindProperty(nameof(GameEffect.behaviors)); 
-        UpdateBehaviorSerializedObjects();
     }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
-        DrawAddbehaviorButton();
-        DrawBehaviors();
-        serializedObject.ApplyModifiedProperties();
+        UpdateBehaviorSerializedObjects();
         
+        DrawAddBehaviorButton();
+        EditorGUILayout.Space();
+        
+        DrawBehaviors();
+        
+        serializedObject.ApplyModifiedProperties();
     }
     
     private void DrawBehaviors()
     {
         for (int i = 0; i < behaviorSerializedObjects.Count; i++)
         {
-            SerializedObject behaviorSerializedObject = behaviorSerializedObjects[i];
-            GameEffectBehavior behavior = behaviorSerializedObject.targetObject as GameEffectBehavior;
-            
+            SerializedProperty behaviorProperty = behaviorsProperty.GetArrayElementAtIndex(i);
             EditorGUILayout.BeginVertical(GUI.skin.box);
-            EditorGUILayout.LabelField(behavior.GetType().Name, EditorStyles.boldLabel);
-
-            SerializedProperty iterator = behaviorSerializedObject.GetIterator();
-            bool enterChildren = true;
-
-            while (iterator.NextVisible(enterChildren))
+            if (behaviorProperty.objectReferenceValue != null)
             {
-                enterChildren = false;
-                if (iterator.name == "m_Script")
-                    continue;
-                
-                EditorGUILayout.PropertyField(iterator, true);
+                DrawBehavior(i);
             }
-
-            behaviorSerializedObject.ApplyModifiedProperties();
 
             EditorGUILayout.EndVertical();
         }
+    }
+
+    private void DrawBehavior(int index)
+    {
+        SerializedObject behaviorSerializedObject = behaviorSerializedObjects[index];
+        behaviorSerializedObject.Update();
+        
+        GameEffectBehavior behavior = behaviorSerializedObject.targetObject as GameEffectBehavior;
+        EditorGUILayout.LabelField(behavior.GetType().Name, EditorStyles.boldLabel);
+
+        SerializedProperty iterator = behaviorSerializedObject.GetIterator();
+        bool enterChildren = true;
+        
+        EditorGUI.indentLevel++;
+
+        while (iterator.NextVisible(enterChildren))
+        {
+            enterChildren = false;
+            if (iterator.name == "m_Script")
+                continue;
+                
+            EditorGUILayout.PropertyField(iterator, true);
+        }
+        
+        EditorGUI.indentLevel--;
+
+        behaviorSerializedObject.ApplyModifiedProperties();
     }
     
     private void UpdateBehaviorSerializedObjects()
@@ -67,7 +84,7 @@ public class GameEffectWindow : Editor
         }
     }
     
-    private void DrawAddbehaviorButton()
+    private void DrawAddBehaviorButton()
     {
         if (GUILayout.Button("Add New Behavior"))
         {
@@ -85,25 +102,30 @@ public class GameEffectWindow : Editor
 
     private void AddBehavior(Type behaviorType)
     {
-        serializedObject.Update();
-        
         GameEffect gameEffect = (GameEffect)target;
         bool alreadyExists = gameEffect.behaviors.Any(behavior => behavior != null && behavior.GetType() == behaviorType);
-        
+
         if (alreadyExists)
         {
             EditorUtility.DisplayDialog("Behavior Exists", $"{behaviorType.Name} already exists in this GameEffect", "OK");
-            // Debug.LogWarning($"{behaviorType.Name} already exists in this GameEffect");
             return;
         }
-        
-        GameEffectBehavior newBehavior = CreateInstance(behaviorType) as GameEffectBehavior;
-        AssetDatabase.CreateAsset(newBehavior, AssetDatabase.GenerateUniqueAssetPath($"Assets/Generated/GameEffects/{behaviorType.Name}.asset"));
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
 
+        GameEffectBehavior newBehavior = CreateInstance(behaviorType) as GameEffectBehavior;
+        if (newBehavior == null)
+            return;
+
+        newBehavior.name = $"{behaviorType.Name}_{Guid.NewGuid()}";
+        AssetDatabase.CreateAsset(newBehavior, AssetDatabase.GenerateUniqueAssetPath($"Assets/Generated/GameEffects/{newBehavior.name}.asset"));
+        AssetDatabase.SaveAssets();
+
+        serializedObject.Update();
+
+        behaviorsProperty = serializedObject.FindProperty(nameof(GameEffect.behaviors)); 
         behaviorsProperty.arraySize++;
-        behaviorsProperty.GetArrayElementAtIndex(behaviorsProperty.arraySize - 1).objectReferenceValue = newBehavior;
+        SerializedProperty newElement = behaviorsProperty.GetArrayElementAtIndex(behaviorsProperty.arraySize - 1);
+        newElement.objectReferenceValue = newBehavior;
+
         serializedObject.ApplyModifiedProperties();
     }
 
