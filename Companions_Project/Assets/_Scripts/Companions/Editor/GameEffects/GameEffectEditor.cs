@@ -116,7 +116,7 @@ public class GameEffectEditor : Editor
             return;
 
         newBehavior.name = $"{behaviorType.Name}_{Guid.NewGuid()}";
-        AssetDatabase.CreateAsset(newBehavior, AssetDatabase.GenerateUniqueAssetPath($"Assets/Generated/GameEffects/{newBehavior.name}.asset"));
+        AssetDatabase.AddObjectToAsset(newBehavior, target);
         AssetDatabase.SaveAssets();
 
         serializedObject.Update();
