@@ -3,14 +3,15 @@ using UnityEngine;
 
 public class InteractionComponent : MonoBehaviour
 {
-    private void Awake()
-    {
-        
-    }
+    public GameEffect GameEffect;
 
-    public void Interact()
+    public void Interact(GameObject instigator)
     {
-        // TODO OK: Implement scriptable Game Effects that can be created in an editor window
-        Debug.Log($"{name} is interacted with.");
+        var context = new GameEffectContext()
+        {
+            instigator = instigator,
+            target = gameObject,
+        };
+        GameEffect.Execute(context);
     }
 }

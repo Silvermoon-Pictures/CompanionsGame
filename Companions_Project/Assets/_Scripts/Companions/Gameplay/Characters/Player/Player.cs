@@ -35,6 +35,6 @@ public partial class Player : MonoBehaviour, ICompanionComponent
         if (!hit.transform.TryGetComponent(out InteractionComponent interactionComponent))
             return;
             
-        interactionComponent.Interact();
+        interactionComponent.Interact(gameObject);
     } 
 }
