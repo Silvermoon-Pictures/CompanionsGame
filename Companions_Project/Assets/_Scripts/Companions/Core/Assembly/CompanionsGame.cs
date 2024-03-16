@@ -21,8 +21,8 @@ namespace Companions.Core
             InitializeSystems();
             CreateGameManager();
             
-            SpawnPlayerIfNull();
             TrackObjects();
+            SpawnPlayerIfNull();
             InitializeComponents();
             yield return null;
         }
@@ -99,8 +99,11 @@ namespace Companions.Core
         {
             if (FindObjectOfType<Player>() != null)
                 return;
+
+            Vector3 position = ComponentSystem<PlayerSpawnPositionProvider>.Instance.GetSpawnPosition();
             
-            Instantiate(GameManager.PlayerPrefab);
+            var player = Instantiate(GameManager.PlayerPrefab, position, Quaternion.identity);
+            ComponentSystem.TrackComponent(player);
         }
     }
 }
