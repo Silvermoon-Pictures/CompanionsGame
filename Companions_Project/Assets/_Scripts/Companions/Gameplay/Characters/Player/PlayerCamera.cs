@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
+    [SerializeField] private Transform body;
     [SerializeField] private float sensitivity = 2.0f;
-    [SerializeField] private float maxlookAngle = 85.0f;
-
+    [SerializeField] private float xAngleLimit = 85.0f;
+    [SerializeField] private float yAngleLimit = 85.0f;
+    
     private Vector2 lookInput;
 
     private float pitch;
@@ -29,10 +31,14 @@ public class PlayerCamera : MonoBehaviour
 
     private void Update()
     {
-        yaw += lookInput.x * sensitivity * Time.deltaTime;
-        pitch -= lookInput.y * sensitivity * Time.deltaTime;
-        pitch = Mathf.Clamp(pitch, -maxlookAngle, maxlookAngle);
-        
-        transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+        float mouseX = lookInput.x * sensitivity * Time.deltaTime;
+        float mouseY = lookInput.y * sensitivity * Time.deltaTime;
+
+        pitch -= mouseY;
+        pitch = Mathf.Clamp(pitch, -90f, 47f);
+        transform.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+        body.Rotate(Vector3.up * mouseX);
+
+        lookInput = Vector3.zero;
     }
 }

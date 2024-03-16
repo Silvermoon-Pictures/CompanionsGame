@@ -4,8 +4,9 @@ using UnityEngine;
 
 public partial class Player : IDirectionProvider
 {
-    public Vector3 ForwardDirection => camera.transform.forward;
-    public Vector3 RightDirection => camera.transform.right;
+    public Vector3 Direction => camera.transform.forward;
+
+    private MovementComponent movementComponent;
 
     void SetupMovement()
     {

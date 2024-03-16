@@ -7,7 +7,6 @@ using UnityEngine;
 
 public partial class Player : MonoBehaviour, ICompanionComponent
 {
-    private MovementComponent movementComponent;
     private InputComponent inputComponent;
     private PlayerCamera camera;
     
