@@ -6,6 +6,18 @@ namespace Silvermoon.Core
 {
     public static class ComponentSystem<T> where T : ICoreComponent
     {
+        public static T Instance
+        {
+            get
+            {
+                var components = ComponentSystem.GetAllComponents<T>();
+                foreach (var component in components)
+                    return component;
+                
+                throw new Exception($"Component {typeof(T)} not found");
+            }
+        }
+        
         public static IEnumerable<T> Components
         {
             get
