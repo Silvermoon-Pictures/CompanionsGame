@@ -6,8 +6,7 @@ namespace Silvermoon.Movement
 {
     public interface IDirectionProvider
     {
-        Vector3 ForwardDirection { get; }
-        Vector3 RightDirection { get; }
+        Vector3 Direction { get; }
     }
     
     public class MovementComponent : MonoBehaviour
@@ -77,8 +76,7 @@ namespace Silvermoon.Movement
             else
                 velocity.y = 0f;
             
-            Vector3 direction = directionProvider?.ForwardDirection ?? transform.forward;
-            Vector3 rightDirection = directionProvider?.RightDirection ?? transform.right;
+            Vector3 direction = directionProvider?.Direction ?? transform.forward;
             
             var context = new MovementContext(Time.deltaTime)
             {
@@ -90,8 +88,7 @@ namespace Silvermoon.Movement
                 drag = Drag,
                 request = request,
                 position = transform.position,
-                forwardDirection = direction,
-                rightDirection = rightDirection
+                direction = direction,
             };
             
             stateMachine.Transition(context);

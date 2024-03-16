@@ -40,7 +40,7 @@ public class playermove : MonoBehaviour
 
         controller.Move(move * speed * Time.deltaTime);
 
-        animator.SetFloat("Speed", Mathf.Abs(x));
+
         animator.SetFloat("Speed2", z);
 
         if ( Input.GetButtonDown("Jump")&& isGrounded ) {

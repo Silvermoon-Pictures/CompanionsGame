@@ -34,8 +34,7 @@ namespace Silvermoon.Movement
         public Vector3 position;
         public Vector3 velocity;
         public CollisionFlags collisionFlags;
-        public Vector3 forwardDirection;
-        public Vector3 rightDirection;
+        public Vector3 direction;
 
         public MovementRequest request;
 
