@@ -5,13 +5,14 @@ using Silvermoon.Utils;
 
 namespace Silvermoon.Core
 {
-    public interface ICompanionComponent { }
-
-    public interface ISystem  : ICompanionComponent
+    public interface ICoreComponent { }
+    
+    public interface ISystem : ICoreComponent
     {
         void Initialize() { }
         void Cleanup() { }
     }
+
     
     public interface IGame
     {

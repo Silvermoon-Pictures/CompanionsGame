@@ -1,13 +1,15 @@
-using System;
 using Silvermoon.Core;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
+    public static Player PlayerPrefab => Instance.playerPrefab;
+    [SerializeField] private Player playerPrefab;
     
     private IGame companionsGame;
-    public IGame CompanionsGame 
+    public IGame CompanionsGame
     {
         get => companionsGame;
         set => companionsGame = value;
@@ -21,5 +23,10 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+    private void OnApplicationQuit()
+    {
+        companionsGame.Quit();
     }
 }
