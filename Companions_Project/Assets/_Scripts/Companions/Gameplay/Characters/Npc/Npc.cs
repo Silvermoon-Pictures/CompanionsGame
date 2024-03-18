@@ -1,16 +1,25 @@
 using System;
+using Silvermoon.Movement;
 using Silvermoon.Utils;
 using UnityEngine;
 
-public class Npc : MonoBehaviour
+public partial class Npc : MonoBehaviour
 {
     [field: SerializeField]
     public NpcData NpcData { get; private set; }
     private NpcBrain brain;
+    
+    public MovementComponent MovementComponent { get; private set; }
 
     public ActionAsset currentAction;
 
     public bool rock;
+
+    private void Awake()
+    {
+        MovementComponent = GetComponent<MovementComponent>();
+        SetupMovement();
+    }
 
     private void Start()
     {
