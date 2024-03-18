@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Npc : MonoBehaviour
 {
+    [field: SerializeField]
     public NpcData NpcData { get; private set; }
     private NpcBrain brain;
 
