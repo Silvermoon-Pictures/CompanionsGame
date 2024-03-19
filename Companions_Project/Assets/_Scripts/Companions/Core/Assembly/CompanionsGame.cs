@@ -14,7 +14,7 @@ namespace Companions.Core
         private GameObject systemsGameObject;
         private GameManager gameManager;
         
-        IEnumerator IGame.Initialize()
+        IEnumerator IGame.Initialize(GameSettings settings)
         {
             // TODO OK: Create GameContext with relevant data to pass into Initialize methods
             CreateSystems();
@@ -22,7 +22,10 @@ namespace Companions.Core
             CreateGameManager();
             
             TrackObjects();
-            SpawnPlayerIfNull();
+            
+            if (!settings.simulate)
+                SpawnPlayerIfNull();
+            
             InitializeComponents();
             yield return null;
         }

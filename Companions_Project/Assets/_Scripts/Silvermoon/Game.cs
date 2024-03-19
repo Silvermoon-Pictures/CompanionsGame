@@ -16,7 +16,7 @@ namespace Silvermoon.Core
     
     public interface IGame
     {
-        IEnumerator Initialize();
+        IEnumerator Initialize(GameSettings settings);
         void Quit();
     }
     
@@ -30,6 +30,13 @@ namespace Silvermoon.Core
             }
         }
     }
+    
+    [System.Serializable]
+    public class GameSettings
+    {
+        public bool simulate;
+    }
+
     
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiredSystemAttribute : System.Attribute
