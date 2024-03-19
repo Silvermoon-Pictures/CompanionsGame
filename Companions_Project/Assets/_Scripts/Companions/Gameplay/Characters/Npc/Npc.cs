@@ -3,7 +3,7 @@ using Silvermoon.Movement;
 using Silvermoon.Utils;
 using UnityEngine;
 
-public partial class Npc : MonoBehaviour
+public partial class Npc : MonoBehaviour, ICompanionComponent
 {
     [field: SerializeField]
     public NpcData NpcData { get; private set; }

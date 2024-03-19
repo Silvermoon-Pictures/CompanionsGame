@@ -10,24 +10,33 @@ namespace Companions.Core
     public class CompanionsGame : MonoBehaviour, IGame
     {
         public GameManager gameManagerPrefab;
+        [SerializeField]
+        private GameConfigs configs;
         
         private GameObject systemsGameObject;
         private GameManager gameManager;
+
+        private GameContext context;
         
         IEnumerator IGame.Initialize(GameSettings settings)
         {
-            // TODO OK: Create GameContext with relevant data to pass into Initialize methods
+            context = new GameContext()
+            {
+                game = this,
+            };
+            
+            configs.Initialize();
+            
             CreateSystems();
-            InitializeSystems();
             CreateGameManager();
             
             TrackObjects();
+            InitializeSystems(context);
             
             if (!settings.simulate)
                 SpawnPlayerIfNull();
-            
-            InitializeComponents();
-            yield return null;
+
+            yield break;
         }
 
         private void TrackObjects()
@@ -46,6 +55,11 @@ namespace Companions.Core
             CleanupComponents();
             CleanupSystems();
             ComponentSystem.UntrackAll();
+        }
+
+        public T GetConfig<T>() where T : ScriptableObject
+        {
+            return configs.GetConfig<T>();
         }
 
         private void CleanupComponents()
@@ -85,17 +99,10 @@ namespace Companions.Core
                 systemsGameObject.AddComponent(systemType);
             }
         }
-
-        void InitializeComponents()
-        {
-            foreach (var component in ComponentSystem<ICompanionComponent>.Components)
-                component.Initialize();
-        }
-        
-        void InitializeSystems()
+        void InitializeSystems(GameContext context)
         {
             foreach (var system in ComponentSystem<ISystem>.Components)
-                system.Initialize();
+                system.Initialize(context);
         }
 
         void SpawnPlayerIfNull()
