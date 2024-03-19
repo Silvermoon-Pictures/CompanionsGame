@@ -13,11 +13,11 @@ namespace Companions.Systems
     {
         public static IEnumerator GenerateWorld(GameContext context)
         {
-            // TODO OK: Create Module Factory
-            var modulePrefab = context.game.GetConfig<WorldGenerationConfig>().World;
-            if (modulePrefab != null)
+            // TODO OK: Create World Factory
+            var worldPrefab = context.game.GetConfig<WorldGenerationConfig>().World;
+            if (worldPrefab != null)
             {
-                FactoryInstruction instruction = new FactoryInstruction(modulePrefab, Vector3.zero, Quaternion.identity);
+                FactoryInstruction instruction = new FactoryInstruction(worldPrefab, Vector3.zero, Quaternion.identity);
                 context.AddInstruction(instruction);
             }
             

@@ -37,6 +37,7 @@ namespace Silvermoon.Core
     public class GameContext
     {
         public IGame game;
+        public GameSettings settings;
 
         public void AddInstruction(FactoryInstruction instruction)
         {

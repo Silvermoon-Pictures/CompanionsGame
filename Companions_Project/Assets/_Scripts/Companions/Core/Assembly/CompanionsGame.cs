@@ -30,6 +30,7 @@ namespace Companions.Core
             context = new GameContext()
             {
                 game = this,
+                settings = settings
             };
 
             CreateFactory();
@@ -45,10 +46,10 @@ namespace Companions.Core
 
             yield return WorldGenerationManager.GenerateWorld(context);
             yield return new WaitForSeconds(1f);
-            Notify(WorldGenerated);
+            if (PlayerSystem.SpawnPlayer(context, out Player player))
+                PostProcess(player.gameObject);
             
-            if (!settings.simulate)
-                SpawnPlayerIfNull();
+            Notify(WorldGenerated);
         }
         
         private void Initialize(ICompanionComponent component)
@@ -171,17 +172,6 @@ namespace Companions.Core
         {
             foreach (var system in ComponentSystem<ISystem>.Components)
                 system.Initialize(context);
-        }
-
-        void SpawnPlayerIfNull()
-        {
-            if (FindObjectOfType<Player>() != null)
-                return;
-
-            Vector3 position = ComponentSystem<PlayerSpawnPositionProvider>.Instance.GetSpawnPosition();
-            
-            var player = Instantiate(GameManager.PlayerPrefab, position, Quaternion.identity);
-            ComponentSystem.TrackComponent(player);
         }
     }
 }
