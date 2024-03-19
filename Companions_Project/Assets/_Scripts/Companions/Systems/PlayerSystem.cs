@@ -4,6 +4,8 @@ using UnityEngine;
 [RequiredSystem]
 public class PlayerSystem : BaseSystem<PlayerSystem>
 {
+    public static Player Player;
+    
     public static bool SpawnPlayer(GameContext context, out Player player)
     {
         player = null;
@@ -13,7 +15,8 @@ public class PlayerSystem : BaseSystem<PlayerSystem>
             return false;
 
         Vector3 position = ComponentSystem<PlayerSpawnPositionProvider>.Instance.GetSpawnPosition();
-        player = Instantiate(GameManager.PlayerPrefab.gameObject, position, Quaternion.identity).GetComponent<Player>();
+        Player = Instantiate(GameManager.PlayerPrefab.gameObject, position, Quaternion.identity).GetComponent<Player>();
+        player = Player;
         return true;
     }
 }
