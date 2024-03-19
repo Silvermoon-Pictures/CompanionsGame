@@ -7,7 +7,7 @@ public class GameConfigs
 {
     private Dictionary<Type, ScriptableObject> allConfigs = new();
     
-    public MapGenerationConfig MapGenConfig;
+    public WorldGenerationConfig WorldGenerationConfig;
 
     public T GetConfig<T>() where T : ScriptableObject
     {
@@ -16,6 +16,6 @@ public class GameConfigs
 
     public void Initialize()
     {
-        allConfigs[typeof(MapGenerationConfig)] = MapGenConfig;
+        allConfigs[typeof(WorldGenerationConfig)] = WorldGenerationConfig;
     }
 }

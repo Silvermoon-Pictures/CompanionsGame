@@ -1,14 +1,18 @@
 using System;
 using Silvermoon.Core;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Companions.Common;
+using Companions.Systems;
 using UnityEngine;
 
 namespace Companions.Core
 {
     public class CompanionsGame : MonoBehaviour, IGame
     {
+        public List<Action<ICompanionComponent>> objectPostProcessors = new();
+        
         public GameManager gameManagerPrefab;
         [SerializeField]
         private GameConfigs configs;
@@ -17,6 +21,9 @@ namespace Companions.Core
         private GameManager gameManager;
 
         private GameContext context;
+
+        private GameFactory factory;
+        IFactory IGame.Factory => factory;
         
         IEnumerator IGame.Initialize(GameSettings settings)
         {
@@ -24,6 +31,8 @@ namespace Companions.Core
             {
                 game = this,
             };
+
+            CreateFactory();
             
             configs.Initialize();
             
@@ -32,11 +41,46 @@ namespace Companions.Core
             
             TrackObjects();
             InitializeSystems(context);
+            Notify(Initialize);
+
+            yield return WorldGenerationManager.GenerateWorld(context);
+            yield return new WaitForSeconds(1f);
+            Notify(WorldGenerated);
             
             if (!settings.simulate)
                 SpawnPlayerIfNull();
+        }
+        
+        private void Initialize(ICompanionComponent component)
+        {
+            component.Initialize(context);
+        }
+        
+        private void WorldGenerated(ICompanionComponent component)
+        {
+            component.WorldLoaded();
+        }
 
-            yield break;
+        void CreateFactory()
+        {
+            factory = new GameFactory(context);
+            factory.ObjectCreated += SetupObject;
+        }
+        
+        private void SetupObject(object gamePool, GameObject go)
+        {
+            PostProcess(go);
+        }
+        
+        private void PostProcess(GameObject go)
+        {
+            IEnumerable<ICoreComponent> components = go.GetComponentsInChildren<ICoreComponent>(true);
+            PostProcessEveryComponents(components);
+        
+            foreach(ICoreComponent component in components)
+            {
+                ComponentSystem.TrackComponent(component);
+            }
         }
 
         private void TrackObjects()
@@ -46,6 +90,30 @@ namespace Companions.Core
                 foreach (ICoreComponent coreComponent in gameObject.GetComponentsInChildren<ICoreComponent>(true))
                 {
                     ComponentSystem.TrackComponent(coreComponent);
+                }
+            }
+        }
+        
+        private void Notify(Action<ICompanionComponent> postProcessor)
+        {
+            foreach (ICompanionComponent worshipSystem in ComponentSystem<ICompanionComponent>.Components)
+                postProcessor(worshipSystem);
+            
+            objectPostProcessors.Add(postProcessor);
+        }
+        
+        private void PostProcessEveryComponents(IEnumerable<ICoreComponent> components)
+        {            
+            // Apply each post processor
+            foreach (Action<ICompanionComponent> postProcessor in objectPostProcessors)
+            {
+                // To every RatComponents
+                foreach (ICoreComponent ratComponent in components)
+                {
+                    if (ratComponent is ICompanionComponent worshipComponent)
+                    {
+                        postProcessor(worshipComponent);
+                    }
                 }
             }
         }

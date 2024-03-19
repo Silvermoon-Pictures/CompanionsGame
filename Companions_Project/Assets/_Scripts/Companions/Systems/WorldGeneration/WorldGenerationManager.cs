@@ -9,32 +9,20 @@ using UnityEngine.AI;
 namespace Companions.Systems
 {
     [RequiredSystem]
-    public class MapGenerationManager : BaseSystem<MapGenerationManager>
+    public class WorldGenerationManager : BaseSystem<WorldGenerationManager>
     {
-        protected override void Initialize(GameContext context)
+        public static IEnumerator GenerateWorld(GameContext context)
         {
-            base.Initialize(context);
-            
-            StartCoroutine(Generate(context));
-        }
-
-        private IEnumerator Generate(GameContext context)
-        {
-            var module = Instantiate(context.game.GetConfig<MapGenerationConfig>().Module);
-            var components = module.GetComponentsInChildren<ICompanionComponent>();
-            foreach (var comp in components)
+            // TODO OK: Create Module Factory
+            var modulePrefab = context.game.GetConfig<WorldGenerationConfig>().World;
+            if (modulePrefab != null)
             {
-                ((Component)comp).gameObject.SetActive(false);
+                FactoryInstruction instruction = new FactoryInstruction(modulePrefab, Vector3.zero, Quaternion.identity);
+                context.AddInstruction(instruction);
             }
             
-            yield return BuildNavmeshAsync(GameManager.NavMeshSurface);
-
-            foreach (var comp in components)
-            {
-                ((Component)comp).gameObject.SetActive(true);
-                ComponentSystem.TrackComponent(comp);
-                comp.Initialize();
-            }
+            context.game.Factory.ProcessQueue();
+            yield return Instance.BuildNavmeshAsync(GameManager.NavMeshSurface);
         }
 
         private IEnumerator BuildNavmeshAsync(NavMeshSurface surface)

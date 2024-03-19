@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Companions.Common;
 using Companions.Systems;
+using Silvermoon.Core;
 using Silvermoon.Movement;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ public partial class Player : MonoBehaviour, ICompanionComponent
         SetupMovement();
     }
 
-    void ICompanionComponent.Initialize()
+    void ICompanionComponent.Initialize(GameContext context)
     {
         GameInputSystem.onInteract += OnInteract;
     }
