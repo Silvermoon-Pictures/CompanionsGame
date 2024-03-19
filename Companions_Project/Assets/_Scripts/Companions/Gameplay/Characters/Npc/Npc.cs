@@ -13,6 +13,8 @@ public partial class Npc : MonoBehaviour
 
     public ActionAsset currentAction;
 
+    public Transform target;
+
     public bool rock;
 
     private void Awake()
@@ -28,6 +30,13 @@ public partial class Npc : MonoBehaviour
         
         brain = new NpcBrain(this);
         currentAction = brain.Decide();
+
+        var context = new GameEffectContext()
+        {
+            instigator = gameObject,
+            target = gameObject
+        };
+        currentAction.gameEffectOnStart.Execute(context);
     }
 
     public bool IsCarryingRock()

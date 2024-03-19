@@ -7,8 +7,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Gameplay/Action", fileName = "Action")]
 public class ActionAsset : SerializedScriptableObject
 {
+    public GameEffect gameEffectOnStart;
+    
+    [TitleGroup("Decision Making")]
     public List<WeightedConsideration> weightedConsiderations = new();
+    [TitleGroup("Decision Making")]
     public List<Consideration> requiredConsiderations = new();
+    [TitleGroup("Decision Making")]
     public List<Consideration> incompatibleConsiderations = new();
     
     public bool IsCompatible(ConsiderationContext context)
