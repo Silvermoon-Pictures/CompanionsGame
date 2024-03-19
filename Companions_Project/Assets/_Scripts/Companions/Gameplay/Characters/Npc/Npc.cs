@@ -1,9 +1,8 @@
-using System;
 using Silvermoon.Movement;
 using Silvermoon.Utils;
 using UnityEngine;
 
-public partial class Npc : MonoBehaviour, ICompanionComponent
+public partial class Npc : MonoBehaviour
 {
     [field: SerializeField]
     public NpcData NpcData { get; private set; }
@@ -23,14 +22,14 @@ public partial class Npc : MonoBehaviour, ICompanionComponent
         SetupMovement();
     }
 
-    private void Start()
+    void Start()
     {
         if (NpcData == null)
             throw new DesignException($"NpcData on {name} is not set!");
         
         brain = new NpcBrain(this);
         currentAction = brain.Decide();
-
+        
         var context = new GameEffectContext()
         {
             instigator = gameObject,
