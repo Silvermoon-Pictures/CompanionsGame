@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Silvermoon.Utils;
+using UnityEngine;
 
 namespace Silvermoon.Core
 {
@@ -9,15 +10,17 @@ namespace Silvermoon.Core
     
     public interface ISystem : ICoreComponent
     {
-        void Initialize() { }
+        void Initialize(GameContext context) { }
         void Cleanup() { }
     }
 
     
     public interface IGame
     {
-        IEnumerator Initialize();
+        IEnumerator Initialize(GameSettings settings);
         void Quit();
+        T GetConfig<T>() where T : ScriptableObject;
+        IFactory Factory { get; }
     }
     
     public static class Game
@@ -30,6 +33,26 @@ namespace Silvermoon.Core
             }
         }
     }
+
+    public class GameContext
+    {
+        public IGame game;
+        public GameSettings settings;
+
+        public void AddInstruction(FactoryInstruction instruction)
+        {
+            game.Factory.AddInstruction(instruction);
+        }
+    }
+    
+    
+    
+    [System.Serializable]
+    public class GameSettings
+    {
+        public bool simulate;
+    }
+
     
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiredSystemAttribute : System.Attribute

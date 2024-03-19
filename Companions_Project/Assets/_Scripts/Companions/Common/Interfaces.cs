@@ -5,7 +5,8 @@ namespace Companions.Common
 {
     public interface ICompanionComponent : ICoreComponent
     {
-        void Initialize() { }
+        void Initialize(GameContext context) { }
         void Cleanup() { }
+        void WorldLoaded() { }
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Lobby : MonoBehaviour
 {
+    public GameSettings gameSettings = new();
+    
     private IGame game;
 
     private void Awake()
@@ -18,6 +20,6 @@ public class Lobby : MonoBehaviour
 
     private IEnumerator Initialize()
     {
-        yield return game.Initialize();
+        yield return game.Initialize(gameSettings);
     }
 }
