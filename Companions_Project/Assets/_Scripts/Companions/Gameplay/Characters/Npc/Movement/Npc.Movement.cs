@@ -24,7 +24,7 @@ public partial class Npc
         MovementComponent.Initialize(states);
     }
 
-    private void UpdateDestination(Vector3 position)
+    public void UpdateDestination(Vector3 position)
     {
         walkingMoveState.UpdateDestination(position);
     }
