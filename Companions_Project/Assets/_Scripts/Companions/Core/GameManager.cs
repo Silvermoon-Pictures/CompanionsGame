@@ -1,8 +1,10 @@
+using System.Collections;
+using Companions.Common;
 using Silvermoon.Core;
 using Unity.AI.Navigation;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, ICompanionComponent
 {
     public static GameManager Instance { get; private set; }
 
@@ -27,6 +29,22 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+    void ICompanionComponent.WorldLoaded()
+    {
+        StartCoroutine(FactoryCoroutine());
+    }
+    
+    private IEnumerator FactoryCoroutine()
+    {
+        while(true)
+        {
+            if(CompanionsGame != null)
+                yield return CompanionsGame.Factory.ProcessQueue();
+            
+            yield return new WaitForFixedUpdate();
+        }
     }
 
     private void OnApplicationQuit()

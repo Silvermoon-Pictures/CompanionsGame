@@ -21,7 +21,7 @@ namespace Companions.Systems
                 context.AddInstruction(instruction);
             }
             
-            context.game.Factory.ProcessQueue();
+            yield return context.game.Factory.ProcessQueue();
             yield return Instance.BuildNavmeshAsync(GameManager.NavMeshSurface);
         }
 

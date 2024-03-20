@@ -6,7 +6,7 @@ namespace Silvermoon.Core
 {
     public interface IFactory
     {
-        void ProcessQueue();
+        IEnumerator ProcessQueue();
         void AddInstruction(FactoryInstruction instruction);
     }
 

@@ -20,10 +20,12 @@ public abstract class BaseSpawner : MonoBehaviour, ICompanionComponent
     private List<GameObject> prespawned = new();
     
     protected abstract IEnumerable<ObjectSpawnData> GetObjectsToSpawn();
+
+    private GameContext context;
     
     void ICompanionComponent.Initialize(GameContext context)
     {
-        // PrespawnObjects();
+        this.context = context;
     }
 
     private void PrespawnObjects()
@@ -45,28 +47,12 @@ public abstract class BaseSpawner : MonoBehaviour, ICompanionComponent
         IEnumerable<ObjectSpawnData> spawnDatas = GetObjectsToSpawnInternal();
         foreach (ObjectSpawnData spawnData in spawnDatas)
         {
-            Prespawn(spawnData);
-        }
-    }
-
-    public void DoSpawn()
-    {
-        IEnumerable<ObjectSpawnData> spawnDatas = GetObjectsToSpawnInternal();
-        foreach (ObjectSpawnData spawnData in spawnDatas)
-        {
-            var obj = Instantiate(spawnData.prefab, spawnData.position, spawnData.rotation);
-            PostProcess(obj);
+            var instruction = new FactoryInstruction(spawnData.prefab, spawnData.position, spawnData.rotation, SetupObject);
+            context.AddInstruction(instruction);
         }
     }
     
-    private void PostProcess(GameObject go)
-    {
-        IEnumerable<ICoreComponent> components = go.GetComponentsInChildren<ICoreComponent>(true);
-        foreach(ICoreComponent component in components)
-        {
-            ComponentSystem.TrackComponent(component);
-        }
-    }
+    protected virtual void SetupObject(GameObject go) { }
 
     private void Prespawn(ObjectSpawnData spawnData)
     {
@@ -77,11 +63,6 @@ public abstract class BaseSpawner : MonoBehaviour, ICompanionComponent
         }
 
         var obj = Instantiate(spawnData.prefab, spawnData.position, spawnData.rotation);
-        //obj.SetActive(false);
-        
-        // foreach (var comp in obj.GetComponentsInChildren<ICoreComponent>())
-        //     ComponentSystem.TrackComponent(comp);
-
         prespawned.Add(obj);
     }
     

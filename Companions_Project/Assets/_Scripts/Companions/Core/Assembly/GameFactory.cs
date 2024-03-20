@@ -18,7 +18,7 @@ public class GameFactory : IFactory
 
     public Queue<FactoryInstruction> instructions = new();
 
-    public void ProcessQueue()
+    public IEnumerator ProcessQueue()
     {
         while (instructions.Count > 0)
         {
@@ -27,6 +27,8 @@ public class GameFactory : IFactory
             ObjectCreated?.Invoke(this, obj);
             instruction.callback?.Invoke(obj);
         }
+
+        yield break;
     }
 
     public void AddInstruction(FactoryInstruction instruction)
