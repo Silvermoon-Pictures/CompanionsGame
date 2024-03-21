@@ -6,7 +6,7 @@ using Silvermoon.Core;
 using Silvermoon.Movement;
 using UnityEngine;
 
-public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
+public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable, ILifter
 {
     private InputComponent inputComponent;
     private PlayerCamera camera;
@@ -36,5 +36,11 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
             return;
             
         interactionComponent.Interact(gameObject);
-    } 
+    }
+
+    public void Lift(LiftableComponent liftableComponent)
+    {
+        liftableComponent.transform.position = transform.position + 5 * transform.forward;
+        liftableComponent.transform.SetParent(transform);
+    }
 }

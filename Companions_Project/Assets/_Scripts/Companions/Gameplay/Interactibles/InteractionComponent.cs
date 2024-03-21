@@ -1,7 +1,8 @@
 using System;
+using Silvermoon.Core;
 using UnityEngine;
 
-public class InteractionComponent : MonoBehaviour
+public class InteractionComponent : MonoBehaviour, ICoreComponent, ITargetable
 {
     public GameEffect GameEffect;
 

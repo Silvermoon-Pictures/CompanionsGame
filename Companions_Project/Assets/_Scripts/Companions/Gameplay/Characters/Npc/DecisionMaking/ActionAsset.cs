@@ -12,6 +12,7 @@ public class ActionAsset : SerializedScriptableObject
     public GameEffect gameEffectOnEnd;
 
     public float duration;
+    public float duration = 0f;
     
     public List<ETargetType> targetTypes;
     [TypeFilter(typeof(ITargetable)), ShowIf("@targetTypes.Contains(ETargetType.Other)")]

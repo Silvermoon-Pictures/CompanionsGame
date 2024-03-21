@@ -34,6 +34,7 @@ namespace Silvermoon.Movement
         
         private Vector2 inputVector = Vector2.zero;
         private Vector3 velocity;
+        public Vector3 Velocity => velocity;
         private CollisionFlags collisionFlags;
 
         private IDirectionProvider directionProvider;
