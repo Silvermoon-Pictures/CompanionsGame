@@ -1,8 +1,7 @@
-using System.Collections.Generic;
-using Companions.Common;
+using Silvermoon.Core;
 using UnityEngine;
 
-public class PlayerSpawnPositionProvider : MonoBehaviour, ICompanionComponent
+public class PlayerSpawnPositionProvider : MonoBehaviour, ICoreComponent
 {
     public Transform spawnPosition;
     

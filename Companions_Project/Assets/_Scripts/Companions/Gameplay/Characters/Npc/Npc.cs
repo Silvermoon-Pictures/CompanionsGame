@@ -47,7 +47,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICoreComponent
         }
         
         ExecuteCurrentAction();
-        Decide();
     }
 
     private bool IsInActionRange()
@@ -56,7 +55,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICoreComponent
         return distance <= currentAction.actionData.Range;
     }
 
-    public GameEffectContext CreateContext()
+    private GameEffectContext CreateContext()
     {
         var context = new GameEffectContext()
         {

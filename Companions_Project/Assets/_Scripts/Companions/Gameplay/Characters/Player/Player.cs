@@ -6,7 +6,7 @@ using Silvermoon.Core;
 using Silvermoon.Movement;
 using UnityEngine;
 
-public partial class Player : MonoBehaviour, ICompanionComponent
+public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
 {
     private InputComponent inputComponent;
     private PlayerCamera camera;
