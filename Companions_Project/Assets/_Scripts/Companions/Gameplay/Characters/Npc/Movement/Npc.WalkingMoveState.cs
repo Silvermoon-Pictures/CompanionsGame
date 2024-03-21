@@ -48,10 +48,7 @@ public partial class Npc
             
             navMeshAgent.isStopped = true;
             enter = false;
-
-            // TODO OK: Avoid calling this in the walking state
-            npc.ExecuteCurrentAction();
-            npc.Decide();
+            npc.OnReachedTarget();
         }
 
         protected override bool CanEnter(MovementContext context) => enter;

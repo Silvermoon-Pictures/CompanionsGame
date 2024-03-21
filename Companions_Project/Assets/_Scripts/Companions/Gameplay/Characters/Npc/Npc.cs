@@ -1,10 +1,11 @@
 using System;
+using Companions.StateMachine;
 using Silvermoon.Core;
 using Silvermoon.Movement;
 using Silvermoon.Utils;
 using UnityEngine;
 
-public partial class Npc : MonoBehaviour, ITargetable, ICoreComponent
+public partial class Npc : MonoBehaviour, ITargetable, ICoreComponent, ILifter
 {
     [field: SerializeField]
     public NpcData NpcData { get; private set; }
@@ -16,12 +17,16 @@ public partial class Npc : MonoBehaviour, ITargetable, ICoreComponent
 
     public bool rock;
 
-    private NpcAction currentAction;
+    public NpcAction CurrentAction { get; private set; }
+    private NpcFSM stateMachine;
+
+    public bool ExecutingAction { get; private set; }
 
     private void Awake()
     {
         MovementComponent = GetComponent<MovementComponent>();
         SetupMovement();
+        stateMachine = NpcFSM.Make(this);
     }
 
     void Start()
@@ -30,14 +35,21 @@ public partial class Npc : MonoBehaviour, ITargetable, ICoreComponent
             throw new DesignException($"NpcData on {name} is not set!");
         
         brain = new NpcBrain(this);
-        currentAction = new NpcAction();
+        CurrentAction = new NpcAction();
 
         Decide();
     }
 
-    private void Decide()
+    public void Decide()
     {
-        currentAction.actionData = brain.Decide(out var newTarget);
+        var newAction = brain.Decide(out var newTarget);
+        if (newAction == null)
+        {
+            ExecutingAction = true;
+            return;
+        }
+
+        CurrentAction.actionData = newAction;
         target = ((Component)newTarget).gameObject;
         
         if (!IsInActionRange())
@@ -52,7 +64,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICoreComponent
     private bool IsInActionRange()
     {
         float distance = Vector3.Distance(target.transform.position, transform.position);
-        return distance <= currentAction.actionData.Range;
+        return distance <= CurrentAction.actionData.Range;
     }
 
     private GameEffectContext CreateContext()
@@ -68,7 +80,8 @@ public partial class Npc : MonoBehaviour, ITargetable, ICoreComponent
 
     public void ExecuteCurrentAction()
     {
-        currentAction.actionData.Execute(CreateContext());
+        CurrentAction.actionData.Execute(CreateContext());
+        ExecutingAction = true;
     }
 
     public bool IsCarryingRock()
@@ -78,12 +91,46 @@ public partial class Npc : MonoBehaviour, ITargetable, ICoreComponent
 
     private void Update()
     {
-        if (target == null)
-            return;
+        var context = new NpcFSMContext(Time.deltaTime)
+        {
+            velocity = MovementComponent.Velocity,
+            executingAction = ExecutingAction
+        };
         
+        stateMachine.Transition(context);
+        stateMachine.Update(context);
+        stateMachine.PostUpdate(context);
+        
+        UpdateMovement();
+        UpdateAnimations();
+    }
+
+    private void UpdateAnimations()
+    {
+        
+    }
+
+    private void UpdateMovement()
+    {
+        if (ExecutingAction || target == null)
+            return;
+
         if (IsInActionRange())
             StopMoving();
         else
             UpdateDestination(target.transform.position);
+    }
+
+    public void Lift(LiftableComponent liftableComponent)
+    {
+        liftableComponent.transform.position = transform.position + 5 * transform.forward;
+        liftableComponent.transform.SetParent(transform);
+        
+        rock = true;
+    }
+
+    private void OnReachedTarget()
+    {
+        ExecuteCurrentAction();
     }
 }

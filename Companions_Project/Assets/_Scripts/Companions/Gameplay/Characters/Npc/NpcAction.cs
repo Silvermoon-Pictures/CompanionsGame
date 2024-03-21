@@ -2,9 +2,10 @@ using UnityEngine;
 
 public partial class Npc
 {
-    private class NpcAction
+    public class NpcAction
     {
         public ActionAsset actionData;
+        public float Duration => actionData.duration;
     }
 
 }
