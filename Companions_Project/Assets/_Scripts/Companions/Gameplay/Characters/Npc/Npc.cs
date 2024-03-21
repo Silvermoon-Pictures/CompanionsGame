@@ -1,8 +1,10 @@
+using System;
+using Silvermoon.Core;
 using Silvermoon.Movement;
 using Silvermoon.Utils;
 using UnityEngine;
 
-public partial class Npc : MonoBehaviour
+public partial class Npc : MonoBehaviour, ITargetable, ICoreComponent
 {
     [field: SerializeField]
     public NpcData NpcData { get; private set; }
@@ -10,11 +12,11 @@ public partial class Npc : MonoBehaviour
     
     public MovementComponent MovementComponent { get; private set; }
 
-    public ActionAsset currentAction;
-
-    public Transform target;
+    public GameObject target;
 
     public bool rock;
+
+    private NpcAction currentAction;
 
     private void Awake()
     {
@@ -28,18 +30,61 @@ public partial class Npc : MonoBehaviour
             throw new DesignException($"NpcData on {name} is not set!");
         
         brain = new NpcBrain(this);
-        currentAction = brain.Decide();
+        currentAction = new NpcAction();
+
+        Decide();
+    }
+
+    private void Decide()
+    {
+        currentAction.actionData = brain.Decide(out var newTarget);
+        target = ((Component)newTarget).gameObject;
         
+        if (!IsInActionRange())
+        {
+            UpdateDestination(target.transform.position);
+            return;
+        }
+        
+        ExecuteCurrentAction();
+        Decide();
+    }
+
+    private bool IsInActionRange()
+    {
+        float distance = Vector3.Distance(target.transform.position, transform.position);
+        return distance <= currentAction.actionData.Range;
+    }
+
+    public GameEffectContext CreateContext()
+    {
         var context = new GameEffectContext()
         {
             instigator = gameObject,
-            target = gameObject
+            target = target.gameObject
         };
-        currentAction.gameEffectOnStart.Execute(context);
+
+        return context;
+    }
+
+    public void ExecuteCurrentAction()
+    {
+        currentAction.actionData.Execute(CreateContext());
     }
 
     public bool IsCarryingRock()
     {
         return rock;
+    }
+
+    private void Update()
+    {
+        if (target == null)
+            return;
+        
+        if (IsInActionRange())
+            StopMoving();
+        else
+            UpdateDestination(target.transform.position);
     }
 }

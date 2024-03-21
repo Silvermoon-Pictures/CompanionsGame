@@ -8,19 +8,31 @@ public partial class Npc
     {
         private NavMeshAgent navMeshAgent;
         private Vector3 destination;
+        private Npc npc;
 
         private bool enter;
+        
+        private NavMeshPath path;
         
         public WalkingMoveState(MovementComponent owner, NavMeshAgent navMeshAgent) : base(owner)
         {
             this.navMeshAgent = navMeshAgent;
+            npc = owner.GetComponent<Npc>();
+            path = new NavMeshPath();
         }
 
         public void UpdateDestination(Vector3 position)
         {
             
-            navMeshAgent.SetDestination(position);
+            navMeshAgent.CalculatePath(position, path);
+            navMeshAgent.SetPath(path);
             enter = true;
+        }
+
+        public void StopMoving()
+        {
+            enter = false;
+            navMeshAgent.ResetPath();
         }
 
         protected override void OnEnter(MovementContext context)
@@ -36,10 +48,14 @@ public partial class Npc
             
             navMeshAgent.isStopped = true;
             enter = false;
+
+            // TODO OK: Avoid calling this in the walking state
+            npc.ExecuteCurrentAction();
+            npc.Decide();
         }
 
         protected override bool CanEnter(MovementContext context) => enter;
-        public override bool CanExit(MovementContext context) => navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance + float.Epsilon;
+        public override bool CanExit(MovementContext context) => navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance + float.Epsilon || !enter;
 
 
         protected override void Update(MovementContext context)
