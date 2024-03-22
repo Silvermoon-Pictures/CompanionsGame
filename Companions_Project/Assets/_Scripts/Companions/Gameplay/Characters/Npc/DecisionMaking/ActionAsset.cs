@@ -10,8 +10,7 @@ public class ActionAsset : SerializedScriptableObject
 {
     public GameEffect gameEffectOnStart;
     public GameEffect gameEffectOnEnd;
-
-    public float duration;
+    
     public float duration = 0f;
     
     public List<ETargetType> targetTypes;
