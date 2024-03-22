@@ -21,7 +21,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent, ILif
 
     public bool HasAction { get; set; }
     public bool ShouldMove { get; set; }
-    public bool ExecuteAction => HasAction && !ShouldMove;
+    public bool ExecuteAction => HasAction && !ShouldMove && !WaitForTarget();
 
     private void Awake()
     {
