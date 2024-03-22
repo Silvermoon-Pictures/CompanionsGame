@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Silvermoon.Core
@@ -32,62 +33,146 @@ namespace Silvermoon.Core
     [RequiredSystem]
     public class ComponentSystem : BaseSystem<ComponentSystem>
     {
-        private Dictionary<Type, HashSet<ICoreComponent>> componentMap = new();
+        private Dictionary<Type, ComponentGroup> componentGroups = new();
         private List<ICoreComponent> allComponents = new();
 
         public static void TrackComponent(ICoreComponent component)
         {
             Type type = component.GetType();
-            Instance.allComponents.Add(component);
 
-            foreach ((Type mapType, HashSet<ICoreComponent> mapComponents) in Instance.componentMap)
+            var components = Instance.allComponents;
+            var componentGroups = Instance.componentGroups;
+            
+            if(!componentGroups.ContainsKey(type))
+                componentGroups[type] = new ComponentGroup { Type = type };
+            foreach (var (mapType, componentGroup) in componentGroups)
             {
                 if (mapType.IsAssignableFrom(type))
                 {
-                    mapComponents.Add(component);
+                    componentGroup.Add(component);
                 }
             }
+            
+            components.Add(component);
+            componentGroups[type].Add(component);
         }
 
         public static void UntrackAll()
         {
-            Instance.componentMap.Clear();
+            Instance.componentGroups.Clear();
+            Instance.allComponents.Clear();
         }
         
-        public static IEnumerable<T> GetAllComponents<T>(bool includeInactive = false) where T : ICoreComponent 
+        public static IEnumerable<T> GetAllComponents<T>(bool includeInactive = false) where T : ICoreComponent
+            => GetAllComponents(typeof(T), includeInactive).Cast<T>();
+        
+        public static IEnumerable<ICoreComponent> GetAllComponents(Type type, bool includeInactive = false)
         {
-            Type type = typeof(T);
+            foreach (var coreComponent in GetAllComponents(type, Vector3.zero, -1, null, includeInactive)) 
+                yield return coreComponent;
+        }
+        
+        public static IEnumerable<ICoreComponent> GetAllComponents(Type type, Vector3 position, float radius = -1, Func<Component, bool> filter = null, bool includeInactive = false)
+        {
             if (Instance == null)
                 yield break;
 
-            Instance.EnsureComponentMapExists(type);
+            Instance.EnsureComponentGroupExists(type);
 
-            var components = Instance.componentMap;
-            foreach (T component in components[type])
+            var components = Instance.componentGroups;
+            foreach (ICoreComponent component in components[type].Components)
             {
                 Component comp = component as Component;
                 if (comp == null)
                     throw new Exception($"ComponentSystem - Illegal action on {component}: Attempting to get a component that does not inherit from Component");
-                
-                if (includeInactive || comp.gameObject.activeInHierarchy)
-                    yield return component;
+
+                if (IsInvalid(comp, position, radius, filter, includeInactive))
+                    continue;
+
+                yield return component;
             }
         }
         
-        private void EnsureComponentMapExists(Type type)
+        public static ICoreComponent GetClosestTarget(Type type, Vector3 position, float radius = -1f, Func<Component, bool> filter = null, bool includeInvalidTargets = false)
         {
-            if (!Instance.componentMap.ContainsKey(type))
-            {
-                Instance.componentMap[type] = new HashSet<ICoreComponent>();
+            IEnumerator<ICoreComponent> targetIterator = GetAllComponents(type, position, radius, filter, includeInvalidTargets).GetEnumerator();
+            if (!targetIterator.MoveNext())
+                return null;
+            
 
-                foreach (var component in Instance.allComponents)
+            // TODO Omer: Avoid these casts
+            Component closestTarget = (Component)targetIterator.Current;
+            float closestDistance = Vector3.SqrMagnitude(position - closestTarget.transform.position);
+
+            while (targetIterator.MoveNext())
+            {
+                Component current = (Component)targetIterator.Current;
+                float currentDistance = Vector3.SqrMagnitude(current.transform.position - position);
+                if (currentDistance > closestDistance)
+                    continue;
+
+                closestTarget = current;
+                closestDistance = currentDistance;
+            }
+
+            return (ICoreComponent)closestTarget;
+        }
+
+        private static bool IsInvalid(Component comp, Vector3 position, float radius, Func<Component, bool> filter, bool includeInactive)
+        {
+            if (!includeInactive && !comp.gameObject.activeInHierarchy)
+                return true;
+            
+            bool filteredOut = !(filter?.Invoke(comp) ?? true);
+            if (radius <= float.Epsilon)
+                return filteredOut;
+                
+            float distance = Vector3.Distance(comp.transform.position, position);
+            bool isOutsideRadius = distance > radius;
+            return isOutsideRadius && filteredOut;
+        }
+        
+        private void EnsureComponentGroupExists(Type type)
+        {
+            if (componentGroups.ContainsKey(type)) 
+                return;
+            
+            componentGroups[type] = new ComponentGroup { Type = type };
+
+            foreach (var component in allComponents)
+            {
+                if (type.IsInstanceOfType(component))
                 {
-                    if (type.IsAssignableFrom(component.GetType()))
-                    {
-                        Instance.componentMap[type].Add(component);
-                    }
+                    componentGroups[type].Add(component);
                 }
             }
+        }
+        
+        public static ComponentGroup GetComponentGroup<T>()
+        {
+            Instance.EnsureComponentGroupExists(typeof(T));
+            return Instance.componentGroups[typeof(T)];
+        }
+    }
+    
+    public class ComponentGroup
+    {
+        public HashSet<ICoreComponent> Components { get; private set; } = new HashSet<ICoreComponent>();
+        public Type Type { get; internal set; }
+        
+        public event EventHandler<ICoreComponent> OnComponentAdded;
+        public event EventHandler<ICoreComponent> OnComponentRemoved;
+        
+        public void Add(ICoreComponent component)
+        {
+            Components.Add(component);
+            OnComponentAdded?.Invoke(this, component);
+        }
+
+        public void Remove(ICoreComponent component)
+        {
+            Components.Remove(component);
+            OnComponentRemoved?.Invoke(this, component);
         }
     }
 }

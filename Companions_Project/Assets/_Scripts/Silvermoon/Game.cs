@@ -10,6 +10,7 @@ namespace Silvermoon.Core
     
     public interface ISystem : ICoreComponent
     {
+        void Preload(GameContext context) { }
         void Initialize(GameContext context) { }
         void Cleanup() { }
     }
@@ -19,7 +20,6 @@ namespace Silvermoon.Core
     {
         IEnumerator Initialize(GameSettings settings);
         void Quit();
-        T GetConfig<T>() where T : ScriptableObject;
         IFactory Factory { get; }
     }
     

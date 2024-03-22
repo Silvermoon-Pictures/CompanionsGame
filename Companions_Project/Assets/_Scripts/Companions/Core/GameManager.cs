@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using Companions.Common;
+using Companions.Core;
 using Silvermoon.Core;
 using Unity.AI.Navigation;
 using UnityEngine;
@@ -7,9 +9,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour, ICompanionComponent
 {
     public static GameManager Instance { get; private set; }
-
-    public static NavMeshSurface NavMeshSurface => Instance.navMeshSurface;
-    [SerializeField] private NavMeshSurface navMeshSurface; 
 
     public static Player PlayerPrefab => Instance.playerPrefab;
     [SerializeField] private Player playerPrefab;
@@ -29,6 +28,8 @@ public class GameManager : MonoBehaviour, ICompanionComponent
             return;
         }
         Instance = this;
+
+        companionsGame = FindObjectOfType<CompanionsGame>();
     }
 
     void ICompanionComponent.WorldLoaded()
@@ -49,6 +50,6 @@ public class GameManager : MonoBehaviour, ICompanionComponent
 
     private void OnApplicationQuit()
     {
-        companionsGame.Quit();
+        CompanionsGame.Quit();
     }
 }

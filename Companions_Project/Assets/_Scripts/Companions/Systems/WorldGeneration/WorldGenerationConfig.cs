@@ -5,4 +5,5 @@ using UnityEngine;
 public class WorldGenerationConfig : ScriptableObject
 {
     public GameObject World;
+    public NavMeshSurface NavMeshSurfacePrefab;
 }
