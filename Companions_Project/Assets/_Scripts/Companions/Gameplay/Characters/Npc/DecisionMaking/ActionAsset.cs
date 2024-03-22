@@ -13,14 +13,12 @@ public class ActionAsset : SerializedScriptableObject
     public GameEffect gameEffectOnEnd;
     
     public bool waitForTarget = false;
-    [ShowIf("waitForTarget")]
     public float duration = 0f;
     
     public List<ETargetType> targetTypes;
     [TypeFilter(typeof(ITargetable)), ShowIf("@targetTypes.Contains(ETargetType.Other)")]
     public string targetComponentType;
-
-
+    
     public float Range;
     
     [TitleGroup("Decision Making")]
@@ -38,7 +36,8 @@ public class ActionAsset : SerializedScriptableObject
 
     public void End(GameEffectContext context)
     {
-        gameEffectOnEnd.Execute(context);
+        if (gameEffectOnEnd != null)
+            gameEffectOnEnd.Execute(context);
     }
 
     public float CalculateScore(ConsiderationContext context)

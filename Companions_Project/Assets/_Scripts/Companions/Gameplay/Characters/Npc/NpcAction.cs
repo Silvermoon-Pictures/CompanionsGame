@@ -17,8 +17,9 @@ public partial class Npc
             actionData.Execute(context);
         }
 
-        public void EndAction()
+        public void EndAction(GameEffectContext context)
         {
+            actionData.End(context);
             actionEnded = true;
         }
 

@@ -8,8 +8,11 @@ namespace Companions.StateMachine
         private float timer;
 
         private bool ended;
+        private bool executed;
 
         private Npc.NpcAction currentAction;
+
+        private GameEffectContext gameEffectContext;
         
         public NpcActionState(Npc owner) : base(owner) { }
 
@@ -21,18 +24,15 @@ namespace Companions.StateMachine
             base.OnEnter(context);
 
             currentAction = owner.Action;
-            currentAction.Execute(owner.CreateContext());
-
+            
             duration = owner.Action.Duration;
             timer = duration;
+            ExecuteAction();
         }
 
         protected override void Update(NpcFSMContext context)
         {
             base.Update(context);
-            
-            if (owner.WaitForTarget())
-                return;
 
             timer -= context.dt;
             if (timer <= 0f)
@@ -44,7 +44,19 @@ namespace Companions.StateMachine
             base.OnExit(context);
 
             ended = false;
+            executed = false;
+            
+            currentAction.EndAction(gameEffectContext);
             owner.Decide();
+        }
+
+        private void ExecuteAction()
+        {
+            if (executed)
+                return;
+
+            gameEffectContext = owner.CreateContext();
+            currentAction.Execute(gameEffectContext);
         }
     }
 }
