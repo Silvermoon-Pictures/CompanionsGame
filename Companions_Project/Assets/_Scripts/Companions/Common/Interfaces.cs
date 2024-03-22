@@ -9,4 +9,14 @@ namespace Companions.Common
         void Cleanup() { }
         void WorldLoaded() { }
     }
+
+    public enum WeightType
+    {
+        Tiny,
+        Small,
+        Medium,
+        Large,
+        Huge,
+        Gargantuan
+    }
 }

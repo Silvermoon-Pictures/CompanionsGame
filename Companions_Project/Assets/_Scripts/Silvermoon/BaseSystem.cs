@@ -4,11 +4,21 @@ namespace Silvermoon.Core
 {
     public abstract class BaseSystem : MonoBehaviour, ISystem
     {
+        protected GameContext GameContext { get; private set; }
+        
+        protected virtual void Preload(GameContext context) { }
         protected virtual void Initialize(GameContext context) { }
         protected virtual void Cleanup() { }
 
+        void ISystem.Preload(GameContext context)
+        {
+            Preload(context);
+        }
+        
         void ISystem.Initialize(GameContext context)
         {
+            GameContext = context;
+            
             Initialize(context);
         }
 
