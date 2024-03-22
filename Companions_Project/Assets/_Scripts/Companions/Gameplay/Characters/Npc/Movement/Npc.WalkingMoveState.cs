@@ -24,15 +24,6 @@ public partial class Npc
         public void UpdateDestination(Vector3 position)
         {
             
-            navMeshAgent.CalculatePath(position, path);
-            navMeshAgent.SetPath(path);
-            enter = true;
-        }
-
-        public void StopMoving()
-        {
-            enter = false;
-            navMeshAgent.ResetPath();
         }
 
         protected override void OnEnter(MovementContext context)
@@ -47,17 +38,19 @@ public partial class Npc
             base.OnExit(context);
             
             navMeshAgent.isStopped = true;
-            enter = false;
             npc.OnReachedTarget();
         }
 
-        protected override bool CanEnter(MovementContext context) => enter;
-        public override bool CanExit(MovementContext context) => navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance + float.Epsilon || !enter;
+        protected override bool CanEnter(MovementContext context) => npc.ShouldMove;
+        public override bool CanExit(MovementContext context) => npc.IsInTargetRange();
 
 
         protected override void Update(MovementContext context)
         {
             base.Update(context);
+            
+            navMeshAgent.CalculatePath(npc.Action.TargetPosition, path);
+            navMeshAgent.SetPath(path);
             
             context.velocity = navMeshAgent.velocity;
         }

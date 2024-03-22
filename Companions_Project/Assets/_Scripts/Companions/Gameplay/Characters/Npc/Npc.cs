@@ -1,11 +1,12 @@
 using System;
+using Companions.Common;
 using Companions.StateMachine;
 using Silvermoon.Core;
 using Silvermoon.Movement;
 using Silvermoon.Utils;
 using UnityEngine;
 
-public partial class Npc : MonoBehaviour, ITargetable, ICoreComponent, ILifter
+public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent, ILifter
 {
     [field: SerializeField]
     public NpcData NpcData { get; private set; }
@@ -13,75 +14,78 @@ public partial class Npc : MonoBehaviour, ITargetable, ICoreComponent, ILifter
     
     public MovementComponent MovementComponent { get; private set; }
 
-    public GameObject target;
-
     public bool rock;
 
-    public NpcAction CurrentAction { get; private set; }
+    public NpcAction Action { get; private set; }
     private NpcFSM stateMachine;
 
-    public bool ExecutingAction { get; private set; }
+    public bool HasAction { get; set; }
+    public bool ShouldMove { get; set; }
+    public bool ExecuteAction => HasAction && !ShouldMove;
 
     private void Awake()
     {
         MovementComponent = GetComponent<MovementComponent>();
         SetupMovement();
         stateMachine = NpcFSM.Make(this);
+        
+        brain = new NpcBrain(this);
+        Action = new NpcAction();
     }
 
     void Start()
     {
         if (NpcData == null)
             throw new DesignException($"NpcData on {name} is not set!");
-        
-        brain = new NpcBrain(this);
-        CurrentAction = new NpcAction();
 
         Decide();
     }
 
     public void Decide()
     {
+        HasAction = false;
+        Action.Reset();
+        
         var newAction = brain.Decide(out var newTarget);
         if (newAction == null)
-        {
-            ExecutingAction = true;
             return;
-        }
 
-        CurrentAction.actionData = newAction;
-        target = ((Component)newTarget).gameObject;
-        
-        if (!IsInActionRange())
-        {
-            UpdateDestination(target.transform.position);
-            return;
-        }
-        
-        ExecuteCurrentAction();
+        Action.actionData = newAction;
+        if (newTarget != null)
+            Action.target = ((Component)newTarget).gameObject;
+
+        HasAction = true;
+        ShouldMove = !IsInTargetRange() && !Action.WaitForTarget;
     }
 
-    private bool IsInActionRange()
+    private bool IsInTargetRange()
     {
-        float distance = Vector3.Distance(target.transform.position, transform.position);
-        return distance <= CurrentAction.actionData.Range;
+        if (!HasAction)
+            return false;
+        
+        float distance = Vector3.Distance(Action.TargetPosition, transform.position);
+        return distance <= Action.actionData.Range;
     }
 
-    private GameEffectContext CreateContext()
+    public bool WaitForTarget()
+    {
+        return Action.WaitForTarget && !IsInTargetRange();
+    }
+
+    public GameEffectContext CreateContext()
     {
         var context = new GameEffectContext()
         {
             instigator = gameObject,
-            target = target.gameObject
+            target = Action.target
         };
 
         return context;
     }
 
-    public void ExecuteCurrentAction()
+    private void ExecuteCurrentAction()
     {
-        CurrentAction.actionData.Execute(CreateContext());
-        ExecutingAction = true;
+        ShouldMove = false;
     }
 
     public bool IsCarryingRock()
@@ -91,18 +95,22 @@ public partial class Npc : MonoBehaviour, ITargetable, ICoreComponent, ILifter
 
     private void Update()
     {
+        UpdateAnimations();
+        UpdateStateMachine();
+    }
+
+    private void UpdateStateMachine()
+    {
         var context = new NpcFSMContext(Time.deltaTime)
         {
             velocity = MovementComponent.Velocity,
-            executingAction = ExecutingAction
+            executeAction = ExecuteAction,
+            shouldMove = ShouldMove
         };
         
         stateMachine.Transition(context);
         stateMachine.Update(context);
         stateMachine.PostUpdate(context);
-        
-        UpdateMovement();
-        UpdateAnimations();
     }
 
     private void UpdateAnimations()
@@ -110,15 +118,9 @@ public partial class Npc : MonoBehaviour, ITargetable, ICoreComponent, ILifter
         
     }
 
-    private void UpdateMovement()
+    private bool CanMove()
     {
-        if (ExecutingAction || target == null)
-            return;
-
-        if (IsInActionRange())
-            StopMoving();
-        else
-            UpdateDestination(target.transform.position);
+        return !HasAction || (HasAction && !Action.actionData.waitForTarget);
     }
 
     public void Lift(LiftableComponent liftableComponent)

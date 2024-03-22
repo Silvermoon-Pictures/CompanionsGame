@@ -8,8 +8,8 @@ namespace Companions.StateMachine
         {
         }
 
-        protected override bool CanEnter(NpcFSMContext context) => context.velocity.magnitude > 0f;
-        public override bool CanExit(NpcFSMContext context) => context.velocity.magnitude <= float.Epsilon;
+        protected override bool CanEnter(NpcFSMContext context) => context.shouldMove;
+        public override bool CanExit(NpcFSMContext context) => !context.shouldMove;
 
         protected override void OnEnter(NpcFSMContext context)
         {

@@ -29,7 +29,8 @@ namespace Companions.StateMachine
     public class NpcFSMContext : StateMachineContext
     {
         public Vector3 velocity;
-        public bool executingAction;
+        public bool executeAction;
+        public bool shouldMove;
         
         public NpcFSMContext(float deltaTime) : base(deltaTime)
         {

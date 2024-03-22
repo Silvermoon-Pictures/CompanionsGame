@@ -12,7 +12,6 @@ namespace Companions.StateMachine
 
         protected override void Update(NpcFSMContext context)
         {
-            
         }
 
         public NpcFreeState(Npc owner) : base(owner)

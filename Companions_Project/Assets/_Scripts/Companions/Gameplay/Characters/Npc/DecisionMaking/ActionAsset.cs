@@ -4,6 +4,7 @@ using Companions.Common;
 using Silvermoon.Core;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(menuName = "Gameplay/Npc/Actions", fileName = "Action")]
 public class ActionAsset : SerializedScriptableObject
@@ -11,6 +12,8 @@ public class ActionAsset : SerializedScriptableObject
     public GameEffect gameEffectOnStart;
     public GameEffect gameEffectOnEnd;
     
+    public bool waitForTarget = false;
+    [ShowIf("waitForTarget")]
     public float duration = 0f;
     
     public List<ETargetType> targetTypes;

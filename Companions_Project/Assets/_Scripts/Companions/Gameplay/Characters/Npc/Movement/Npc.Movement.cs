@@ -28,9 +28,4 @@ public partial class Npc
     {
         walkingMoveState.UpdateDestination(position);
     }
-    
-    public void StopMoving()
-    {
-        walkingMoveState.StopMoving();
-    }
 }
