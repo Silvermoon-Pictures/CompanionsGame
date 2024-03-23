@@ -44,7 +44,7 @@ public class InventoryComponent : MonoBehaviour, ICoreComponent
     {
         foreach (var inventory in inventories)
         {
-            if (!inventory.IsFull())
+            if (inventory.IsFull())
                 return true;
         }
 
