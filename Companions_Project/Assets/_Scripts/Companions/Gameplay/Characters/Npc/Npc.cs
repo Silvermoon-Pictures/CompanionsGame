@@ -14,8 +14,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent, ILif
     
     public MovementComponent MovementComponent { get; private set; }
 
-    public bool rock;
-
     public NpcAction Action { get; private set; }
     private NpcFSM stateMachine;
 
@@ -47,12 +45,11 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent, ILif
         Action.Reset();
         
         var newAction = brain.Decide(out var newTarget);
-        if (newAction == null)
+        if (newAction == null || newTarget == null)
             return;
 
         Action.actionData = newAction;
-        if (newTarget != null)
-            Action.target = ((Component)newTarget).gameObject;
+        Action.target = ((Component)newTarget).gameObject;
 
         HasAction = true;
         ShouldMove = !IsInTargetRange() && !Action.WaitForTarget;
@@ -60,16 +57,16 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent, ILif
 
     private bool IsInTargetRange()
     {
-        if (!HasAction)
+        if (Action.target == null)
             return false;
         
         float distance = Vector3.Distance(Action.TargetPosition, transform.position);
         return distance <= Action.actionData.Range;
     }
 
-    public bool WaitForTarget()
+    private bool WaitForTarget()
     {
-        return Action.WaitForTarget && !IsInTargetRange();
+        return Action.IsValid && Action.WaitForTarget && !IsInTargetRange();
     }
 
     public GameEffectContext CreateContext()
@@ -81,16 +78,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent, ILif
         };
 
         return context;
-    }
-
-    private void ExecuteCurrentAction()
-    {
-        ShouldMove = false;
-    }
-
-    public bool IsCarryingRock()
-    {
-        return rock;
     }
 
     private void Update()
@@ -105,7 +92,8 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent, ILif
         {
             velocity = MovementComponent.Velocity,
             executeAction = ExecuteAction,
-            shouldMove = ShouldMove
+            shouldMove = ShouldMove,
+            waitForTarget = WaitForTarget()
         };
         
         stateMachine.Transition(context);
@@ -118,21 +106,14 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent, ILif
         
     }
 
-    private bool CanMove()
-    {
-        return !HasAction || (HasAction && !Action.actionData.waitForTarget);
-    }
-
     public void Lift(LiftableComponent liftableComponent)
     {
         liftableComponent.transform.position = transform.position + 5 * transform.forward;
         liftableComponent.transform.SetParent(transform);
-        
-        rock = true;
     }
 
     private void OnReachedTarget()
     {
-        ExecuteCurrentAction();
+        ShouldMove = false;
     }
 }

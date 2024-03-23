@@ -13,6 +13,7 @@ namespace Companions.StateMachine
             List<State> states = new()
             {
                 new NpcActionState(owner),
+                new NpcWaitForTargetState(owner),
                 new NpcWalkState(owner),
                 new NpcFreeState(owner)
             };
@@ -31,7 +32,7 @@ namespace Companions.StateMachine
         public Vector3 velocity;
         public bool executeAction;
         public bool shouldMove;
-        
+        public bool waitForTarget;
         public NpcFSMContext(float deltaTime) : base(deltaTime)
         {
 

@@ -5,6 +5,7 @@ public partial class Npc
     public class NpcAction
     {
         public ActionAsset actionData;
+        public bool IsValid => actionData != null;
         public bool WaitForTarget => actionData.waitForTarget;
         public float Duration => actionData.duration;
         public GameObject target;
