@@ -155,6 +155,31 @@ namespace Silvermoon.Core
             Instance.EnsureComponentGroupExists(typeof(T));
             return Instance.componentGroups[typeof(T)];
         }
+        
+        public static int GetComponentCount<T>()
+        {
+            return GetComponentCount(typeof(T));
+        }
+        
+        public static int GetComponentCount(Type type, bool inactiveIncluded = true)
+        {
+            if (!Instance.componentGroups.ContainsKey(type))
+                return 0;
+            
+            if (!inactiveIncluded)
+            {
+                int count = 0;
+                foreach (var comp in GetAllComponents(type, includeInactive: false))
+                {
+                    count++;
+                }
+
+                return count;
+            }
+            
+            
+            return Instance.componentGroups.Count;
+        }
     }
     
     public class ComponentGroup
