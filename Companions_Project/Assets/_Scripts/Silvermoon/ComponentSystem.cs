@@ -70,7 +70,7 @@ namespace Silvermoon.Core
                 yield return coreComponent;
         }
         
-        public static IEnumerable<ICoreComponent> GetAllComponents(Type type, Vector3 position, float radius = -1, Func<Component, bool> filter = null, bool includeInactive = false)
+        public static IEnumerable<ICoreComponent> GetAllComponents(Type type, Vector3 position = new(), float radius = -1, Func<Component, bool> filter = null, bool includeInactive = false)
         {
             if (Instance == null)
                 yield break;

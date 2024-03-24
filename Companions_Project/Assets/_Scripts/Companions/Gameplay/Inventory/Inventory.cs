@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using UnityEngine.Serialization;
 
 public enum InventoryType
 {
@@ -14,21 +16,31 @@ public enum InventoryType
 public class Inventory
 {
     public InventoryType type;
-    // TODO Omer: Change this to Weight
-    public int maxItemAmount;
+    [FormerlySerializedAs("maxItemAmount")] public int maxWeight;
     
     [ReadOnly]
-    public List<Item> items;
+    public List<Item> items = new();
+
+    private int currentWeight;
 
     public void Add(Item item)
     {
         items.Add(item);
+        currentWeight += item.Weight;
         item.OnAddedToInventory();
     }
 
     public Item Take()
     {
+        return TakeInternal();
+    }
+
+    public bool HasCapacity(Item item) => currentWeight + item.Weight <= maxWeight;
+
+    private Item TakeInternal()
+    {
         Item item = items[0];
+        currentWeight -= item.Weight;
         item.OnRemovedFromInventory();
         items.Remove(item);
         return item;
@@ -36,23 +48,38 @@ public class Inventory
 
     public IEnumerable<Item> TakeAll()
     {
-        foreach (var item in items)
+        for (int i = items.Count - 1; i >= 0; i--)
         {
-            item.OnRemovedFromInventory();
+            Item item = TakeInternal();
             yield return item;
         }
         
         items.Clear();
     }
 
-    public bool IsFull()
+    public int GetCurrentWeight()
     {
-        return items.Count == maxItemAmount;
+        return items.Sum(item => item.Weight);
     }
 
-    public int GetEmptySpotAmount()
+    public bool IsFull()
     {
-        return maxItemAmount - items.Count;
+        return GetCurrentWeight() >= maxWeight;
+    }
+    
+    public bool IsEmpty()
+    {
+        return items.Count == 0;
+    }
+    
+    public bool HasItem()
+    {
+        return !IsEmpty();
+    }
+
+    public int GetEmptyWeightAmount()
+    {
+        return maxWeight - GetCurrentWeight();
     }
 }
 

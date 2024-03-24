@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class IsInventoryFullConsideration : Consideration
 {
+    public bool inverse;
+    
     public bool anyInventoryType;
     [ShowIf("@!anyInventoryType")]
     public InventoryType inventoryType;
@@ -16,7 +18,12 @@ public class IsInventoryFullConsideration : Consideration
             return isFull ? 1 : 0;
         }
 
-        bool full = InventorySystem.IsInventoryFull(context.npc.gameObject, inventoryType);
-        return full ? 1 : 0;
+        bool condition;
+        if (!inverse)
+            condition = InventorySystem.IsInventoryFull(context.npc.gameObject, inventoryType);
+        else
+            condition = InventorySystem.IsInventoryEmpty(context.npc.gameObject, inventoryType);
+
+        return condition ? 1 : 0;
     }
 }

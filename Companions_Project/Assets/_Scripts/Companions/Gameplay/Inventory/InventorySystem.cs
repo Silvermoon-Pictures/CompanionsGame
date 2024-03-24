@@ -57,13 +57,21 @@ namespace Companions.Systems
 
             return inventoryComponent.IsFull(type);
         }
+        
+        public static bool IsInventoryEmpty(GameObject entity, InventoryType type)
+        {
+            if (!GetInventoryComponent(entity, out InventoryComponent inventoryComponent))
+                return false;
 
-        public static int GetEmptySpotAmount(GameObject entity, InventoryType type)
+            return inventoryComponent.IsEmpty(type);
+        }
+
+        public static int GetEmptyWeightAmount(GameObject entity, InventoryType type)
         {
             if (!GetInventoryComponent(entity, out InventoryComponent inventoryComponent))
                 return 0;
 
-            return inventoryComponent.GetEmptySpotAmount(type);
+            return inventoryComponent.GetEmptyWeightAmount(type);
         }
     }
 }

@@ -69,7 +69,7 @@ public class NpcBrain
         foreach (var action in actions)
         {
             float score = ScoreAction(action, context);
-            if (score >= highestActionScore)
+            if (score >= highestActionScore && score > float.Epsilon)
             {
                 highestActionScore = score;
                 highestScoredAction = action;

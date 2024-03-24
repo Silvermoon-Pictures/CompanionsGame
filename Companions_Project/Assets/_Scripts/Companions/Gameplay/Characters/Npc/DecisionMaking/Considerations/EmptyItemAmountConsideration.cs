@@ -7,6 +7,6 @@ public class EmptyItemAmountConsideration : Consideration
     
     public override float CalculateScore(ConsiderationContext context)
     {
-        return InventorySystem.GetEmptySpotAmount(context.npc.gameObject, inventoryType);
+        return InventorySystem.GetEmptyWeightAmount(context.npc.gameObject, inventoryType);
     }
 }

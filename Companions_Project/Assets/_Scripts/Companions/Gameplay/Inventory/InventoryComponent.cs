@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Silvermoon.Core;
-
 using UnityEngine;
 
 public class InventoryComponent : MonoBehaviour, ICoreComponent
@@ -13,20 +12,24 @@ public class InventoryComponent : MonoBehaviour, ICoreComponent
         if (inventory == null)
             return false;
 
-        if (inventory.items.Count > inventory.maxItemAmount)
+        if (!inventory.HasCapacity(item))
             return false;
-
+        
         inventory.Add(item);
-
         return true;
     }
 
-    public Item TakeFromInventory(InventoryType inventoryType)
+    public bool TryGetFromInventory(InventoryType inventoryType, out Item item)
     {
+        item = null;
         if (!GetInventory(inventoryType, out Inventory inventory))
-            return null;
+            return false;
 
-        return inventory.Take();
+        if (!inventory.HasItem())
+            return false;
+        
+        item = inventory.Take();
+        return true;
     }
 
     public void TransferInventory(InventoryComponent otherInventory, InventoryType type)
@@ -58,13 +61,21 @@ public class InventoryComponent : MonoBehaviour, ICoreComponent
 
         return inventory.IsFull();
     }
+    
+    public bool IsEmpty(InventoryType inventoryType)
+    {
+        if (!GetInventory(inventoryType, out Inventory inventory))
+            return true;
 
-    public int GetEmptySpotAmount(InventoryType type)
+        return inventory.IsEmpty();
+    }
+
+    public int GetEmptyWeightAmount(InventoryType type)
     {
         if (!GetInventory(type, out Inventory inventory))
             return 0;
 
-        return inventory.GetEmptySpotAmount();
+        return inventory.GetEmptyWeightAmount();
     }
 
     private bool GetInventory(InventoryType type, out Inventory inventory)
