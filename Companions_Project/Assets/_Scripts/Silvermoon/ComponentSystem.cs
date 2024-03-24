@@ -45,12 +45,10 @@ namespace Silvermoon.Core
             
             if(!componentGroups.ContainsKey(type))
                 componentGroups[type] = new ComponentGroup { Type = type };
-            foreach (var (mapType, componentGroup) in componentGroups)
+            foreach (var (groupType, componentGroup) in componentGroups)
             {
-                if (mapType.IsAssignableFrom(type))
-                {
+                if(groupType.IsAssignableFrom(type))
                     componentGroup.Add(component);
-                }
             }
             
             components.Add(component);
@@ -72,16 +70,19 @@ namespace Silvermoon.Core
                 yield return coreComponent;
         }
         
-        public static IEnumerable<ICoreComponent> GetAllComponents(Type type, Vector3 position, float radius = -1, Func<Component, bool> filter = null, bool includeInactive = false)
+        public static IEnumerable<ICoreComponent> GetAllComponents(Type type, Vector3 position = new(), float radius = -1, Func<Component, bool> filter = null, bool includeInactive = false)
         {
             if (Instance == null)
                 yield break;
 
             Instance.EnsureComponentGroupExists(type);
 
-            var components = Instance.componentGroups;
-            foreach (ICoreComponent component in components[type].Components)
+            if (!Instance.componentGroups.ContainsKey(type))
+                yield break;
+            
+            for (int i = Instance.componentGroups[type].Components.Count - 1; i >= 0; i--)
             {
+                var component = Instance.componentGroups[type].Components.ElementAt(i);
                 Component comp = component as Component;
                 if (comp == null)
                     throw new Exception($"ComponentSystem - Illegal action on {component}: Attempting to get a component that does not inherit from Component");
@@ -122,14 +123,15 @@ namespace Silvermoon.Core
         {
             if (!includeInactive && !comp.gameObject.activeInHierarchy)
                 return true;
-            
-            bool filteredOut = !(filter?.Invoke(comp) ?? true);
+
+            if (!(filter?.Invoke(comp) ?? true))
+                return true;
             if (radius <= float.Epsilon)
-                return filteredOut;
+                return false;
                 
             float distance = Vector3.Distance(comp.transform.position, position);
             bool isOutsideRadius = distance > radius;
-            return isOutsideRadius && filteredOut;
+            return isOutsideRadius;
         }
         
         private void EnsureComponentGroupExists(Type type)
@@ -141,7 +143,7 @@ namespace Silvermoon.Core
 
             foreach (var component in allComponents)
             {
-                if (type.IsInstanceOfType(component))
+                if (type.IsAssignableFrom(component.GetType()))
                 {
                     componentGroups[type].Add(component);
                 }
@@ -152,6 +154,31 @@ namespace Silvermoon.Core
         {
             Instance.EnsureComponentGroupExists(typeof(T));
             return Instance.componentGroups[typeof(T)];
+        }
+        
+        public static int GetComponentCount<T>()
+        {
+            return GetComponentCount(typeof(T));
+        }
+        
+        public static int GetComponentCount(Type type, bool inactiveIncluded = true)
+        {
+            if (!Instance.componentGroups.ContainsKey(type))
+                return 0;
+            
+            if (!inactiveIncluded)
+            {
+                int count = 0;
+                foreach (var comp in GetAllComponents(type, includeInactive: false))
+                {
+                    count++;
+                }
+
+                return count;
+            }
+            
+            
+            return Instance.componentGroups.Count;
         }
     }
     

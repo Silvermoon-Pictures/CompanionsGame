@@ -12,6 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a1559d776a6f844b96b505b6e813ca8, type: 3}
   m_Name: LiftBehavior_3e75c9ab-1630-4a20-9d6c-a3f47db8d004
   m_EditorClassIdentifier: 
+--- !u!114 &-3826676968094124453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d649ccd31959e4849abb9a3ca3c84796, type: 3}
+  m_Name: AddToInventoryBehavior_43480c19-0c23-49c7-bbcc-cfe143adc723
+  m_EditorClassIdentifier: 
+  inventoryType: 2
+  secondaryInventoryTypeIfFull: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24,4 +38,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b162bcde2efc97d4da70abd796a18630, type: 3}
   m_Name: LiftRockEffect
   m_EditorClassIdentifier: 
-  behaviors: []
+  behaviors:
+  - {fileID: -3826676968094124453}

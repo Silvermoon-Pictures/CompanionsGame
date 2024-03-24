@@ -37,7 +37,10 @@ public class PlayerSystem : BaseSystem<PlayerSystem>
         if (FindObjectOfType<Player>() != null)
             return;
 
-        Vector3 position = ComponentSystem<PlayerSpawnPositionProvider>.Instance.GetSpawnPosition();
-        player = Instantiate(GameManager.PlayerPrefab.gameObject, position, Quaternion.identity).GetComponent<Player>();
+        var spawnPositionProvider = ComponentSystem<PlayerSpawnPositionProvider>.Instance;
+        Vector3 position = spawnPositionProvider.GetSpawnPosition();
+        
+        var instruction = new FactoryInstruction(GameManager.PlayerPrefab.gameObject, position, spawnPositionProvider.transform.rotation);
+        GameContext.AddInstruction(instruction);
     }
 }

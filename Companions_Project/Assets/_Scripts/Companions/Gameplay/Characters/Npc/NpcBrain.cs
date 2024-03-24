@@ -1,5 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Silvermoon.Core;
 using UnityEngine;
+
+public interface IAvailablity
+{
+    bool IsAvailable(GameObject querier);
+}
 
 public class NpcBrain
 {
@@ -10,15 +18,42 @@ public class NpcBrain
         this.npc = npc;
     }
 
-    public ActionAsset Decide()
+    public ActionAsset Decide(out ICoreComponent target)
     {
+        target = null;
         var context = new ConsiderationContext()
         {
             npc = npc
         };
 
         var filteredActions = FilterActions(context);
-        return ScoreActions(filteredActions, context);
+        ActionAsset selectedAction = ScoreActions(filteredActions, context);
+
+        if (selectedAction != null)
+            target = FindTarget(selectedAction);
+        
+        return selectedAction;
+    }
+
+    private ICoreComponent FindTarget(ActionAsset action)
+    {
+        if (action.targetTypes.Contains(ETargetType.Self))
+            return npc;
+        
+        Type type = Type.GetType(action.targetComponentType);
+        return ComponentSystem.GetClosestTarget(type, npc.transform.position, filter: FilterSelf);
+    }
+
+    private bool FilterSelf(Component component)
+    {
+        if (component.gameObject == npc.gameObject)
+            return false;
+        
+        if (component.TryGetComponent(out IAvailablity availability))
+            if (!availability.IsAvailable(npc.gameObject))
+                return false;
+
+        return true;
     }
 
     private IEnumerable<ActionAsset> FilterActions(ConsiderationContext context)
@@ -46,7 +81,7 @@ public class NpcBrain
         foreach (var action in actions)
         {
             float score = ScoreAction(action, context);
-            if (score >= highestActionScore)
+            if (score >= highestActionScore && score > float.Epsilon)
             {
                 highestActionScore = score;
                 highestScoredAction = action;
@@ -58,31 +93,6 @@ public class NpcBrain
 
     private float ScoreAction(ActionAsset action, ConsiderationContext context)
     {
-        if (action.weightedConsiderations == null || action.weightedConsiderations.Count == 0)
-        {
-            Debug.LogError("Action " + action.name + " has no considerations set! It will be ignored...");
-            return 0f;
-        }
-        
-        float score = 0f;
-        float weight = 0f;
-        
-        foreach (WeightedConsideration consideration in action.weightedConsiderations)
-        {
-            float considerationScore = consideration.CalculateScore(context);
-            score += considerationScore;
-            weight += consideration.Weight;
-        }
-        
-        if (weight == 0)
-        {
-            score = 0f;
-        }
-        else
-        {
-            score /= weight;
-        }
-
-        return Mathf.Clamp01(score);
+        return action.CalculateScore(context);
     }
 }

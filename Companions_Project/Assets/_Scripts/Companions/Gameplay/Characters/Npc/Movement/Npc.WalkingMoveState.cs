@@ -8,19 +8,22 @@ public partial class Npc
     {
         private NavMeshAgent navMeshAgent;
         private Vector3 destination;
+        private Npc npc;
 
         private bool enter;
+        
+        private NavMeshPath path;
         
         public WalkingMoveState(MovementComponent owner, NavMeshAgent navMeshAgent) : base(owner)
         {
             this.navMeshAgent = navMeshAgent;
+            npc = owner.GetComponent<Npc>();
+            path = new NavMeshPath();
         }
 
         public void UpdateDestination(Vector3 position)
         {
             
-            navMeshAgent.SetDestination(position);
-            enter = true;
         }
 
         protected override void OnEnter(MovementContext context)
@@ -35,16 +38,19 @@ public partial class Npc
             base.OnExit(context);
             
             navMeshAgent.isStopped = true;
-            enter = false;
+            npc.OnReachedTarget();
         }
 
-        protected override bool CanEnter(MovementContext context) => enter;
-        public override bool CanExit(MovementContext context) => navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance + float.Epsilon;
+        protected override bool CanEnter(MovementContext context) => npc.ShouldMove;
+        public override bool CanExit(MovementContext context) => npc.IsInTargetRange();
 
 
         protected override void Update(MovementContext context)
         {
             base.Update(context);
+            
+            navMeshAgent.CalculatePath(npc.Action.TargetPosition, path);
+            navMeshAgent.SetPath(path);
             
             context.velocity = navMeshAgent.velocity;
         }

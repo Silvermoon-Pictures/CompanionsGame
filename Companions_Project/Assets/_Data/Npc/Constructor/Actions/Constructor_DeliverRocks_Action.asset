@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4489f753fe2d3864fb2a29d5cfc1ac7e, type: 3}
-  m_Name: Constructor_CarryRock_Action
+  m_Name: Constructor_DeliverRocks_Action
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -33,7 +33,10 @@ MonoBehaviour:
       Data: 1|WeightedConsideration, com.companions
     - Name: Consideration
       Entry: 7
-      Data: 2|CarryingRockConsideration, com.companions
+      Data: 2|ScoreConsideration, com.companions
+    - Name: Score
+      Entry: 4
+      Data: 0.5
     - Name: 
       Entry: 8
       Data: 
@@ -164,7 +167,16 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 7|CarryingRockConsideration, com.companions
+      Data: 7|IsInventoryFullConsideration, com.companions
+    - Name: inverse
+      Entry: 5
+      Data: true
+    - Name: anyInventoryType
+      Entry: 5
+      Data: false
+    - Name: inventoryType
+      Entry: 3
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -174,4 +186,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  gameEffectOnStart: {fileID: 11400000, guid: 2ad0047f1fd40a8469ea2d36f6086c7c, type: 2}
+  gameEffectOnStart: {fileID: 11400000, guid: 7e9ed713f857e8046a90335e909da3cc, type: 2}
+  gameEffectOnEnd: {fileID: 0}
+  waitForTarget: 0
+  duration: 2
+  targetTypes: 00000000
+  targetComponentType: Player
+  Range: 5

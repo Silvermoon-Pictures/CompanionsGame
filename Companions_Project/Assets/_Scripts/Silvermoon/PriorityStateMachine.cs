@@ -41,12 +41,7 @@ namespace Silvermoon.Movement
             break;
         }
     }
-
-    public State GetStateFromIndex(int index)
-    {
-        return states[index];
-    }
-
+    
     public PriorityStateMachine(List<State> states)
     {
         this.states = states;

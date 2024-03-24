@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4489f753fe2d3864fb2a29d5cfc1ac7e, type: 3}
-  m_Name: Constructor_GiveRock_Action
+  m_Name: Constructor_CarryRock_Action
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -32,20 +32,14 @@ MonoBehaviour:
       Entry: 7
       Data: 1|WeightedConsideration, com.companions
     - Name: Consideration
-      Entry: 7
-      Data: 2|ScoreConsideration, com.companions
-    - Name: Score
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
+      Entry: 6
       Data: 
     - Name: Curve
       Entry: 7
-      Data: 3|UnityEngine.AnimationCurve, UnityEngine.CoreModule
+      Data: 2|UnityEngine.AnimationCurve, UnityEngine.CoreModule
     - Name: 
       Entry: 7
-      Data: 4|UnityEngine.Keyframe[], UnityEngine.CoreModule
+      Data: 3|UnityEngine.Keyframe[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 2
@@ -63,13 +57,13 @@ MonoBehaviour:
       Data: 0
     - Name: m_InTangent
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: m_OutTangent
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: m_TangentMode
       Entry: 3
-      Data: 0
+      Data: 34
     - Name: m_WeightedMode
       Entry: 3
       Data: 0
@@ -96,13 +90,13 @@ MonoBehaviour:
       Data: 1
     - Name: m_InTangent
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: m_OutTangent
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: m_TangentMode
       Entry: 3
-      Data: 0
+      Data: 34
     - Name: m_WeightedMode
       Entry: 3
       Data: 0
@@ -147,7 +141,7 @@ MonoBehaviour:
       Data: 
     - Name: requiredConsiderations
       Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[Consideration, com.companions]],
+      Data: 4|System.Collections.Generic.List`1[[Consideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
@@ -160,15 +154,36 @@ MonoBehaviour:
       Data: 
     - Name: incompatibleConsiderations
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[Consideration, com.companions]],
+      Data: 5|System.Collections.Generic.List`1[[Consideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 6|IsInventoryFullConsideration, com.companions
+    - Name: inverse
+      Entry: 5
+      Data: false
+    - Name: anyInventoryType
+      Entry: 5
+      Data: false
+    - Name: inventoryType
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-  gameEffectOnStart: {fileID: 0}
+  gameEffectOnStart: {fileID: 11400000, guid: a635b6121447782418108230eef1e4eb, type: 2}
+  gameEffectOnEnd: {fileID: 0}
+  waitForTarget: 0
+  duration: 1
+  targetTypes: 00000000
+  targetComponentType: LiftableComponent
+  Range: 3

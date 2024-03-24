@@ -7,14 +7,11 @@ public class LiftBehavior : GameEffectBehavior
     {
         base.Execute(context);
 
-        if (!context.target.TryGetComponent(out InteractionComponent interactionComponent))
+        if (!context.target.TryGetComponent(out LiftableComponent liftableComponent))
             return;
-        // Only player can lift for now
-        Player player = PlayerSystem.Player;
-        if (context.instigator != player.gameObject)
+        if (!context.instigator.TryGetComponent(out ILifter lifter))
             return;
-
-        // TODO OK: Implement a proper lifting behavior
-        interactionComponent.transform.SetParent(player.transform);
+        
+        lifter.Lift(liftableComponent);
     }
 }
