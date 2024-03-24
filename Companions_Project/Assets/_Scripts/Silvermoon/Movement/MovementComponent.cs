@@ -21,7 +21,9 @@ namespace Silvermoon.Movement
         private float colliderHeight = 3f;
         [SerializeField]
         PhysicMaterial physicMaterial;
-        
+    
+
+
         public float Speed { get; private set; } = 10f;
         public float DefaultSpeed { get; private set; }
         public float Gravity = 9.81f;
@@ -55,10 +57,16 @@ namespace Silvermoon.Movement
 
         private void Start()
         {
+         
+
+
             if (!hasCustomInitialization)
                 stateMachine = MovementStateMachine.Make(this);
         }
         
+     
+        
+
         public void Initialize(List<State> states)
         {
             stateMachine = MovementStateMachine.Make(this, states);
@@ -72,6 +80,10 @@ namespace Silvermoon.Movement
 
         private void Update()
         {
+
+
+
+
             if (!characterController.isGrounded)
                 velocity.y -= Gravity * Time.deltaTime;
             else
