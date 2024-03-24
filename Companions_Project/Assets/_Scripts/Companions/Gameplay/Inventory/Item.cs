@@ -1,7 +1,8 @@
+using Companions.Systems;
 using Silvermoon.Core;
 using UnityEngine;
 
-public class Item : MonoBehaviour, ICoreComponent
+public class Item : MonoBehaviour, ICoreComponent, IAvailablity
 {
     [field: SerializeField]
     public int Weight { get; private set; }
@@ -15,5 +16,10 @@ public class Item : MonoBehaviour, ICoreComponent
     public void OnRemovedFromInventory()
     {
         //gameObject.SetActive(true);
+    }
+
+    public bool IsAvailable(GameObject querier)
+    {
+        return InventorySystem.GetEmptyWeightAmount(querier, InventoryType.Hand) >= Weight;
     }
 }

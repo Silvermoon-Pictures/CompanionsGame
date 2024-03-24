@@ -4,6 +4,11 @@ using System.Linq;
 using Silvermoon.Core;
 using UnityEngine;
 
+public interface IAvailablity
+{
+    bool IsAvailable(GameObject querier);
+}
+
 public class NpcBrain
 {
     private Npc npc;
@@ -41,7 +46,14 @@ public class NpcBrain
 
     private bool FilterSelf(Component component)
     {
-        return component.gameObject != npc.gameObject;
+        if (component.gameObject == npc.gameObject)
+            return false;
+        
+        if (component.TryGetComponent(out IAvailablity availability))
+            if (!availability.IsAvailable(npc.gameObject))
+                return false;
+
+        return true;
     }
 
     private IEnumerable<ActionAsset> FilterActions(ConsiderationContext context)

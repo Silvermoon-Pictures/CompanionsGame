@@ -9,7 +9,6 @@ public class CarriableItemsInWorldConsideration : Consideration
     
     private Npc npc;
     
-    
     public override float CalculateScore(ConsiderationContext context) 
     {
         npc = context.npc;
@@ -21,6 +20,6 @@ public class CarriableItemsInWorldConsideration : Consideration
     bool IsLightEnough(Component comp)
     {
         Item item = (Item)comp;
-        return item.Weight < InventorySystem.GetEmptyWeightAmount(npc.gameObject, inventoryType);
+        return item.Weight <= InventorySystem.GetEmptyWeightAmount(npc.gameObject, inventoryType);
     }
 }
