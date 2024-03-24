@@ -11,7 +11,7 @@ public partial class Npc
     {
         var navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.updatePosition = false;
-        navMeshAgent.updateRotation = false;
+        navMeshAgent.updateRotation = true;
 
         walkingMoveState = new WalkingMoveState(MovementComponent, navMeshAgent);
 
