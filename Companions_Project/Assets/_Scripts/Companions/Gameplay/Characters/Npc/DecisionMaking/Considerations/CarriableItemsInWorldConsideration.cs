@@ -3,7 +3,7 @@ using Companions.Systems;
 using Silvermoon.Core;
 using UnityEngine;
 
-public class EmptyWeightAmountConsideration : Consideration
+public class CarriableItemsInWorldConsideration : Consideration
 {
     public InventoryType inventoryType;
     

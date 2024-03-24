@@ -11,8 +11,9 @@ public class Item : MonoBehaviour, ICoreComponent
         gameObject.SetActive(false);
     }
 
+    // TODO Omer: Figure out what happens here
     public void OnRemovedFromInventory()
     {
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
     }
 }
