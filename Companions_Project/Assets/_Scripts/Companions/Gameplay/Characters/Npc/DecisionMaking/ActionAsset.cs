@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[CreateAssetMenu(menuName = "Gameplay/Npc/Actions", fileName = "Action")]
+[CreateAssetMenu(menuName = "Companions/Npc/Actions", fileName = "Action")]
 public class ActionAsset : SerializedScriptableObject
 {
     public GameEffect gameEffectOnStart;
