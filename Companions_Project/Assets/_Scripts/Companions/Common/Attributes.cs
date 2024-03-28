@@ -10,3 +10,12 @@ public class TypeFilterAttribute : PropertyAttribute
         BaseType = baseType;
     }
 }
+
+public class ReadOnlyAttribute : PropertyAttribute
+{
+
+    public ReadOnlyAttribute()
+    {
+        
+    }
+}
