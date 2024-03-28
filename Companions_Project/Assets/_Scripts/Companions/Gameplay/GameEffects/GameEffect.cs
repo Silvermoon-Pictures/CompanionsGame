@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Gameplay/Game Effect", fileName = "Game Effect")]
+[CreateAssetMenu(menuName = "Companions/Game Effect", fileName = "Game Effect")]
 public class GameEffect : ScriptableObject
 {
     [SerializeField]
