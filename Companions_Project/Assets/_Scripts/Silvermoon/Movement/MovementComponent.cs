@@ -21,6 +21,8 @@ namespace Silvermoon.Movement
         private float colliderHeight = 3f;
         [SerializeField]
         PhysicMaterial physicMaterial;
+
+        public event Action onMovement;
         
         public float Speed { get; private set; } = 10f;
         public float DefaultSpeed { get; private set; }
@@ -96,6 +98,10 @@ namespace Silvermoon.Movement
             stateMachine.Update(context);
             
             collisionFlags = characterController.Move(context.velocity * Time.deltaTime);
+            if (context.velocity.magnitude > float.Epsilon)
+            {
+                onMovement?.Invoke();
+            }
             
             context.position = transform.position;
             stateMachine.PostUpdate(context);
