@@ -12,6 +12,8 @@ public interface IAvailablity
 public class NpcBrain
 {
     private Npc npc;
+
+    private ActionAsset selectedAction;
     
     public NpcBrain(Npc npc)
     {
@@ -27,7 +29,7 @@ public class NpcBrain
         };
 
         var filteredActions = FilterActions(context);
-        ActionAsset selectedAction = ScoreActions(filteredActions, context);
+        selectedAction = ScoreActions(filteredActions, context);
 
         if (selectedAction != null)
             target = FindTarget(selectedAction);
@@ -40,13 +42,18 @@ public class NpcBrain
         if (action.targetTypes.Contains(ETargetType.Self))
             return npc;
         
-        Type type = Type.GetType(action.targetComponentType);
-        return ComponentSystem.GetClosestTarget(type, npc.transform.position, filter: FilterSelf);
+        return ComponentSystem.GetClosestTarget(typeof(ICoreComponent), npc.transform.position, filter: FilterTargets);
     }
 
-    private bool FilterSelf(Component component)
+    private bool FilterTargets(Component component)
     {
         if (component.gameObject == npc.gameObject)
+            return false;
+
+        if (!component.TryGetComponent(out IdentifierComponent identifierComponent))
+            return false;
+
+        if (identifierComponent.identifier != selectedAction.targetIdentifier)
             return false;
         
         if (component.TryGetComponent(out IAvailablity availability))
