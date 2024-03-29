@@ -56,21 +56,41 @@ public class IdentifierDrawer : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         if (identifierAsset == null)
-            identifierAsset = AssetDatabase.LoadAssetAtPath<IdentifiersAsset>("Assets/_Data/Generated/Identifiers.asset");
+            identifierAsset = AssetDatabase.LoadAssetAtPath<IdentifiersAsset>(IdentifierEditorWindow.assetPath);
         
-        SerializedProperty valueProperty = property.FindPropertyRelative("identifier");
-        string currentValue = valueProperty.stringValue;
-
-        // Generate a list of options for the dropdown
-        string[] options = identifierAsset.identifiers.ToArray();
-        int currentIndex = Mathf.Max(0, Array.IndexOf(options, currentValue));
-
-        int selectedIndex = EditorGUI.Popup(position, label.text, currentIndex, options);
+        Identifier identifier = fieldInfo.GetValue(property.serializedObject.targetObject) as Identifier;
+        EditorGUI.BeginProperty(position, label, property);
         
-        if (selectedIndex >= 0 && selectedIndex < options.Length)
+        position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+        if (GUI.Button(position, identifier?.identifier ?? "None", EditorStyles.popup))
         {
-            valueProperty.stringValue = options[selectedIndex];
-            property.serializedObject.ApplyModifiedProperties(); // Save the changes
+            ShowGenericMenu(property);
         }
+
+        EditorGUI.EndProperty();
+    }
+    
+    private void ShowGenericMenu(SerializedProperty property)
+    {
+        GenericMenu menu = new GenericMenu();
+        
+        menu.AddItem(new GUIContent("None"), false, () => SelectIdentifier(property, "None"));
+        foreach (var category in identifierAsset.categories)
+        {
+            foreach (var identifier in category.identifiers)
+            {
+                string menuPath = category.categoryName + "/" + identifier;
+                menu.AddItem(new GUIContent(menuPath), false, () => SelectIdentifier(property, identifier));
+            }
+        }
+
+        menu.ShowAsContext();
+    }
+
+    private void SelectIdentifier(SerializedProperty property, string identifier)
+    {
+        SerializedProperty identifierProp = property.FindPropertyRelative("identifier");
+        identifierProp.stringValue = identifier;
+        property.serializedObject.ApplyModifiedProperties();
     }
 }
