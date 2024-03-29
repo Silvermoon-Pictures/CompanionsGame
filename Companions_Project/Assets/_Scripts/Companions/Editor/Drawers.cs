@@ -47,3 +47,30 @@ public class ReadOnlyDrawer : PropertyDrawer
         GUI.enabled = true;
     }
 }
+
+[CustomPropertyDrawer(typeof(Identifier))]
+public class IdentifierDrawer : PropertyDrawer
+{
+    private IdentifiersAsset identifierAsset;
+
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        if (identifierAsset == null)
+            identifierAsset = AssetDatabase.LoadAssetAtPath<IdentifiersAsset>("Assets/_Data/Generated/Identifiers.asset");
+        
+        SerializedProperty valueProperty = property.FindPropertyRelative("identifier");
+        string currentValue = valueProperty.stringValue;
+
+        // Generate a list of options for the dropdown
+        string[] options = identifierAsset.identifiers.ToArray();
+        int currentIndex = Mathf.Max(0, Array.IndexOf(options, currentValue));
+
+        int selectedIndex = EditorGUI.Popup(position, label.text, currentIndex, options);
+        
+        if (selectedIndex >= 0 && selectedIndex < options.Length)
+        {
+            valueProperty.stringValue = options[selectedIndex];
+            property.serializedObject.ApplyModifiedProperties(); // Save the changes
+        }
+    }
+}
