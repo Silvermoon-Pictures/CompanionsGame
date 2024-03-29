@@ -6,8 +6,11 @@ using UnityEditor;
 public class IdentifierEditorWindow : EditorWindow
 {
     private IdentifiersAsset identifierAsset;
-    public List<string> Identifiers => identifierAsset.identifiers;
+    public List<IdentifierCategory> Categories => identifierAsset.categories;
     private Vector2 scrollPosition;
+    private int selectedTabIndex = 0;
+    private string newCategoryName = "";
+    
     private static readonly string assetPath = "Assets/_Data/Generated/Identifiers.asset";
     
     [MenuItem("Companions/Identifier Editor")]
@@ -24,46 +27,72 @@ public class IdentifierEditorWindow : EditorWindow
             EditorGUILayout.HelpBox("IdentifierAsset not found or not set.", MessageType.Error);
             return;
         }
+
+        if (identifierAsset.categories.Count > 0)
+            DrawIdentifiers();
         
-        EditorGUILayout.BeginVertical();
+        EditorGUILayout.Space();
+        EditorGUILayout.BeginHorizontal();
+        newCategoryName = EditorGUILayout.TextField("New Category Name", newCategoryName);
+        if (GUILayout.Button("Add Category") && !string.IsNullOrWhiteSpace(newCategoryName))
+        {
+            Categories.Add(new IdentifierCategory { categoryName = newCategoryName });
+            newCategoryName = "";
+            selectedTabIndex = Categories.Count - 1;
+        }
+        EditorGUILayout.EndHorizontal();
+    }
+
+    private void DrawIdentifiers()
+    {
+        EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Save"))
         {
             SaveIdentifiers();
         }
-        
+
         if (GUILayout.Button("Clear"))
         {
             ClearIdentifiers();
         }
-        
-        EditorGUILayout.EndVertical();
-        
+
+        EditorGUILayout.EndHorizontal();
+
+        string[] tabs = new string[identifierAsset.categories.Count];
+
+
+        for (int i = 0; i < Categories.Count; i++)
+        {
+            tabs[i] = Categories[i].categoryName;
+        }
+
+        selectedTabIndex = GUILayout.Toolbar(selectedTabIndex, tabs);
         scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+        var selectedCategory = identifierAsset.categories[selectedTabIndex];
         
-        for (int i = 0; i < Identifiers.Count; i++)
+        for (int i = 0; i < selectedCategory.identifiers.Count; i++)
         {
             EditorGUILayout.BeginHorizontal();
-            Identifiers[i] = EditorGUILayout.TextField(Identifiers[i]);
+            selectedCategory.identifiers[i] = EditorGUILayout.TextField(selectedCategory.identifiers[i]);
             if (GUILayout.Button("-", GUILayout.Width(20)))
             {
-                Identifiers.RemoveAt(i);
-                EditorGUILayout.EndHorizontal();
+                selectedCategory.identifiers.RemoveAt(i);
                 break;
             }
             EditorGUILayout.EndHorizontal();
         }
-
+        
         if (GUILayout.Button("Add Identifier"))
         {
-            Identifiers.Add("");
+            selectedCategory.identifiers.Add("");
         }
-
+        
         EditorGUILayout.EndScrollView();
     }
 
     private void ClearIdentifiers()
     {
-        Identifiers.Clear();
+        Categories[selectedTabIndex].identifiers.Clear();
     }
 
     private void SaveIdentifiers()
