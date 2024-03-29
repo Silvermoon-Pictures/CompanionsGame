@@ -10,10 +10,8 @@ public class IdentifierCategory
 
 public class IdentifiersAsset : ScriptableObject
 {
+    [Sirenix.OdinInspector.ReadOnly]
     public List<IdentifierCategory> categories = new();
-    
-    [ReadOnly]
-    public List<string> identifiers = new();
 }
 
 [System.Serializable]

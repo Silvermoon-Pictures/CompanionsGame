@@ -53,7 +53,7 @@ public class NpcBrain
         if (!component.TryGetComponent(out IdentifierComponent identifierComponent))
             return false;
 
-        if (identifierComponent.identifier != selectedAction.targetIdentifier)
+        if (!identifierComponent.identifiers.Contains(selectedAction.targetIdentifier))
             return false;
         
         if (component.TryGetComponent(out IAvailablity availability))

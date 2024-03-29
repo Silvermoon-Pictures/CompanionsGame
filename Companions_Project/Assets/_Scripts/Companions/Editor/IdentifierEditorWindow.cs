@@ -17,14 +17,14 @@ public class IdentifierEditorWindow : EditorWindow
     [MenuItem("Companions/Identifier Editor")]
     public static void ShowWindow()
     {
-        var window = GetWindow<IdentifierEditorWindow>("Identifier Editor");
-        window.LoadOrCreateIdentifierAsset();
+        GetWindow<IdentifierEditorWindow>("Identifier Editor");
     }
 
     private void OnGUI()
     {
         if (identifierAsset == null)
         {
+            LoadOrCreateIdentifierAsset();
             EditorGUILayout.HelpBox("IdentifierAsset not found or not set.", MessageType.Error);
             return;
         }
@@ -154,11 +154,6 @@ public class IdentifierEditorWindow : EditorWindow
         EditorUtility.SetDirty(identifierAsset);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-    }
-
-    private void OnDisable()
-    {
-        SaveIdentifiers();
     }
 
     private void LoadOrCreateIdentifierAsset()

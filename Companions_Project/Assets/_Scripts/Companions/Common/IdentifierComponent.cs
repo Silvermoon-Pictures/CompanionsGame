@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class IdentifierComponent : MonoBehaviour
 {
-    public Identifier identifier; 
+    public List<Identifier> identifiers; 
 }
