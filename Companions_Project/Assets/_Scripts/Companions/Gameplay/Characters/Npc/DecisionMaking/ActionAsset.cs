@@ -16,8 +16,8 @@ public class ActionAsset : SerializedScriptableObject
     public float duration = 0f;
     
     public List<ETargetType> targetTypes;
-    [TypeFilter(typeof(ITargetable)), ShowIf("@targetTypes.Contains(ETargetType.Other)")]
-    public string targetComponentType;
+    [ShowIf("@targetTypes.Contains(ETargetType.Other)")] 
+    public Identifier targetIdentifier;
     
     public float Range;
     
