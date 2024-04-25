@@ -51,8 +51,8 @@ public partial class Npc
             
             navMeshAgent.CalculatePath(npc.Action.TargetPosition, path);
             navMeshAgent.SetPath(path);
-            
-            context.velocity = navMeshAgent.velocity;
+
+            context.velocity = navMeshAgent.velocity.normalized * context.speed;
         }
         
         protected override void PostUpdate(MovementContext context)
