@@ -17,6 +17,7 @@ public partial class Npc
 
         List<State> states = new()
         {
+            new RequestMoveState(MovementComponent, navMeshAgent),
             walkingMoveState,
             new IdleMoveState(MovementComponent)
         };
