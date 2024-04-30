@@ -1,6 +1,8 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using Random = UnityEngine.Random;
 
 namespace Silvermoon.Movement
 {
@@ -23,8 +25,9 @@ namespace Silvermoon.Movement
         PhysicMaterial physicMaterial;
 
         public event Action onMovement;
-        
-        public float Speed { get; private set; } = 10f;
+
+        [MinMaxSlider(0, 20f, true)] public Vector2 RandomSpeed;
+        public float Speed { get; private set; }
         public float DefaultSpeed { get; private set; }
         public float Gravity = 9.81f;
         public float Drag = 1f;
@@ -51,22 +54,18 @@ namespace Silvermoon.Movement
             characterController.radius = colliderRadius;
             characterController.height = colliderHeight;
             characterController.material = physicMaterial;
+
+            Speed = Random.Range(RandomSpeed.x, RandomSpeed.y);
             
             directionProvider = GetComponent(typeof(IDirectionProvider)) as IDirectionProvider;
         }
 
         private void Start()
         {
-         
-
-
             if (!hasCustomInitialization)
                 stateMachine = MovementStateMachine.Make(this);
         }
         
-     
-        
-
         public void Initialize(List<State> states)
         {
             stateMachine = MovementStateMachine.Make(this, states);
@@ -80,10 +79,6 @@ namespace Silvermoon.Movement
 
         private void Update()
         {
-
-
-
-
             if (!characterController.isGrounded)
                 velocity.y -= Gravity * Time.deltaTime;
             else

@@ -44,12 +44,15 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent, ILif
         HasAction = false;
         Action.Reset();
         
-        var newAction = brain.Decide(out var newTarget);
-        if (newAction == null || newTarget == null)
+        var decisionData = brain.Decide();
+        if (decisionData.action == null || (decisionData.target == null && !decisionData.randomPosition.HasValue))
             return;
 
-        Action.actionData = newAction;
-        Action.target = ((Component)newTarget).gameObject;
+        Action.actionData = decisionData.action;
+        if (decisionData.target != null)
+            Action.target = ((Component)decisionData.target).gameObject;
+        else
+            Action.randomPosition = decisionData.randomPosition;
 
         HasAction = true;
         ShouldMove = !IsInTargetRange() && !Action.WaitForTarget;
@@ -57,7 +60,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent, ILif
 
     private bool IsInTargetRange()
     {
-        if (Action.target == null)
+        if (Action.target == null && !Action.randomPosition.HasValue)
             return false;
         
         float distance = Vector3.Distance(Action.TargetPosition, transform.position);

@@ -9,8 +9,8 @@ public partial class Npc
         public bool WaitForTarget => actionData.waitForTarget;
         public float Duration => actionData.duration;
         public GameObject target;
-        public Vector3 TargetPosition => target.transform.position;
-
+        public Vector3 TargetPosition => target != null ? target.transform.position : randomPosition.Value;
+        public Vector3? randomPosition;
         public bool actionEnded;
 
         public void Execute(GameEffectContext context)
