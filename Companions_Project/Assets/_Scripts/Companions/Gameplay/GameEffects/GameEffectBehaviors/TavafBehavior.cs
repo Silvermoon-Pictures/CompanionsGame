@@ -45,7 +45,7 @@ public class CircleMovementRequest : MovementRequest
         angle += context.speed * context.dt / distance;
         float x = Mathf.Cos(angle) * distance;
         float z = Mathf.Sin(angle) * distance;
-        Vector3 offset = new Vector3(x, context.transform.position.y, z);
+        Vector3 offset = new Vector3(x, 0f, z);
         Vector3 nextPosition = target.position + offset;
 
         return nextPosition;
