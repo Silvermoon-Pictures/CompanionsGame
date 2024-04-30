@@ -3,10 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using Silvermoon.Core;
 using UnityEngine;
+using UnityEngine.AI;
 
 public interface IAvailablity
 {
     bool IsAvailable(GameObject querier);
+}
+
+public class ActionDecisionData
+{
+    public ActionAsset action;
+    public ICoreComponent target;
+    public Vector3? randomPosition;
 }
 
 public class NpcBrain
@@ -20,21 +28,41 @@ public class NpcBrain
         this.npc = npc;
     }
 
-    public ActionAsset Decide(out ICoreComponent target)
+    public ActionDecisionData Decide()
     {
-        target = null;
         var context = new ConsiderationContext()
         {
             npc = npc
         };
 
+        ActionDecisionData data = new();
+
         var filteredActions = FilterActions(context);
         selectedAction = ScoreActions(filteredActions, context);
+        data.action = selectedAction;
 
         if (selectedAction != null)
-            target = FindTarget(selectedAction);
+        {
+            if (!selectedAction.randomPosition)
+            {
+                data.target = FindTarget(selectedAction);
+            }
+            else
+            {
+                for (int i = 0; i < 50; i++)
+                {
+                    Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * selectedAction.radius;
+                    randomDirection += npc.transform.position;
+                    if (NavMesh.SamplePosition(randomDirection, out var hit, selectedAction.radius, NavMesh.AllAreas))
+                    {
+                        data.randomPosition = hit.position;
+                        break;
+                    }
+                }
+            }
+        }
         
-        return selectedAction;
+        return data;
     }
 
     private ICoreComponent FindTarget(ActionAsset action)

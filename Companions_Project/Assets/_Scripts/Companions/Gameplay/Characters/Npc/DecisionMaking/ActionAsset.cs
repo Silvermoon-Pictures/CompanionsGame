@@ -12,12 +12,17 @@ public class ActionAsset : SerializedScriptableObject
     public GameEffect gameEffectOnStart;
     public GameEffect gameEffectOnEnd;
     
-    public bool waitForTarget = false;
     public float duration = 0f;
-    
+
+    public bool randomPosition;
+    [ShowIf("randomPosition")] 
+    public float radius = 30f;
+    [ShowIf("@!randomPosition")] 
     public List<ETargetType> targetTypes;
     [ShowIf("@targetTypes.Contains(ETargetType.Other)")] 
     public Identifier targetIdentifier;
+    [ShowIf("@targetTypes.Contains(ETargetType.Other)")] 
+    public bool waitForTarget = false;
     
     public float Range;
     
