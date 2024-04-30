@@ -27,7 +27,7 @@ namespace Silvermoon.Movement
         public event Action onMovement;
 
         [MinMaxSlider(0, 20f, true)] public Vector2 RandomSpeed;
-        public float Speed = 10f;
+        public float Speed { get; private set; }
         public float DefaultSpeed { get; private set; }
         public float Gravity = 9.81f;
         public float Drag = 1f;

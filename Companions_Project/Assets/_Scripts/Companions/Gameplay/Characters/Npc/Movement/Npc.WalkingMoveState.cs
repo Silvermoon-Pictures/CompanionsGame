@@ -37,7 +37,6 @@ public partial class Npc
         {
             base.OnExit(context);
             
-            navMeshAgent.isStopped = true;
             npc.OnReachedTarget();
         }
 

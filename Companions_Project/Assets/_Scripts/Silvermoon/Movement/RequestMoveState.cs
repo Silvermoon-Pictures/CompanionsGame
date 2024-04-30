@@ -48,12 +48,11 @@ namespace Silvermoon.Movement
 
             totalTime += context.dt;
             var requestPosition = context.request.Evaluate(context, totalTime);
-            // context.velocity = (requestPosition - context.position) / context.dt;
-            // Debug.DrawLine(requestPosition, context.position, Color.red, .3f);
+            //context.velocity = (requestPosition - context.position) / context.dt;
             
             navmeshAgent.CalculatePath(requestPosition, path);
             navmeshAgent.SetPath(path);
-
+            
             context.velocity = navmeshAgent.velocity.normalized * context.speed;
         }
 
