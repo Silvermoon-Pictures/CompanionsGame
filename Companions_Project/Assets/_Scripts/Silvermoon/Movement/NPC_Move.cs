@@ -1,14 +1,16 @@
+using System;
 using UnityEngine;
 
 public class ObjectMovementDetector : MonoBehaviour
 {
     private Vector3 previousPosition;
 
-    public Animator animator;
+    private Animator animator;
 
     void Start()
     {
         previousPosition = transform.position;
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Update()

@@ -33,6 +33,8 @@ namespace Companions.StateMachine
         public bool executeAction;
         public bool shouldMove;
         public bool waitForTarget;
+        public Animator animator;
+
         public NpcFSMContext(float deltaTime) : base(deltaTime)
         {
 
