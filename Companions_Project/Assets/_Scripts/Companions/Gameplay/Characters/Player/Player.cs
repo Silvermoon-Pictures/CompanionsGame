@@ -33,6 +33,12 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable, I
 
     private void OnInteract()
     {
+        if (currentLiftable != null)
+        {
+            currentLiftable.Drop(gameObject);
+            return;
+        }
+        
         if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out RaycastHit hit, 50))
             return;
         if (!hit.transform.TryGetComponent(out InteractionComponent interactionComponent))
@@ -41,6 +47,7 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable, I
         interactionComponent.Interact(gameObject);
     }
 
+    // TODO Omer: Remove this weird circular flow
     public void Lift(LiftableComponent liftableComponent)
     {
         if (currentLiftable == null)
@@ -51,10 +58,6 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable, I
                                                    transform.right * interactionOffset.x;
             liftableComponent.transform.SetParent(transform);
             currentLiftable = liftableComponent;
-        }
-        else
-        {
-            liftableComponent.Drop(gameObject);
         }
     }
 
