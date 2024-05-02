@@ -19,6 +19,9 @@ public class DropRockBehavior : GameEffectBehavior
 
         var building = ComponentSystem.GetClosestTarget(typeof(Building), context.target.transform.position, radius) as Building;
         if (building != null)
+        {
             building.Upgrade();
+            liftableComponent.gameObject.SetActive(false);
+        }
     }
 }
