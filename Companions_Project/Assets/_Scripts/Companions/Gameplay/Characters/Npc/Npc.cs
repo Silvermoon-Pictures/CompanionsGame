@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Companions.Common;
 using Companions.StateMachine;
 using Silvermoon.Core;
@@ -10,6 +11,9 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent, ILif
 {
     [field: SerializeField]
     public NpcData NpcData { get; private set; }
+
+    public List<GameObject> visualPrefabs;
+        
     private NpcBrain brain;
     
     public MovementComponent MovementComponent { get; private set; }
@@ -21,14 +25,21 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent, ILif
     public bool ShouldMove { get; set; }
     public bool ExecuteAction => HasAction && !ShouldMove && !WaitForTarget();
 
+    private NpcFSMContext stateMachineContext;
+
     private void Awake()
     {
         MovementComponent = GetComponent<MovementComponent>();
         SetupMovement();
         stateMachine = NpcFSM.Make(this);
+        stateMachineContext = new(0f);
+        stateMachineContext.animator = GetComponentInChildren<Animator>();
         
         brain = new NpcBrain(this);
         Action = new NpcAction();
+
+        GameObject visual = visualPrefabs[UnityEngine.Random.Range(0, visualPrefabs.Count)];
+        Instantiate(visual, transform);
     }
 
     void Start()
@@ -91,17 +102,15 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent, ILif
 
     private void UpdateStateMachine()
     {
-        var context = new NpcFSMContext(Time.deltaTime)
-        {
-            velocity = MovementComponent.Velocity,
-            executeAction = ExecuteAction,
-            shouldMove = ShouldMove,
-            waitForTarget = WaitForTarget()
-        };
+        stateMachineContext.dt = Time.deltaTime;
+        stateMachineContext.velocity = MovementComponent.Velocity;
+        stateMachineContext.executeAction = ExecuteAction;
+        stateMachineContext.shouldMove = ShouldMove;
+        stateMachineContext.waitForTarget = WaitForTarget();
         
-        stateMachine.Transition(context);
-        stateMachine.Update(context);
-        stateMachine.PostUpdate(context);
+        stateMachine.Transition(stateMachineContext);
+        stateMachine.Update(stateMachineContext);
+        stateMachine.PostUpdate(stateMachineContext);
     }
 
     private void UpdateAnimations()
