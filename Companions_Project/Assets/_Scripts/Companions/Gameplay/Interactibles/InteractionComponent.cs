@@ -5,6 +5,7 @@ using UnityEngine;
 public class InteractionComponent : MonoBehaviour, ICoreComponent, ITargetable
 {
     public GameEffect GameEffect;
+    public GameEffect DropGameEffect;
 
     public void Interact(GameObject instigator)
     {
