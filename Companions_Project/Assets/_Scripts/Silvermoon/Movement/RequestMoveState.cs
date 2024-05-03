@@ -50,8 +50,10 @@ namespace Silvermoon.Movement
             var requestPosition = context.request.Evaluate(context, totalTime);
             //context.velocity = (requestPosition - context.position) / context.dt;
 
-            NavMesh.SamplePosition(requestPosition, out var hit, 10f, NavMesh.AllAreas);
-            context.velocity = (hit.position - context.position) / context.dt;
+            navmeshAgent.CalculatePath(requestPosition, path);
+            navmeshAgent.SetPath(path);
+
+            context.velocity = navmeshAgent.velocity;
         }
 
         protected override void PostUpdate(MovementContext context)
