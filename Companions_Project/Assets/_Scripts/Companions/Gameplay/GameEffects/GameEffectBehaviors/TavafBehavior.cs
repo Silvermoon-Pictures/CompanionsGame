@@ -1,5 +1,6 @@
 using Silvermoon.Movement;
 using UnityEngine;
+using UnityEngine.AI;
 
 [GameEffectBehavior]
 public class TavafBehavior : GameEffectBehavior
@@ -48,6 +49,8 @@ public class CircleMovementRequest : MovementRequest
         Vector3 offset = new Vector3(x, 0f, z);
         Vector3 nextPosition = target.position + offset;
 
-        return nextPosition;
+        NavMesh.SamplePosition(nextPosition, out var hit, 10f, NavMesh.AllAreas);
+
+        return hit.position;
     }
 }

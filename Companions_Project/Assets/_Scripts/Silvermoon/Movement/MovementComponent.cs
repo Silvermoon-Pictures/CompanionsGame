@@ -79,11 +79,6 @@ namespace Silvermoon.Movement
 
         private void Update()
         {
-            if (!characterController.isGrounded)
-                velocity.y -= Gravity * Time.deltaTime;
-            else
-                velocity.y = 0f;
-            
             Vector3 direction = directionProvider?.Direction ?? transform.forward;
             
             var context = new MovementContext(Time.deltaTime)
@@ -101,6 +96,11 @@ namespace Silvermoon.Movement
             
             stateMachine.Transition(context);
             stateMachine.Update(context);
+            
+            if (!characterController.isGrounded)
+                context.velocity.y -= Gravity * Time.deltaTime;
+            else
+                context.velocity.y = 0f;
             
             collisionFlags = characterController.Move(context.velocity * Time.deltaTime);
             if (context.velocity.magnitude > float.Epsilon)
