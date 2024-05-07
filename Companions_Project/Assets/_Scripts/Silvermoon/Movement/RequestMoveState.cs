@@ -48,19 +48,14 @@ namespace Silvermoon.Movement
 
             totalTime += context.dt;
             var requestPosition = context.request.Evaluate(context, totalTime);
-            //context.velocity = (requestPosition - context.position) / context.dt;
-
-            navmeshAgent.CalculatePath(requestPosition, path);
-            navmeshAgent.SetPath(path);
-
-            context.velocity = navmeshAgent.velocity;
+            context.velocity = (requestPosition - context.position) / context.dt;
         }
 
         protected override void PostUpdate(MovementContext context)
         {
             base.PostUpdate(context);
-
-            navmeshAgent.nextPosition = context.position;
+            
+            navmeshAgent.SetDestination(context.position);
         }
 
         public RequestMoveState(MovementComponent owner, NavMeshAgent navMeshAgent) : base(owner)

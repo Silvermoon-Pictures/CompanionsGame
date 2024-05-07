@@ -48,9 +48,12 @@ public class CircleMovementRequest : MovementRequest
         float z = Mathf.Sin(angle) * distance;
         Vector3 offset = new Vector3(x, 0f, z);
         Vector3 nextPosition = target.position + offset;
-
-        NavMesh.SamplePosition(nextPosition, out var hit, 10f, NavMesh.AllAreas);
-
-        return hit.position;
+        
+        if (NavMesh.SamplePosition(nextPosition, out var hit, distance, NavMesh.AllAreas))
+        {
+            nextPosition = hit.position;
+        }
+        
+        return nextPosition;
     }
 }
