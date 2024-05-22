@@ -13,7 +13,7 @@ jobs:
     - name: Setup Unity
       uses: game-ci/unity-actions/setup@v2
       with:
-        unityVersion: 2021.1.17f1  # Specify your Unity version here
+        unityVersion: 2022.3.19f1
 
     - name: Test project
       run: |
@@ -42,18 +42,18 @@ jobs:
     - name: Setup Unity
       uses: game-ci/unity-actions/setup@v2
       with:
-        unityVersion: 2021.1.17f1  # Specify your Unity version here
+        unityVersion: 2022.3.19f1
 
     - name: Test project
       run: |
         mkdir -p build
-        /Applications/Unity/Hub/Editor/2021.1.17f1/Unity.app/Contents/MacOS/Unity -projectPath . -runTests -testPlatform playmode -logFile test.log
+        /Applications/Unity/Hub/Editor/2022.3.19f1/Unity.app/Contents/MacOS/Unity -projectPath . -runTests -testPlatform playmode -logFile test.log
       continue-on-error: true
 
     - name: Build Mac
       run: |
         mkdir -p build/mac
-        /Applications/Unity/Hub/Editor/2021.1.17f1/Unity.app/Contents/MacOS/Unity -projectPath . -buildTarget StandaloneOSX -executeMethod ProjectBuilder.BuildMac -quit -batchmode -nographics -silent-crashes -logFile build.log
+        /Applications/Unity/Hub/Editor/2022.3.19f1/Unity.app/Contents/MacOS/Unity -projectPath . -buildTarget StandaloneOSX -executeMethod ProjectBuilder.BuildMac -quit -batchmode -nographics -silent-crashes -logFile build.log
 
     - name: Upload Mac build artifacts
       uses: actions/upload-artifact@v2
