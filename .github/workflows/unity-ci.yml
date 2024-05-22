@@ -11,20 +11,17 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Setup Unity
-      uses: game-ci/unity-actions/setup@v2
+      uses: game-ci/unity-setup@v2
       with:
-        unityVersion: 2022.3.19f1
-
-    - name: Test project
-      run: |
-        mkdir -p build
-        /opt/unity/Editor/Unity -projectPath . -runTests -testPlatform playmode -logFile test.log
-      continue-on-error: true
+        unityVersion: 2022.3.19f1  # Specify your Unity version here
 
     - name: Build Windows
-      run: |
-        mkdir -p build/windows
-        /opt/unity/Editor/Unity -projectPath . -buildTarget StandaloneWindows64 -executeMethod ProjectBuilder.BuildWindows64 -quit -batchmode -nographics -silent-crashes -logFile build.log
+      uses: game-ci/unity-builder@v2
+      with:
+        projectPath: .
+        targetPlatform: StandaloneWindows64
+        buildName: WindowsBuild
+        buildPath: build/windows
 
     - name: Upload Windows build artifacts
       uses: actions/upload-artifact@v2
@@ -40,20 +37,17 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Setup Unity
-      uses: game-ci/unity-actions/setup@v2
+      uses: game-ci/unity-setup@v2
       with:
-        unityVersion: 2022.3.19f1
-
-    - name: Test project
-      run: |
-        mkdir -p build
-        /Applications/Unity/Hub/Editor/2022.3.19f1/Unity.app/Contents/MacOS/Unity -projectPath . -runTests -testPlatform playmode -logFile test.log
-      continue-on-error: true
+        unityVersion: 2022.3.19f1  # Specify your Unity version here
 
     - name: Build Mac
-      run: |
-        mkdir -p build/mac
-        /Applications/Unity/Hub/Editor/2022.3.19f1/Unity.app/Contents/MacOS/Unity -projectPath . -buildTarget StandaloneOSX -executeMethod ProjectBuilder.BuildMac -quit -batchmode -nographics -silent-crashes -logFile build.log
+      uses: game-ci/unity-builder@v2
+      with:
+        projectPath: .
+        targetPlatform: StandaloneOSX
+        buildName: MacBuild
+        buildPath: build/mac
 
     - name: Upload Mac build artifacts
       uses: actions/upload-artifact@v2
