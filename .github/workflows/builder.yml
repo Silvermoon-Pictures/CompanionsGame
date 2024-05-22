@@ -30,12 +30,17 @@ jobs:
             Library-test-project-
             Library-
 
-      - name: Clean up disk space before tests
+      - name: Aggressive disk cleanup before tests
         run: |
           sudo apt-get clean
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /opt/ghc
           sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /usr/local/share/man
+          sudo rm -rf /usr/local/bin/heroku
+          sudo rm -rf /usr/local/share/chromium
+          sudo rm -rf /usr/local/bin/chromium
           df -h
 
       - name: Run tests
@@ -61,6 +66,19 @@ jobs:
         with:
           lfs: true
 
+      - name: Aggressive disk cleanup before build
+        run: |
+          sudo apt-get clean
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /usr/local/share/man
+          sudo rm -rf /usr/local/bin/heroku
+          sudo rm -rf /usr/local/share/chromium
+          sudo rm -rf /usr/local/bin/chromium
+          df -h
+
       - name: Restore Library cache
         uses: actions/cache@v2
         with:
@@ -69,14 +87,6 @@ jobs:
           restore-keys: |
             Library-build-
             Library-
-
-      - name: Clean up disk space before build
-        run: |
-          sudo apt-get clean
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /usr/local/lib/android
-          df -h
 
       - name: Build project for Windows
         uses: game-ci/unity-builder@v2
@@ -102,6 +112,17 @@ jobs:
         with:
           lfs: true
 
+      - name: Aggressive disk cleanup before build
+        run: |
+          sudo rm -rf /usr/local/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /usr/local/share/man
+          sudo rm -rf /usr/local/bin/heroku
+          sudo rm -rf /usr/local/share/chromium
+          sudo rm -rf /usr/local/bin/chromium
+          df -h
+
       - name: Restore Library cache
         uses: actions/cache@v2
         with:
@@ -110,12 +131,6 @@ jobs:
           restore-keys: |
             Library-build-
             Library-
-
-      - name: Clean up disk space before build
-        run: |
-          sudo rm -rf /usr/local/share/dotnet
-          sudo rm -rf /usr/local/lib/android
-          df -h
 
       - name: Build project for macOS
         uses: game-ci/unity-builder@v2
