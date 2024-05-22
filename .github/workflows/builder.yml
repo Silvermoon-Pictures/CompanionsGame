@@ -8,7 +8,7 @@ env:
 jobs:
   testRunner:
     name: Test in ${{ matrix.testMode }} ✨
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
@@ -25,10 +25,18 @@ jobs:
         uses: actions/cache@v2
         with:
           path: Library
-          key: Library-test-project-${{ matrix.targetPlatform }}
+          key: Library-test-project-${{ matrix.testMode }}
           restore-keys: |
             Library-test-project-
             Library-
+
+      - name: Clean up disk space before tests
+        run: |
+          sudo apt-get clean
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/lib/android
+          df -h
 
       - name: Run tests
         uses: game-ci/unity-test-runner@v2
@@ -46,7 +54,7 @@ jobs:
   buildWindows:
     needs: testRunner
     name: Build for Windows 🖥️
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -61,6 +69,14 @@ jobs:
           restore-keys: |
             Library-build-
             Library-
+
+      - name: Clean up disk space before build
+        run: |
+          sudo apt-get clean
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/lib/android
+          df -h
 
       - name: Build project for Windows
         uses: game-ci/unity-builder@v2
@@ -94,6 +110,12 @@ jobs:
           restore-keys: |
             Library-build-
             Library-
+
+      - name: Clean up disk space before build
+        run: |
+          sudo rm -rf /usr/local/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          df -h
 
       - name: Build project for macOS
         uses: game-ci/unity-builder@v2
