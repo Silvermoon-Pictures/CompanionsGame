@@ -1,147 +1,63 @@
-name: Build Game
+name: Actions 😎
 
-on: push
-
-env:
-  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+on: [push, pull_request]
 
 jobs:
-  testRunner:
-    name: Test in ${{ matrix.testMode }} ✨
-    runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
-        testMode:
-          - EditMode
-          - PlayMode
+  build:
+    name: Build my project ✨
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          lfs: true
+      # Checkout (without LFS)
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Restore Library cache
-        uses: actions/cache@v2
+      # Git LFS
+      - name: Create LFS file list
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+
+      - name: Restore LFS cache
+        uses: actions/cache@v3
+        id: lfs-cache
+        with:
+          path: .git/lfs
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+
+      - name: Git LFS Pull
+        run: |
+          git lfs pull
+          git add .
+          git reset --hard
+
+      # Cache
+      - uses: actions/cache@v3
         with:
           path: Library
-          key: Library-test-project-${{ matrix.testMode }}
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
-            Library-test-project-
             Library-
 
-      - name: Aggressive disk cleanup before tests
-        run: |
-          sudo apt-get clean
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /usr/local/share/boost
-          sudo rm -rf /usr/local/share/man
-          sudo rm -rf /usr/local/bin/heroku
-          sudo rm -rf /usr/local/share/chromium
-          sudo rm -rf /usr/local/bin/chromium
-          df -h
-
+      # Test
       - name: Run tests
-        uses: game-ci/unity-test-runner@v2
-        id: testRunner
+        uses: game-ci/unity-test-runner@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          testMode: ${{ matrix.testMode }}
-          checkName: ${{ matrix.testMode }} test results
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/upload-artifact@v2
+      # Build
+      - name: Build project
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          name: Test results (${{ matrix.testMode }})
-          path: ${{ steps.testRunner.outputs.artifactsPath }}
+          targetPlatform: WebGL
 
-  buildWindows:
-    needs: testRunner
-    name: Build for Windows 🖥️
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      # Output
+      - uses: actions/upload-artifact@v3
         with:
-          lfs: true
-
-      - name: Aggressive disk cleanup before build
-        run: |
-          sudo apt-get clean
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /usr/local/share/boost
-          sudo rm -rf /usr/local/share/man
-          sudo rm -rf /usr/local/bin/heroku
-          sudo rm -rf /usr/local/share/chromium
-          sudo rm -rf /usr/local/bin/chromium
-          df -h
-
-      - name: Restore Library cache
-        uses: actions/cache@v2
-        with:
-          path: Library
-          key: Library-build-StandaloneWindows64
-          restore-keys: |
-            Library-build-
-            Library-
-
-      - name: Build project for Windows
-        uses: game-ci/unity-builder@v2
-        with:
-          unityVersion: 2022.3.19f1
-          targetPlatform: StandaloneWindows64
-          buildName: WindowsBuild
-          buildPath: build/windows
-
-      - name: Upload Windows build artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: WindowsBuild
-          path: build/windows
-
-  buildMac:
-    needs: testRunner
-    name: Build for macOS 🍏
-    runs-on: macos-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          lfs: true
-
-      - name: Aggressive disk cleanup before build
-        run: |
-          sudo rm -rf /usr/local/share/dotnet
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /usr/local/share/boost
-          sudo rm -rf /usr/local/share/man
-          sudo rm -rf /usr/local/bin/heroku
-          sudo rm -rf /usr/local/share/chromium
-          sudo rm -rf /usr/local/bin/chromium
-          df -h
-
-      - name: Restore Library cache
-        uses: actions/cache@v2
-        with:
-          path: Library
-          key: Library-build-StandaloneOSX
-          restore-keys: |
-            Library-build-
-            Library-
-
-      - name: Build project for macOS
-        uses: game-ci/unity-builder@v2
-        with:
-          unityVersion: 2022.3.19f1
-          targetPlatform: StandaloneOSX
-          buildName: MacBuild
-          buildPath: build/mac
-
-      - name: Upload macOS build artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: MacBuild
-          path: build/mac
+          name: Build
+          path: build
