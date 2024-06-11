@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7348871842929200161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a1559d776a6f844b96b505b6e813ca8, type: 3}
-  m_Name: LiftBehavior_3e75c9ab-1630-4a20-9d6c-a3f47db8d004
-  m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0, z: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b162bcde2efc97d4da70abd796a18630, type: 3}
   m_Name: DropRockEffect
   m_EditorClassIdentifier: 
-  behaviors: []
---- !u!114 &2947510060427358111
+  behaviors:
+  - {fileID: 659421690896900572}
+--- !u!114 &659421690896900572
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -36,6 +24,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65b4c4f90d4aadd49b0c05700d1ee82a, type: 3}
-  m_Name: DropRockBehavior_390374dd-ed4b-4fd5-891c-28edbc647d29
+  m_Name: DropRockBehavior_21f90db4-b456-42f4-990a-733c9abcc2be
   m_EditorClassIdentifier: 
   radius: 10
