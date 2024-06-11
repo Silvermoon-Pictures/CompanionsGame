@@ -6,7 +6,7 @@ using Silvermoon.Core;
 using Silvermoon.Movement;
 using UnityEngine;
 
-public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable, ILifter
+public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
 {
     private InputComponent inputComponent;
     private PlayerCamera camera;
@@ -35,39 +35,19 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable, I
     {
         if (currentLiftable != null)
         {
-            currentLiftable.Drop(gameObject);
+            currentLiftable.Interact(gameObject);
+            currentLiftable = null;
             return;
         }
-        
+
         if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out RaycastHit hit, 50))
             return;
         if (!hit.transform.TryGetComponent(out InteractionComponent interactionComponent))
             return;
-        
+
+        if (interactionComponent is LiftableComponent liftable)
+            currentLiftable = liftable;
+
         interactionComponent.Interact(gameObject);
-    }
-
-    // TODO Omer: Remove this weird circular flow
-    public void Lift(LiftableComponent liftableComponent)
-    {
-        if (currentLiftable == null)
-        {
-            liftableComponent.transform.position = transform.position + 
-                                                   transform.forward * interactionOffset.z + 
-                                                   transform.up * interactionOffset.y + 
-                                                   transform.right * interactionOffset.x;
-            liftableComponent.transform.SetParent(transform);
-            currentLiftable = liftableComponent;
-        }
-    }
-
-    void ILifter.Drop(LiftableComponent liftableComponent)
-    {
-        if (currentLiftable == null)
-            return;
-
-        liftableComponent.transform.SetParent(null);
-        liftableComponent.transform.position = new Vector3(liftableComponent.transform.position.x, transform.position.y, liftableComponent.transform.position.z);
-        currentLiftable = null;
     }
 }

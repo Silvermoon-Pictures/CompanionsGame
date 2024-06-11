@@ -12,10 +12,6 @@ public class DropRockBehavior : GameEffectBehavior
         
         if (!context.target.TryGetComponent(out LiftableComponent liftableComponent))
             return;
-        if (!context.instigator.TryGetComponent(out ILifter lifter))
-            return;
-
-        lifter.Drop(liftableComponent);
 
         var building = ComponentSystem.GetClosestTarget(typeof(Building), context.target.transform.position, radius) as Building;
         if (building != null)
