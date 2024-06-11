@@ -7,7 +7,7 @@ using Silvermoon.Movement;
 using Silvermoon.Utils;
 using UnityEngine;
 
-public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent, ILifter
+public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 {
     [field: SerializeField]
     public NpcData NpcData { get; private set; }
