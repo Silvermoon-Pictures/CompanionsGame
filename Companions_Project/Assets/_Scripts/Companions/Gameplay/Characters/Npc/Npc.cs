@@ -9,6 +9,8 @@ using UnityEngine;
 
 public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 {
+    private static readonly int IsMovingParam = Animator.StringToHash("isMoving");
+    
     [field: SerializeField]
     public NpcData NpcData { get; private set; }
 
@@ -27,22 +29,25 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 
     private NpcFSMContext stateMachineContext;
 
+    private Animator animator;
+
     private void Awake()
     {
-        MovementComponent = GetComponent<MovementComponent>();
-        SetupMovement();
         stateMachine = NpcFSM.Make(this);
+        
+        GameObject visual = visualPrefabs[UnityEngine.Random.Range(0, visualPrefabs.Count)];
+        Instantiate(visual, transform);
+
+        animator = GetComponentInChildren<Animator>();
         stateMachineContext = new(0f);
-        stateMachineContext.animator = GetComponentInChildren<Animator>();
+        stateMachineContext.animator = animator;
         
         brain = new NpcBrain(this);
         Action = new NpcAction();
-
-        GameObject visual = visualPrefabs[UnityEngine.Random.Range(0, visualPrefabs.Count)];
-        Instantiate(visual, transform);
+        SetupMovement();
     }
 
-    void Start()
+    void ICompanionComponent.WorldLoaded()
     {
         if (NpcData == null)
             throw new DesignException($"NpcData on {name} is not set!");
@@ -115,7 +120,14 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 
     private void UpdateAnimations()
     {
-        
+        if (MovementComponent.Velocity.magnitude > 0)
+        {
+            animator.SetBool(IsMovingParam, true);
+        }
+        else
+        {
+            animator.SetBool(IsMovingParam, false);
+        }
     }
 
     public void Lift(LiftableComponent liftableComponent)

@@ -9,6 +9,8 @@ public partial class Npc
     
     private void SetupMovement()
     {
+        MovementComponent = GetComponent<MovementComponent>();
+        
         var navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.updatePosition = false;
         navMeshAgent.updateRotation = true;

@@ -13,11 +13,13 @@ public partial class Npc
         private bool enter;
         
         private NavMeshPath path;
+        private Animator animator;
         
         public WalkingMoveState(MovementComponent owner, NavMeshAgent navMeshAgent) : base(owner)
         {
             this.navMeshAgent = navMeshAgent;
             npc = owner.GetComponent<Npc>();
+            animator = npc.GetComponentInChildren<Animator>();
             path = new NavMeshPath();
         }
 
