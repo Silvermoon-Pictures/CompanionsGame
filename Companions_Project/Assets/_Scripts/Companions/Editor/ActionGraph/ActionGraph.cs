@@ -21,7 +21,7 @@ public class ActionAssetEditor : OdinEditor
     }
 }
 
-[ActionGraphContext("Play animation")]
+[ActionGraphContext("Play Animation")]
 public class AnimationContext : ScriptableObject
 {
     public Animation animation;
@@ -32,6 +32,18 @@ public class WaitContext : ScriptableObject
 {
     public float duration;
     public string namee;
+}
+
+[ActionGraphContext("Execute Game Effect")]
+public class ExecuteGameEffectContext : ScriptableObject
+{
+    public GameEffect GameEffect;
+}
+
+[ActionGraphContext("Attach object")]
+public class AttachContext : ScriptableObject
+{
+    
 }
 
 public class GraphNode
@@ -58,6 +70,12 @@ public class ActionGraph : EditorWindow
     private ActionAsset actionAsset;
     private List<GraphNode> nodes = new();
     private List<(Type, ActionGraphContextAttribute)> contextActions = new();
+    
+    private GraphNode selectedNode;
+    private Vector2 offset;
+
+    private const int nodeWidth = 500;
+    private const int nodeHeight = 350;
     
     public static void ShowWindow(ActionAsset graphData)
     {
@@ -89,25 +107,65 @@ public class ActionGraph : EditorWindow
         {
             DrawNode(node);
         }
+
+        HandleNodeDragging(currentEvent);
         
         Repaint();
     }
-    
+
+    private void HandleNodeDragging(Event currentEvent)
+    {
+        switch (currentEvent.type)
+        {
+            case EventType.MouseDown:
+                if (currentEvent.button == 0)
+                {
+                    foreach (var node in nodes)
+                    {
+                        Rect nodeRect = new Rect(node.Position.x, node.Position.y, nodeWidth, nodeHeight);
+                        if (nodeRect.Contains(currentEvent.mousePosition))
+                        {
+                            selectedNode = node;
+                            offset = node.Position - currentEvent.mousePosition;
+                            GUI.FocusControl(null);
+                            currentEvent.Use();
+                            break;
+                        }
+                    }
+                }
+                break;
+
+            case EventType.MouseDrag:
+                if (selectedNode != null && currentEvent.button == 0)
+                {
+                    selectedNode.Position = currentEvent.mousePosition + offset;
+                    currentEvent.Use();
+                }
+                break;
+
+            case EventType.MouseUp:
+                if (selectedNode != null && currentEvent.button == 0)
+                {
+                    selectedNode = null;
+                    currentEvent.Use();
+                }
+                break;
+        }
+    }
+
     private void ShowContextMenu(Vector2 mousePosition)
     {
         GenericMenu menu = new GenericMenu();
         
         foreach (var (type, attribute) in contextActions)
         {
-            menu.AddItem(new GUIContent(attribute.contextName), false, () => AddNode(type, mousePosition));
+            menu.AddItem(new GUIContent(attribute.contextName), false, () => AddNode(type, attribute.contextName, mousePosition));
         }
         menu.ShowAsContext();
     }
 
-    private void AddNode(Type nodeType, Vector2 pos)
+    private void AddNode(Type nodeType, string nodeTitle, Vector2 pos)
     {
-        string nodeTitle = nodeType.Name;
-
         UnityEngine.Object unityObjectInstance = ScriptableObject.CreateInstance(nodeType) as UnityEngine.Object;
         if (unityObjectInstance != null)
         {
@@ -122,7 +180,7 @@ public class ActionGraph : EditorWindow
     
     private void DrawNode(GraphNode node)
     {
-        Rect nodeRect = new Rect(node.Position.x, node.Position.y, 250, 150);
+        Rect nodeRect = new Rect(node.Position.x, node.Position.y, nodeWidth, nodeHeight);
         GUI.Box(nodeRect, String.Empty);
         
         GUILayout.BeginArea(nodeRect);
