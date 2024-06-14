@@ -97,6 +97,8 @@ public class ActionGraph : EditorWindow
     private Vector2 panOffset = Vector2.zero;
     private bool isPanning = false;
     
+    private bool isDraggingConnection = false;
+    
     public static void ShowWindow(ActionAsset actionAsset)
     {
         ActionGraph window = GetWindow<ActionGraph>("Action Graph");
@@ -200,6 +202,25 @@ public class ActionGraph : EditorWindow
             }
         }
         
+        if (isDraggingConnection)
+        {
+            if (currentEvent.type == EventType.MouseUp && currentEvent.button == 0)
+            {
+                GraphNode endNode = GetNodeAtPosition(currentEvent.mousePosition);
+                if (endNode != null && endNode != selectedStartNode)
+                    EndConnection(endNode);
+                else
+                    isDraggingConnection = false;
+                
+                currentEvent.Use();
+            }
+        }
+        
+        if (isDraggingConnection && selectedStartNode != null)
+        {
+            DrawConnection(selectedStartNode, currentEvent.mousePosition);
+        }
+        
         DrawGraph();
     }
 
@@ -282,7 +303,6 @@ public class ActionGraph : EditorWindow
                 if (selectedNode != null && currentEvent.button == 0)
                 {
                     selectedNode = null;
-                    currentEvent.Use();
                 }
                 break;
         }
@@ -340,6 +360,7 @@ public class ActionGraph : EditorWindow
     private void StartConnection(GraphNode node)
     {
         selectedStartNode = node;
+        isDraggingConnection = true;
     }
 
     private void EndConnection(GraphNode node)
@@ -349,6 +370,7 @@ public class ActionGraph : EditorWindow
             CreateConnection(selectedStartNode, node);
         }
         selectedStartNode = null;
+        isDraggingConnection = false;
     }
 
     private GraphNode GetNodeAtPosition(Vector2 pos)
@@ -364,6 +386,8 @@ public class ActionGraph : EditorWindow
 
     private void CreateConnection(GraphNode startNode, GraphNode endNode)
     {
+        connections.RemoveAll(connection => connection.EndNode == endNode);
+        
         NodeConnection connection = new NodeConnection(startNode, endNode);
         connections.Add(connection);
     }
@@ -423,14 +447,19 @@ public class ActionGraph : EditorWindow
         float finalHeight = nodeHeight * zoom;
         foreach (var connection in connections)
         {
-            Vector3 startPos = new Vector3((connection.StartNode.Position.x + nodeWidth + panOffset.x) * zoom, (connection.StartNode.Position.y + finalHeight / 2 + panOffset.y) * zoom, 0);
-            Vector3 endPos = new Vector3((connection.EndNode.Position.x + panOffset.x) * zoom, (connection.EndNode.Position.y + finalHeight / 2 + panOffset.y) * zoom, 0);
-
-            Handles.DrawLine(startPos, endPos);
-            DrawArrow(startPos, endPos);
+            DrawConnection(connection.StartNode, connection.EndNode.Position);
         }
     }
 
+    private void DrawConnection(GraphNode node, Vector2 endPosition)
+    {
+        float finalHeight = nodeHeight * zoom;
+        Vector3 startPos = new Vector3((node.Position.x + nodeWidth + panOffset.x) * zoom, (node.Position.y + finalHeight / 2 + panOffset.y) * zoom, 0);
+        Vector3 endPos = new Vector3((endPosition.x + panOffset.x) * zoom, (endPosition.y + finalHeight / 2 + panOffset.y) * zoom, 0);
+
+        Handles.DrawLine(startPos, endPos);
+        DrawArrow(startPos, endPos);
+    }
     
     private void DrawArrow(Vector3 start, Vector3 end)
     {
