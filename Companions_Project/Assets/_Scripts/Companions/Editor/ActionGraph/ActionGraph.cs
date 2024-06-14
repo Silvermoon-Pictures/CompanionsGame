@@ -217,10 +217,11 @@ public class ActionGraph : EditorWindow
 
     private bool HandlePanning(Event currentEvent)
     {
+        bool validButton = currentEvent.button is 1 or 2;
         switch (currentEvent.type)
         {
             case EventType.MouseDrag:
-                if (currentEvent.button == 1)
+                if (validButton)
                 {
                     panOffset += currentEvent.delta;
                     currentEvent.Use();
@@ -229,7 +230,7 @@ public class ActionGraph : EditorWindow
                 }
                 break;
             case EventType.MouseUp:
-                if (currentEvent.button == 1 && isPanning)
+                if (validButton && isPanning)
                 {
                     isPanning = false;
                     return true;
@@ -257,18 +258,15 @@ public class ActionGraph : EditorWindow
             case EventType.MouseDown:
                 if (currentEvent.button == 0)
                 {
-                    foreach (var node in nodes)
+                    var node = GetNodeAtPosition(currentEvent.mousePosition);
+                    if (node != null)
                     {
-                        Rect nodeRect = new Rect(node.Position.x, node.Position.y, nodeWidth, nodeHeight);
-                        if (nodeRect.Contains(currentEvent.mousePosition))
-                        {
-                            selectedNode = node;
-                            offset = node.Position - currentEvent.mousePosition;
-                            GUI.FocusControl(null);
-                            currentEvent.Use();
-                            break;
-                        }
+                        selectedNode = node;
+                        offset = node.Position - currentEvent.mousePosition;
+                        GUI.FocusControl(null);
+                        currentEvent.Use();
                     }
+
                 }
                 break;
 
@@ -289,52 +287,77 @@ public class ActionGraph : EditorWindow
                 break;
         }
     }
+    
+    private bool NodeHasConnections(GraphNode node)
+    {
+        foreach (var connection in connections)
+        {
+            if (connection.StartNode == node || connection.EndNode == node)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private void BreakNodeConnections(GraphNode node)
+    {
+        connections.RemoveAll(connection => connection.StartNode == node || connection.EndNode == node);
+    }
 
     private void ShowContextMenu(Vector2 mousePosition)
     {
         GenericMenu menu = new GenericMenu();
+        GraphNode clickedNode = GetNodeAtPosition(mousePosition);
         
-        foreach (var (type, attribute) in contextActions)
+        if (clickedNode != null)
         {
-            menu.AddItem(new GUIContent(attribute.contextName), false, () => AddNode(type, attribute.contextName, mousePosition));
-        }
-        
-        if (selectedStartNode == null)
-        {
-            menu.AddItem(new GUIContent("Start Connection"), false, () => StartConnection(mousePosition));
+            if (NodeHasConnections(clickedNode))
+            {
+                menu.AddItem(new GUIContent("Break Connection"), false, () => BreakNodeConnections(clickedNode));
+            }
+            else
+            {
+                menu.AddItem(new GUIContent("Start Connection"), false, () => StartConnection(clickedNode));
+            }
+
+            if (selectedStartNode != null && selectedStartNode != clickedNode)
+            {
+                menu.AddItem(new GUIContent("End Connection"), false, () => EndConnection(clickedNode));
+            }
         }
         else
         {
-            menu.AddItem(new GUIContent("End Connection"), false, () => EndConnection(mousePosition));
+            foreach (var (type, attribute) in contextActions)
+            {
+                menu.AddItem(new GUIContent(attribute.contextName), false, () => AddNode(type, attribute.contextName, mousePosition));
+            }
         }
         
         menu.ShowAsContext();
     }
 
-    private void StartConnection(Vector2 mousePosition)
+    private void StartConnection(GraphNode node)
     {
-        selectedStartNode = GetNodeAtPosition(mousePosition);
+        selectedStartNode = node;
     }
 
-    private void EndConnection(Vector2 mousePosition)
+    private void EndConnection(GraphNode node)
     {
-        GraphNode endNode = GetNodeAtPosition(mousePosition);
-        if (selectedStartNode != null && endNode != null && selectedStartNode != endNode)
+        if (selectedStartNode != null && node != null && selectedStartNode != node)
         {
-            CreateConnection(selectedStartNode, endNode);
+            CreateConnection(selectedStartNode, node);
         }
         selectedStartNode = null;
     }
 
-    private GraphNode GetNodeAtPosition(Vector2 position)
+    private GraphNode GetNodeAtPosition(Vector2 pos)
     {
         foreach (var node in nodes)
         {
-            Rect nodeRect = new Rect(node.Position.x, node.Position.y, nodeWidth, nodeHeight);
-            if (nodeRect.Contains(position))
-            {
+            Rect nodeRect = CreateNodeRect(node);
+            if (nodeRect.Contains(pos))
                 return node;
-            }
         }
         return null;
     }
@@ -359,12 +382,17 @@ public class ActionGraph : EditorWindow
             Debug.LogError($"Failed to create instance of type {nodeType.Name}. Ensure it derives from UnityEngine.Object.");
         }
     }
-    
-    private void DrawNode(GraphNode node)
+
+    private Rect CreateNodeRect(GraphNode node)
     {
         float finalWidth = nodeWidth * zoom;
         float finalHeight = nodeHeight * zoom;
-        Rect nodeRect = new Rect((node.Position.x + panOffset.x) * zoom, (node.Position.y + panOffset.y) * zoom, finalWidth, finalHeight);
+        return new Rect((node.Position.x + panOffset.x) * zoom, (node.Position.y + panOffset.y) * zoom, finalWidth, finalHeight);;
+    }
+    
+    private void DrawNode(GraphNode node)
+    {
+        Rect nodeRect = CreateNodeRect(node);
         GUI.Box(nodeRect, String.Empty);
         
         GUILayout.BeginArea(nodeRect);
