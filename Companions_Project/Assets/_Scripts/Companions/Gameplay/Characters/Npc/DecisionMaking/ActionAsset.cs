@@ -3,12 +3,34 @@ using System.Collections.Generic;
 using Companions.Common;
 using Silvermoon.Core;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 [CreateAssetMenu(menuName = "Companions/Npc/Actions", fileName = "Action")]
 public class ActionAsset : SerializedScriptableObject
 {
+    [Serializable]
+    public class NodeData
+    {
+        public string nodeType;
+        public Vector2 position;
+        public string title;
+    }
+
+    [Serializable]
+    public class ConnectionData
+    {
+        public int startNodeIndex;
+        public int endNodeIndex;
+
+        public ConnectionData(int start, int end)
+        {
+            startNodeIndex = start;
+            endNodeIndex = end;
+        }
+    }
+    
     public GameEffect gameEffectOnStart;
     public GameEffect gameEffectOnEnd;
     
@@ -32,6 +54,11 @@ public class ActionAsset : SerializedScriptableObject
     public List<Consideration> requiredConsiderations = new();
     [TitleGroup("Decision Making")]
     public List<Consideration> incompatibleConsiderations = new();
+    
+    [HideInInspector]
+    public List<NodeData> nodes = new List<NodeData>();
+    [HideInInspector]
+    public List<ConnectionData> connections = new List<ConnectionData>();
 
     public void Execute(GameEffectContext context)
     {
@@ -44,7 +71,7 @@ public class ActionAsset : SerializedScriptableObject
         if (gameEffectOnEnd != null)
             gameEffectOnEnd.Execute(context);
     }
-
+    
     public float CalculateScore(ConsiderationContext context)
     {
         if (weightedConsiderations == null || weightedConsiderations.Count == 0)

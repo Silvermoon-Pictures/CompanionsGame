@@ -51,7 +51,6 @@ public class GraphNode
     public Type NodeType { get; private set; }
     public Vector2 Position { get; set; }
     public string Title { get; private set; }
-    public object Instance { get; private set; }
     public UnityEngine.Object UnityObjectInstance { get; private set; }
     public SerializedObject SerializedObject { get; private set; }
 
@@ -65,11 +64,25 @@ public class GraphNode
     }
 }
 
+public class NodeConnection
+{
+    public GraphNode StartNode { get; private set; }
+    public GraphNode EndNode { get; private set; }
+
+    public NodeConnection(GraphNode startNode, GraphNode endNode)
+    {
+        StartNode = startNode;
+        EndNode = endNode;
+    }
+}
+
 public class ActionGraph : EditorWindow
 {
     private ActionAsset actionAsset;
     private List<GraphNode> nodes = new();
+    private List<NodeConnection> connections = new();
     private List<(Type, ActionGraphContextAttribute)> contextActions = new();
+    private GraphNode selectedStartNode;
     
     private GraphNode selectedNode;
     private Vector2 offset;
@@ -77,10 +90,11 @@ public class ActionGraph : EditorWindow
     private const int nodeWidth = 500;
     private const int nodeHeight = 350;
     
-    public static void ShowWindow(ActionAsset graphData)
+    public static void ShowWindow(ActionAsset actionAsset)
     {
         ActionGraph window = GetWindow<ActionGraph>("Action Graph");
-        window.actionAsset = graphData;
+        window.actionAsset = actionAsset;
+        window.LoadGraphData();
         window.Show();
     }
 
@@ -91,6 +105,73 @@ public class ActionGraph : EditorWindow
         {
             contextActions.Add((systemType, attribute));
         }
+    }
+
+    private void OnDisable()
+    {
+        SaveGraphData();
+    }
+    
+    private void LoadGraphData()
+    {
+        nodes.Clear();
+        connections.Clear();
+
+        foreach (var nodeData in actionAsset.nodes)
+        {
+            Type nodeType = Type.GetType(nodeData.nodeType);
+            if (nodeType != null)
+            {
+                UnityEngine.Object unityObjectInstance = ScriptableObject.CreateInstance(nodeType) as UnityEngine.Object;
+                if (unityObjectInstance != null)
+                {
+                    GraphNode node = new GraphNode(nodeType, nodeData.position, nodeData.title, unityObjectInstance);
+                    nodes.Add(node);
+                }
+            }
+        }
+
+        foreach (var connectionData in actionAsset.connections)
+        {
+            if (connectionData.startNodeIndex >= 0 && connectionData.startNodeIndex < nodes.Count &&
+                connectionData.endNodeIndex >= 0 && connectionData.endNodeIndex < nodes.Count)
+            {
+                NodeConnection connection = new NodeConnection(nodes[connectionData.startNodeIndex], nodes[connectionData.endNodeIndex]);
+                connections.Add(connection);
+            }
+        }
+    }
+
+    private void SaveGraphData()
+    {
+        actionAsset.nodes.Clear();
+        actionAsset.connections.Clear();
+
+        foreach (var node in nodes)
+        {
+            ActionAsset.NodeData nodeData = new ActionAsset.NodeData
+            {
+                nodeType = node.NodeType.AssemblyQualifiedName,
+                position = node.Position,
+                title = node.Title
+            };
+            actionAsset.nodes.Add(nodeData);
+        }
+
+        foreach (var connection in connections)
+        {
+            int startNodeIndex = nodes.IndexOf(connection.StartNode);
+            int endNodeIndex = nodes.IndexOf(connection.EndNode);
+
+            if (startNodeIndex >= 0 && endNodeIndex >= 0)
+            {
+                ActionAsset.ConnectionData connectionData = new ActionAsset.ConnectionData(startNodeIndex, endNodeIndex);
+                actionAsset.connections.Add(connectionData);
+            }
+        }
+
+        EditorUtility.SetDirty(actionAsset);
+        AssetDatabase.SaveAssets();
     }
 
     private void OnGUI()
@@ -109,6 +190,8 @@ public class ActionGraph : EditorWindow
         }
 
         HandleNodeDragging(currentEvent);
+        
+        DrawConnections();
         
         Repaint();
     }
@@ -161,9 +244,54 @@ public class ActionGraph : EditorWindow
         {
             menu.AddItem(new GUIContent(attribute.contextName), false, () => AddNode(type, attribute.contextName, mousePosition));
         }
+        
+        if (selectedStartNode == null)
+        {
+            menu.AddItem(new GUIContent("Start Connection"), false, () => StartConnection(mousePosition));
+        }
+        else
+        {
+            menu.AddItem(new GUIContent("End Connection"), false, () => EndConnection(mousePosition));
+        }
+        
         menu.ShowAsContext();
     }
 
+    private void StartConnection(Vector2 mousePosition)
+    {
+        selectedStartNode = GetNodeAtPosition(mousePosition);
+    }
+
+    private void EndConnection(Vector2 mousePosition)
+    {
+        GraphNode endNode = GetNodeAtPosition(mousePosition);
+        if (selectedStartNode != null && endNode != null && selectedStartNode != endNode)
+        {
+            CreateConnection(selectedStartNode, endNode);
+        }
+        selectedStartNode = null;
+    }
+
+    private GraphNode GetNodeAtPosition(Vector2 position)
+    {
+        foreach (var node in nodes)
+        {
+            Rect nodeRect = new Rect(node.Position.x, node.Position.y, nodeWidth, nodeHeight);
+            if (nodeRect.Contains(position))
+            {
+                return node;
+            }
+        }
+        return null;
+    }
+
+    private void CreateConnection(GraphNode startNode, GraphNode endNode)
+    {
+        NodeConnection connection = new NodeConnection(startNode, endNode);
+        connections.Add(connection);
+    }
+
+    
     private void AddNode(Type nodeType, string nodeTitle, Vector2 pos)
     {
         UnityEngine.Object unityObjectInstance = ScriptableObject.CreateInstance(nodeType) as UnityEngine.Object;
@@ -204,5 +332,28 @@ public class ActionGraph : EditorWindow
         }
 
         GUILayout.EndArea();
+    }
+    
+    private void DrawConnections()
+    {
+        foreach (var connection in connections)
+        {
+            Vector3 startPos = new Vector3(connection.StartNode.Position.x + nodeWidth, connection.StartNode.Position.y + nodeHeight / 2, 0);
+            Vector3 endPos = new Vector3(connection.EndNode.Position.x, connection.EndNode.Position.y + + nodeHeight / 2, 0);
+
+            Handles.DrawLine(startPos, endPos);
+            DrawArrow(startPos, endPos);
+        }
+    }
+
+    
+    private void DrawArrow(Vector3 start, Vector3 end)
+    {
+        Vector3 direction = (end - start).normalized;
+        Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 + 20, 0) * new Vector3(1, 0, 0);
+        Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 - 20, 0) * new Vector3(1, 0, 0);
+    
+        Handles.DrawLine(end, end + right * 0.2f);
+        Handles.DrawLine(end, end + left * 0.2f);
     }
 }
