@@ -19,3 +19,14 @@ public class ReadOnlyAttribute : PropertyAttribute
         
     }
 }
+
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+public class ActionGraphContextAttribute : PropertyAttribute
+{
+    public string contextName;
+    
+    public ActionGraphContextAttribute(string name)
+    {
+        contextName = name;
+    }
+}
