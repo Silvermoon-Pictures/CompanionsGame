@@ -90,6 +90,10 @@ public class ActionGraph : EditorWindow
     private const int nodeWidth = 500;
     private const int nodeHeight = 350;
     
+    private float zoom = 1.0f;
+    private const float zoomMin = 0.1f;
+    private const float zoomMax = 2.0f;
+    
     public static void ShowWindow(ActionAsset actionAsset)
     {
         ActionGraph window = GetWindow<ActionGraph>("Action Graph");
@@ -189,11 +193,22 @@ public class ActionGraph : EditorWindow
             DrawNode(node);
         }
 
+        HandleZoom(currentEvent);
         HandleNodeDragging(currentEvent);
         
         DrawConnections();
         
         Repaint();
+    }
+    
+    private void HandleZoom(Event currentEvent)
+    {
+        if (currentEvent.type == EventType.ScrollWheel)
+        {
+            zoom -= currentEvent.delta.y * 0.1f;
+            zoom = Mathf.Clamp(zoom, zoomMin, zoomMax);
+            currentEvent.Use();
+        }
     }
 
     private void HandleNodeDragging(Event currentEvent)
@@ -308,7 +323,9 @@ public class ActionGraph : EditorWindow
     
     private void DrawNode(GraphNode node)
     {
-        Rect nodeRect = new Rect(node.Position.x, node.Position.y, nodeWidth, nodeHeight);
+        float finalWidth = nodeWidth * zoom;
+        float finalHeight = nodeHeight * zoom;
+        Rect nodeRect = new Rect(node.Position.x * zoom, node.Position.y * zoom, finalWidth, finalHeight);
         GUI.Box(nodeRect, String.Empty);
         
         GUILayout.BeginArea(nodeRect);
@@ -318,7 +335,7 @@ public class ActionGraph : EditorWindow
             GUIStyle titleStyle = new GUIStyle(GUI.skin.label);
             titleStyle.alignment = TextAnchor.MiddleCenter;
             titleStyle.fontStyle = FontStyle.Bold;
-            titleStyle.fontSize = 14;
+            titleStyle.fontSize = Mathf.CeilToInt(14 * zoom);
             GUILayout.Label(node.Title, titleStyle, GUILayout.ExpandWidth(true));
             
             node.SerializedObject.Update();
@@ -336,10 +353,11 @@ public class ActionGraph : EditorWindow
     
     private void DrawConnections()
     {
+        float finalHeight = nodeHeight * zoom;
         foreach (var connection in connections)
         {
-            Vector3 startPos = new Vector3(connection.StartNode.Position.x + nodeWidth, connection.StartNode.Position.y + nodeHeight / 2, 0);
-            Vector3 endPos = new Vector3(connection.EndNode.Position.x, connection.EndNode.Position.y + + nodeHeight / 2, 0);
+            Vector3 startPos = new Vector3((connection.StartNode.Position.x + nodeWidth) * zoom, (connection.StartNode.Position.y + finalHeight / 2) * zoom, 0);
+            Vector3 endPos = new Vector3(connection.EndNode.Position.x * zoom, (connection.EndNode.Position.y + finalHeight / 2) * zoom, 0);
 
             Handles.DrawLine(startPos, endPos);
             DrawArrow(startPos, endPos);
