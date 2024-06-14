@@ -94,6 +94,9 @@ public class ActionGraph : EditorWindow
     private const float zoomMin = 0.1f;
     private const float zoomMax = 2.0f;
     
+    private Vector2 panOffset = Vector2.zero;
+    private bool isPanning = false;
+    
     public static void ShowWindow(ActionAsset actionAsset)
     {
         ActionGraph window = GetWindow<ActionGraph>("Action Graph");
@@ -181,24 +184,60 @@ public class ActionGraph : EditorWindow
     private void OnGUI()
     {
         Event currentEvent = Event.current;
-        if (currentEvent.type == EventType.ContextClick)
+
+        HandleZoom(currentEvent);
+        bool panning = HandlePanning(currentEvent);
+
+        if (!panning)
         {
-            Vector2 mousePos = currentEvent.mousePosition;
-            ShowContextMenu(mousePos);
-            currentEvent.Use();
+            HandleNodeDragging(currentEvent);
+            
+            if (currentEvent.type == EventType.MouseUp && currentEvent.button == 1)
+            {
+                Vector2 mousePos = currentEvent.mousePosition;
+                ShowContextMenu(mousePos);
+                currentEvent.Use();
+            }
         }
         
+        DrawGraph();
+    }
+
+    private void DrawGraph()
+    {
+        DrawConnections();
+
         foreach (var node in nodes)
         {
             DrawNode(node);
         }
-
-        HandleZoom(currentEvent);
-        HandleNodeDragging(currentEvent);
-        
-        DrawConnections();
         
         Repaint();
+    }
+
+    private bool HandlePanning(Event currentEvent)
+    {
+        switch (currentEvent.type)
+        {
+            case EventType.MouseDrag:
+                if (currentEvent.button == 1)
+                {
+                    panOffset += currentEvent.delta;
+                    currentEvent.Use();
+                    isPanning = true;
+                    return true;
+                }
+                break;
+            case EventType.MouseUp:
+                if (currentEvent.button == 1 && isPanning)
+                {
+                    isPanning = false;
+                    return true;
+                }
+                break;
+        }
+
+        return false;
     }
     
     private void HandleZoom(Event currentEvent)
@@ -325,7 +364,7 @@ public class ActionGraph : EditorWindow
     {
         float finalWidth = nodeWidth * zoom;
         float finalHeight = nodeHeight * zoom;
-        Rect nodeRect = new Rect(node.Position.x * zoom, node.Position.y * zoom, finalWidth, finalHeight);
+        Rect nodeRect = new Rect((node.Position.x + panOffset.x) * zoom, (node.Position.y + panOffset.y) * zoom, finalWidth, finalHeight);
         GUI.Box(nodeRect, String.Empty);
         
         GUILayout.BeginArea(nodeRect);
@@ -356,8 +395,8 @@ public class ActionGraph : EditorWindow
         float finalHeight = nodeHeight * zoom;
         foreach (var connection in connections)
         {
-            Vector3 startPos = new Vector3((connection.StartNode.Position.x + nodeWidth) * zoom, (connection.StartNode.Position.y + finalHeight / 2) * zoom, 0);
-            Vector3 endPos = new Vector3(connection.EndNode.Position.x * zoom, (connection.EndNode.Position.y + finalHeight / 2) * zoom, 0);
+            Vector3 startPos = new Vector3((connection.StartNode.Position.x + nodeWidth + panOffset.x) * zoom, (connection.StartNode.Position.y + finalHeight / 2 + panOffset.y) * zoom, 0);
+            Vector3 endPos = new Vector3((connection.EndNode.Position.x + panOffset.x) * zoom, (connection.EndNode.Position.y + finalHeight / 2 + panOffset.y) * zoom, 0);
 
             Handles.DrawLine(startPos, endPos);
             DrawArrow(startPos, endPos);
