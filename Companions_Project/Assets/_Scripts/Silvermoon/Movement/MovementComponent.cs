@@ -10,11 +10,11 @@ namespace Silvermoon.Movement
     {
         Vector3 Direction { get; }
     }
-    
+
     public class MovementComponent : MonoBehaviour
     {
         [field: SerializeField] private bool hasCustomInitialization;
-    
+
         [SerializeField]
         private float colliderRadius = 1f;
         [SerializeField]
@@ -31,12 +31,15 @@ namespace Silvermoon.Movement
         public float DefaultSpeed { get; private set; }
         public float Gravity = 9.81f;
         public float Drag = 1f;
-        
+
+        public float JumpSpeed = 4f;
+        public float SprintSpeed = 8f;
+
         private MovementRequest request;
         private MovementStateMachine stateMachine;
 
         private CharacterController characterController;
-        
+
         private Vector2 inputVector = Vector2.zero;
         private Vector3 velocity;
         public Vector3 Velocity => velocity;
@@ -49,14 +52,16 @@ namespace Silvermoon.Movement
             characterController = GetComponent<CharacterController>();
             if (characterController == null)
                 characterController = gameObject.AddComponent<CharacterController>();
-            
+
             characterController.center = colliderCenter;
             characterController.radius = colliderRadius;
             characterController.height = colliderHeight;
             characterController.material = physicMaterial;
 
+            // TODO(fthycl): do we need this random speed mechanism?
             Speed = Random.Range(RandomSpeed.x, RandomSpeed.y);
-            
+            DefaultSpeed = Speed;
+
             directionProvider = GetComponent(typeof(IDirectionProvider)) as IDirectionProvider;
         }
 
@@ -65,7 +70,7 @@ namespace Silvermoon.Movement
             if (!hasCustomInitialization)
                 stateMachine = MovementStateMachine.Make(this);
         }
-        
+
         public void Initialize(List<State> states)
         {
             stateMachine = MovementStateMachine.Make(this, states);
@@ -77,10 +82,21 @@ namespace Silvermoon.Movement
                 this.request = request;
         }
 
+        public void Jump()
+        {
+            if (characterController.isGrounded)
+                velocity.y = JumpSpeed;
+        }
+
+        public void Sprint(bool active)
+        {
+            Speed = active ? SprintSpeed : DefaultSpeed;
+        }
+
         private void Update()
         {
             Vector3 direction = directionProvider?.Direction ?? transform.forward;
-            
+
             var context = new MovementContext(Time.deltaTime)
             {
                 transform = transform,
@@ -93,21 +109,22 @@ namespace Silvermoon.Movement
                 position = transform.position,
                 direction = direction,
             };
-            
+
             stateMachine.Transition(context);
             stateMachine.Update(context);
-            
+
+            collisionFlags = characterController.Move(context.velocity * Time.deltaTime);
+
             if (!characterController.isGrounded)
                 context.velocity.y -= Gravity * Time.deltaTime;
             else
                 context.velocity.y = 0f;
-            
-            collisionFlags = characterController.Move(context.velocity * Time.deltaTime);
+
             if (context.velocity.magnitude > float.Epsilon)
             {
                 onMovement?.Invoke();
             }
-            
+
             context.position = transform.position;
             stateMachine.PostUpdate(context);
             velocity = context.velocity;

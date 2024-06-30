@@ -9,11 +9,11 @@ using UnityEngine;
 public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
 {
     private InputComponent inputComponent;
-    private PlayerCamera camera;
+    private new PlayerCamera camera;
     public Vector3 interactionOffset = new Vector3(0.5f, 1, 1f);
 
     private LiftableComponent currentLiftable;
-    
+
     private void OnEnable()
     {
         inputComponent = GetComponent<InputComponent>();
@@ -24,11 +24,15 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
     void ICompanionComponent.Initialize(GameContext context)
     {
         GameInputSystem.onInteract += OnInteract;
+        GameInputSystem.onJump += OnJump;
+        GameInputSystem.onSprint += OnSprint;
     }
 
     void ICompanionComponent.Cleanup()
     {
         GameInputSystem.onInteract -= OnInteract;
+        GameInputSystem.onJump -= OnJump;
+        GameInputSystem.onSprint -= OnSprint;
     }
 
     private void OnInteract()
@@ -50,4 +54,5 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
 
         interactionComponent.Interact(gameObject);
     }
+
 }

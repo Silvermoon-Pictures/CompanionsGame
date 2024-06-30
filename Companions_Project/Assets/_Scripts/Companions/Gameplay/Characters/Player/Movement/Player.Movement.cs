@@ -19,4 +19,14 @@ public partial class Player : IDirectionProvider
 
         movementComponent.Initialize(states);
     }
+
+    private void OnJump()
+    {
+        movementComponent.Jump();
+    }
+
+    private void OnSprint(bool active)
+    {
+        movementComponent.Sprint(active);
+    }
 }

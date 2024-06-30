@@ -32,7 +32,7 @@ namespace Silvermoon.Movement
                 continue;
             }
                 
-            if (!state.CanEnter(context)) 
+            if (!state.CanEnter(context))
                 continue;
             
             CurrentState.OnExit(context);

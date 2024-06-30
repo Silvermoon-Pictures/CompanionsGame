@@ -11,12 +11,14 @@ namespace Companions.Systems
         public static event Action<Vector2> onMove;
         public static event Action<Vector2> onLook;
         public static event Action onInteract;
+        public static event Action onJump;
+        public static event Action<bool> onSprint;
 
         public void OnMovement(InputValue value)
         {
             onMove?.Invoke(value.Get<Vector2>());
         }
-        
+
         public void OnLook(InputValue value)
         {
             onLook?.Invoke(value.Get<Vector2>());
@@ -25,6 +27,16 @@ namespace Companions.Systems
         public void OnInteract(InputValue value)
         {
             onInteract?.Invoke();
+        }
+
+        public void OnJump(InputValue value)
+        {
+            onJump?.Invoke();
+        }
+
+        public void OnSprint(InputValue value)
+        {
+            onSprint?.Invoke(value.isPressed);
         }
     }
 }
