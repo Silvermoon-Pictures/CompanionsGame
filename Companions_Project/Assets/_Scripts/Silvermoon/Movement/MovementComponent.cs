@@ -118,7 +118,11 @@ namespace Silvermoon.Movement
             if (!characterController.isGrounded)
                 context.velocity.y -= Gravity * Time.deltaTime;
             else
-                context.velocity.y = 0f;
+            {
+                // isGrounded check is not stable, often gives false negatives
+                // a workaround is to always have a small negative y velocity
+                context.velocity.y = -0.1f * Gravity;
+            }
 
             if (context.velocity.magnitude > float.Epsilon)
             {
