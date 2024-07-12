@@ -2,17 +2,20 @@ using System.Collections.Generic;
 using Silvermoon.Movement;
 using UnityEngine;
 
-public partial class Player : IDirectionProvider
+public partial class Player : IDirectionProvider, ISpeedProvider
 {
-    public Vector3 Direction => camera.transform.forward;
+    public Vector3 Direction => playerCamera.transform.forward;
 
     private MovementComponent movementComponent;
+
+    public float SprintSpeed = 8f;
 
     void SetupMovement()
     {
         movementComponent = GetComponent<MovementComponent>();
         List<State> states = new List<State>
         {
+            new JumpingMoveState(movementComponent),
             new WalkingMoveState(movementComponent),
             new IdleMoveState(movementComponent),
         };
@@ -20,13 +23,11 @@ public partial class Player : IDirectionProvider
         movementComponent.Initialize(states);
     }
 
-    private void OnJump()
+    float ISpeedProvider.Speed()
     {
-        movementComponent.Jump();
+        if (inputComponent.SprintInput)
+            return SprintSpeed;
+        return movementComponent.Speed;
     }
 
-    private void OnSprint(bool active)
-    {
-        movementComponent.Sprint(active);
-    }
 }

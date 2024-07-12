@@ -11,6 +11,11 @@ namespace Silvermoon.Movement
         Vector3 Direction { get; }
     }
 
+    public interface ISpeedProvider
+    {
+        float Speed();
+    }
+
     public class MovementComponent : MonoBehaviour
     {
         [field: SerializeField] private bool hasCustomInitialization;
@@ -32,9 +37,6 @@ namespace Silvermoon.Movement
         public float Gravity = 9.81f;
         public float Drag = 1f;
 
-        public float JumpSpeed = 4f;
-        public float SprintSpeed = 8f;
-
         private MovementRequest request;
         private MovementStateMachine stateMachine;
 
@@ -46,6 +48,7 @@ namespace Silvermoon.Movement
         private CollisionFlags collisionFlags;
 
         private IDirectionProvider directionProvider;
+        private ISpeedProvider speedProvider;
 
         private void Awake()
         {
@@ -58,11 +61,11 @@ namespace Silvermoon.Movement
             characterController.height = colliderHeight;
             characterController.material = physicMaterial;
 
-            // TODO(fthycl): do we need this random speed mechanism?
             Speed = Random.Range(RandomSpeed.x, RandomSpeed.y);
             DefaultSpeed = Speed;
 
             directionProvider = GetComponent(typeof(IDirectionProvider)) as IDirectionProvider;
+            speedProvider = GetComponent(typeof(ISpeedProvider)) as ISpeedProvider;
         }
 
         private void Start()
@@ -82,26 +85,16 @@ namespace Silvermoon.Movement
                 this.request = request;
         }
 
-        public void Jump()
-        {
-            if (characterController.isGrounded)
-                velocity.y = JumpSpeed;
-        }
-
-        public void Sprint(bool active)
-        {
-            Speed = active ? SprintSpeed : DefaultSpeed;
-        }
-
         private void Update()
         {
             Vector3 direction = directionProvider?.Direction ?? transform.forward;
+            float speed = speedProvider?.Speed() ?? Speed;
 
             var context = new MovementContext(Time.deltaTime)
             {
                 transform = transform,
                 input = inputVector,
-                speed = Speed,
+                speed = speed,
                 velocity = velocity,
                 collisionFlags = collisionFlags,
                 drag = Drag,
