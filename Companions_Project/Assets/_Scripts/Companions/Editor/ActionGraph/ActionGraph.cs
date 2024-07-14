@@ -29,6 +29,9 @@ public class GraphNode
     public SubactionNode ScriptableObject { get; set; }
     public SerializedObject SerializedObject { get; set; }
 
+    public GraphNode previousNode;
+    public GraphNode nextNode;
+
     public GraphNode(Type nodeType, Vector2 position, string title, SubactionNode scriptableObject)
     {
         NodeType = nodeType;
@@ -110,6 +113,18 @@ public class ActionGraph : EditorWindow
                 nodes.Add(node);
             }
         }
+        
+        foreach (var connectionData in actionAsset.connections)
+        {
+            if (connectionData.startNodeIndex >= 0 && connectionData.startNodeIndex < nodes.Count &&
+                connectionData.endNodeIndex >= 0 && connectionData.endNodeIndex < nodes.Count)
+            {
+                GraphNode startNode = nodes[connectionData.startNodeIndex];
+                GraphNode endNode = nodes[connectionData.endNodeIndex];
+                NodeConnection connection = new NodeConnection(startNode, endNode);
+                connections.Add(connection);
+            }
+        }
     }
 
     private void SaveGraphData()
@@ -138,6 +153,18 @@ public class ActionGraph : EditorWindow
                 data = node.ScriptableObject,
             };
             actionAsset.nodes.Add(nodeData);
+        }
+        
+        foreach (var connection in connections)
+        {
+            int startNodeIndex = nodes.IndexOf(connection.StartNode);
+            int endNodeIndex = nodes.IndexOf(connection.EndNode);
+
+            if (startNodeIndex >= 0 && endNodeIndex >= 0)
+            {
+                ActionAsset.ConnectionData connectionData = new ActionAsset.ConnectionData(startNodeIndex, endNodeIndex);
+                actionAsset.connections.Add(connectionData);
+            }
         }
 
         EditorUtility.SetDirty(actionAsset);
@@ -244,8 +271,6 @@ public class ActionGraph : EditorWindow
                     {
                         selectedNode = node;
                         offset = node.Position - currentEvent.mousePosition;
-                        GUI.FocusControl(null);
-                        // currentEvent.Use();
                     }
 
                 }
@@ -280,6 +305,8 @@ public class ActionGraph : EditorWindow
         return false;
     }
     
+    
+    
     private void BreakNodeConnections(GraphNode node)
     {
         connections.RemoveAll(connection => connection.StartNode == node || connection.EndNode == node);
@@ -296,7 +323,7 @@ public class ActionGraph : EditorWindow
             {
                 menu.AddItem(new GUIContent("Break Connection"), false, () => BreakNodeConnections(clickedNode));
             }
-            else
+            if (clickedNode.nextNode == null)
             {
                 menu.AddItem(new GUIContent("Start Connection"), false, () => StartConnection(clickedNode));
             }
@@ -369,6 +396,8 @@ public class ActionGraph : EditorWindow
         
         NodeConnection connection = new NodeConnection(startNode, endNode);
         connections.Add(connection);
+        startNode.nextNode = endNode;
+        endNode.previousNode = startNode;
     }
 
     

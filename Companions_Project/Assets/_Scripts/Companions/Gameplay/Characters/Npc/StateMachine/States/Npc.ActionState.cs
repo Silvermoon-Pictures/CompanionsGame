@@ -47,6 +47,11 @@ namespace Companions.StateMachine
                 animator = owner.GetComponentInChildren<Animator>()
             };
             
+            foreach (var subaction in currentAction.actionData.GetSubactions())
+            {
+                currentAction.Subactions.Enqueue(subaction);
+            }
+            
             while (currentAction.Subactions.TryDequeue(out SubactionNode subaction))
             {
                 yield return subaction.Execute(context);

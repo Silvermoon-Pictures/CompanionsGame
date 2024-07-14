@@ -60,10 +60,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
             return;
 
         Action.actionData = decisionData.action;
-        foreach (var subaction in Action.actionData.GetSubactions())
-        {
-            Action.Subactions.Enqueue(subaction);
-        }
         if (decisionData.target != null)
             Action.target = ((Component)decisionData.target).gameObject;
         else
