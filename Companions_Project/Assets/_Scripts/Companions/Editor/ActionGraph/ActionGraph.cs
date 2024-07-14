@@ -135,7 +135,7 @@ public class ActionGraph : EditorWindow
                 nodeType = node.NodeType.AssemblyQualifiedName,
                 position = node.Position,
                 title = node.Title,
-                data = node.ScriptableObject
+                data = node.ScriptableObject,
             };
             actionAsset.nodes.Add(nodeData);
         }

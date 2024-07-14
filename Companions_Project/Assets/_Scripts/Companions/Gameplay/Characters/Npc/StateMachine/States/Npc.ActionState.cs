@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Companions.StateMachine
@@ -8,7 +9,6 @@ namespace Companions.StateMachine
         private float timer;
 
         private bool ended;
-        private bool executed;
 
         private Npc.NpcAction currentAction;
 
@@ -25,18 +25,8 @@ namespace Companions.StateMachine
 
             currentAction = owner.Action;
             
-            duration = owner.Action.Duration;
             timer = duration;
-            ExecuteAction();
-        }
-
-        protected override void Update(NpcFSMContext context)
-        {
-            base.Update(context);
-
-            timer -= context.dt;
-            if (timer <= 0f)
-                ended = true;
+            owner.StartCoroutine(ExecuteAction());
         }
 
         protected override void OnExit(NpcFSMContext context)
@@ -44,19 +34,25 @@ namespace Companions.StateMachine
             base.OnExit(context);
 
             ended = false;
-            executed = false;
             
             currentAction.EndAction(gameEffectContext);
             owner.Decide();
         }
 
-        private void ExecuteAction()
+        private IEnumerator ExecuteAction()
         {
-            if (executed)
-                return;
+            SubactionContext context = new()
+            {
+                npc = owner,
+                animator = owner.GetComponentInChildren<Animator>()
+            };
+            
+            while (currentAction.Subactions.TryDequeue(out SubactionNode subaction))
+            {
+                yield return subaction.Execute(context);
+            }
 
-            gameEffectContext = owner.CreateContext();
-            currentAction.Execute(gameEffectContext);
+            ended = true;
         }
     }
 }

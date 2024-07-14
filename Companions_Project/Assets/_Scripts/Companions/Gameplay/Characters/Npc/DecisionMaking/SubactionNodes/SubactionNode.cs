@@ -1,16 +1,20 @@
 using System.Collections;
 using UnityEngine;
 
+public class SubactionContext
+{
+    public Npc npc;
+    public Animator animator;
+}
+
 public class SubactionNode : ScriptableObject
 {
     [HideInInspector]
     public SubactionNode nextNode;
 
-    public float Duration => GetDuration();
-
     protected virtual float GetDuration() => 0f;
 
-    public virtual IEnumerator Execute(Npc npc)
+    public virtual IEnumerator Execute(SubactionContext context)
     {
         yield break;
     }

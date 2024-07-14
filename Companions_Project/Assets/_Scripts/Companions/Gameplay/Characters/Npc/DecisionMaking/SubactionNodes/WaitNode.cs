@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEngine;
 
 [ActionGraphContext("Wait")]
 public class WaitNode : SubactionNode
@@ -10,8 +11,8 @@ public class WaitNode : SubactionNode
         return duration;
     }
 
-    public override IEnumerator Execute(Npc npc)
+    public override IEnumerator Execute(SubactionContext context)
     {
-        yield return GetDuration();
+        yield return new WaitForSeconds(GetDuration());
     }
 }

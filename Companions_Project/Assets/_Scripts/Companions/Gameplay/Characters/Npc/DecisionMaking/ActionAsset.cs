@@ -34,8 +34,6 @@ public class ActionAsset : SerializedScriptableObject
     
     public GameEffect gameEffectOnStart;
     public GameEffect gameEffectOnEnd;
-    
-    public float duration = 0f;
 
     public bool randomPosition;
     [ShowIf("randomPosition")] 
@@ -73,7 +71,7 @@ public class ActionAsset : SerializedScriptableObject
             gameEffectOnEnd.Execute(context);
     }
 
-    public IEnumerator<SubactionNode> GetSubactions()
+    public IEnumerable<SubactionNode> GetSubactions()
     {
         foreach (var node in nodes)
         {

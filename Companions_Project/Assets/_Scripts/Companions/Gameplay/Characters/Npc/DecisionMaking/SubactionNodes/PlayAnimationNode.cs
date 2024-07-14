@@ -5,18 +5,15 @@ using UnityEngine;
 public class PlayAnimationNode : SubactionNode
 {
     public AnimationClip animation;
-    public override IEnumerator Execute(Npc npc)
+    public string triggerName;
+    
+    public override IEnumerator Execute(SubactionContext context)
     {
-        var animator = npc.GetComponent<Animator>();
+        var animator = context.animator;
         if (animator != null && animation != null)
         {
-            animator.Play(animation.name);
+            animator.SetTrigger(triggerName);
             yield return new WaitForSeconds(GetDuration());
-        }
-        
-        if (nextNode != null)
-        {
-            yield return nextNode.Execute(npc);
         }
     }
 
