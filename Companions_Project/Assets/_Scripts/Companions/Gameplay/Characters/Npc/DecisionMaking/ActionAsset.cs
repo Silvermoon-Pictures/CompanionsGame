@@ -16,6 +16,7 @@ public class ActionAsset : SerializedScriptableObject
         public string nodeType;
         public Vector2 position;
         public string title;
+        public string assetPath;
     }
 
     [Serializable]

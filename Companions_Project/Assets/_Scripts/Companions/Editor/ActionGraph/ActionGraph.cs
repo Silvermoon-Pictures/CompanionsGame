@@ -1,10 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using Silvermoon.Utils;
 using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 using UnityEditor;
+using Object = UnityEngine.Object;
 
 [CustomEditor(typeof(ActionAsset))]
 public class ActionAssetEditor : OdinEditor
@@ -21,17 +24,41 @@ public class ActionAssetEditor : OdinEditor
     }
 }
 
-[ActionGraphContext("Play Animation")]
-public class AnimationContext : ScriptableObject
+public class SubactionNode : ScriptableObject
 {
-    public Animation animation;
+    [HideInInspector]
+    public SubactionNode nextNode;
+
+    public virtual IEnumerator Execute(Npc npc)
+    {
+        yield break;
+    }
+}
+
+[ActionGraphContext("Play Animation")]
+public class AnimationContext : SubactionNode
+{
+    public AnimationClip animation;
+    public override IEnumerator Execute(Npc npc)
+    {
+        var animator = npc.GetComponent<Animator>();
+        if (animator != null && animation != null)
+        {
+            animator.Play(animation.name);
+            yield return new WaitForSeconds(animation.length);
+        }
+        
+        if (nextNode != null)
+        {
+            yield return nextNode.Execute(npc);
+        }
+    }
 }
 
 [ActionGraphContext("Wait")]
 public class WaitContext : ScriptableObject
 {
     public float duration;
-    public string namee;
 }
 
 [ActionGraphContext("Execute Game Effect")]
@@ -48,19 +75,19 @@ public class AttachContext : ScriptableObject
 
 public class GraphNode
 {
-    public Type NodeType { get; private set; }
+    public Type NodeType { get; set; }
     public Vector2 Position { get; set; }
-    public string Title { get; private set; }
-    public UnityEngine.Object UnityObjectInstance { get; private set; }
-    public SerializedObject SerializedObject { get; private set; }
+    public string Title { get; set; }
+    public UnityEngine.Object ScriptableObject { get; set; }
+    public SerializedObject SerializedObject { get; set; }
 
-    public GraphNode(Type nodeType, Vector2 position, string title, UnityEngine.Object unityObjectInstance)
+    public GraphNode(Type nodeType, Vector2 position, string title, UnityEngine.Object scriptableObject)
     {
         NodeType = nodeType;
         Position = position;
         Title = title;
-        UnityObjectInstance = unityObjectInstance;
-        SerializedObject = new SerializedObject(unityObjectInstance);
+        ScriptableObject = scriptableObject;
+        SerializedObject = new SerializedObject(scriptableObject);
     }
 }
 
@@ -128,25 +155,12 @@ public class ActionGraph : EditorWindow
 
         foreach (var nodeData in actionAsset.nodes)
         {
-            Type nodeType = Type.GetType(nodeData.nodeType);
-            if (nodeType != null)
+            ScriptableObject nodeAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(nodeData.assetPath);
+            if (nodeAsset != null)
             {
-                UnityEngine.Object unityObjectInstance = ScriptableObject.CreateInstance(nodeType) as UnityEngine.Object;
-                if (unityObjectInstance != null)
-                {
-                    GraphNode node = new GraphNode(nodeType, nodeData.position, nodeData.title, unityObjectInstance);
-                    nodes.Add(node);
-                }
-            }
-        }
-
-        foreach (var connectionData in actionAsset.connections)
-        {
-            if (connectionData.startNodeIndex >= 0 && connectionData.startNodeIndex < nodes.Count &&
-                connectionData.endNodeIndex >= 0 && connectionData.endNodeIndex < nodes.Count)
-            {
-                NodeConnection connection = new NodeConnection(nodes[connectionData.startNodeIndex], nodes[connectionData.endNodeIndex]);
-                connections.Add(connection);
+                Type nodeType = Type.GetType(nodeData.nodeType);
+                GraphNode node = new GraphNode(nodeType, nodeData.position, nodeData.title, nodeAsset);
+                nodes.Add(node);
             }
         }
     }
@@ -155,28 +169,28 @@ public class ActionGraph : EditorWindow
     {
         actionAsset.nodes.Clear();
         actionAsset.connections.Clear();
-
+        string actionAssetPath = AssetDatabase.GetAssetPath(actionAsset);
+        string directoryPath = Path.GetDirectoryName(actionAssetPath);
+        string nodesFolderPath = Path.Combine(directoryPath, "ActionGraphData");
+        if (!AssetDatabase.IsValidFolder(nodesFolderPath))
+            AssetDatabase.CreateFolder(directoryPath, "ActionGraphData");
+        
         foreach (var node in nodes)
         {
+            string assetPath = $"{nodesFolderPath}/{node.Title}.asset";
+            if (!AssetDatabase.Contains(node.ScriptableObject))
+            {
+                AssetDatabase.CreateAsset(node.ScriptableObject, assetPath);
+            }
+            
             ActionAsset.NodeData nodeData = new ActionAsset.NodeData
             {
                 nodeType = node.NodeType.AssemblyQualifiedName,
                 position = node.Position,
-                title = node.Title
+                title = node.Title,
+                assetPath = assetPath
             };
             actionAsset.nodes.Add(nodeData);
-        }
-
-        foreach (var connection in connections)
-        {
-            int startNodeIndex = nodes.IndexOf(connection.StartNode);
-            int endNodeIndex = nodes.IndexOf(connection.EndNode);
-
-            if (startNodeIndex >= 0 && endNodeIndex >= 0)
-            {
-                ActionAsset.ConnectionData connectionData = new ActionAsset.ConnectionData(startNodeIndex, endNodeIndex);
-                actionAsset.connections.Add(connectionData);
-            }
         }
 
         EditorUtility.SetDirty(actionAsset);
@@ -222,6 +236,7 @@ public class ActionGraph : EditorWindow
         }
         
         DrawGraph();
+        Repaint();
     }
 
     private void DrawGraph()
@@ -232,8 +247,6 @@ public class ActionGraph : EditorWindow
         {
             DrawNode(node);
         }
-        
-        Repaint();
     }
 
     private bool HandlePanning(Event currentEvent)
@@ -285,7 +298,7 @@ public class ActionGraph : EditorWindow
                         selectedNode = node;
                         offset = node.Position - currentEvent.mousePosition;
                         GUI.FocusControl(null);
-                        currentEvent.Use();
+                        // currentEvent.Use();
                     }
 
                 }
@@ -345,6 +358,8 @@ public class ActionGraph : EditorWindow
             {
                 menu.AddItem(new GUIContent("End Connection"), false, () => EndConnection(clickedNode));
             }
+            
+            menu.AddItem(new GUIContent("Delete"), false, () => DeleteNode(clickedNode));
         }
         else
         {
@@ -355,6 +370,12 @@ public class ActionGraph : EditorWindow
         }
         
         menu.ShowAsContext();
+    }
+
+    private void DeleteNode(GraphNode clickedNode)
+    {
+        nodes.Remove(clickedNode);
+        DestroyImmediate(clickedNode.ScriptableObject);
     }
 
     private void StartConnection(GraphNode node)
@@ -395,10 +416,10 @@ public class ActionGraph : EditorWindow
     
     private void AddNode(Type nodeType, string nodeTitle, Vector2 pos)
     {
-        UnityEngine.Object unityObjectInstance = ScriptableObject.CreateInstance(nodeType) as UnityEngine.Object;
-        if (unityObjectInstance != null)
+        ScriptableObject scriptableObject = CreateInstance(nodeType);
+        if (scriptableObject != null)
         {
-            GraphNode node = new GraphNode(nodeType, pos, nodeTitle, unityObjectInstance);
+            GraphNode node = new GraphNode(nodeType, pos, nodeTitle, scriptableObject);
             nodes.Add(node);
         }
         else
@@ -407,7 +428,7 @@ public class ActionGraph : EditorWindow
         }
     }
 
-    private Rect CreateNodeRect(GraphNode node)
+    private Rect CreateNodeRect(GraphNode node) 
     {
         float finalWidth = nodeWidth * zoom;
         float finalHeight = nodeHeight * zoom;
@@ -423,18 +444,25 @@ public class ActionGraph : EditorWindow
 
         if (node.SerializedObject != null)
         {
-            GUIStyle titleStyle = new GUIStyle(GUI.skin.label);
-            titleStyle.alignment = TextAnchor.MiddleCenter;
-            titleStyle.fontStyle = FontStyle.Bold;
-            titleStyle.fontSize = Mathf.CeilToInt(14 * zoom);
+            GUIStyle titleStyle = new GUIStyle(GUI.skin.label)
+            {
+                alignment = TextAnchor.MiddleCenter,
+                fontStyle = FontStyle.Bold,
+                fontSize = Mathf.CeilToInt(14 * zoom)
+            };
             GUILayout.Label(node.Title, titleStyle, GUILayout.ExpandWidth(true));
             
-            node.SerializedObject.Update();
             SerializedProperty iterator = node.SerializedObject.GetIterator();
             iterator.NextVisible(true);
+            EditorGUI.BeginChangeCheck();
+            node.SerializedObject.Update();
             while (iterator.NextVisible(false))
             {
                 EditorGUILayout.PropertyField(iterator, true);
+            }
+
+            if (EditorGUI.EndChangeCheck())
+            {
             }
             node.SerializedObject.ApplyModifiedProperties();
         }
