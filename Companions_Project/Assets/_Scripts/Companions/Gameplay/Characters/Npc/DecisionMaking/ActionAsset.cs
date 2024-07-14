@@ -16,7 +16,7 @@ public class ActionAsset : SerializedScriptableObject
         public string nodeType;
         public Vector2 position;
         public string title;
-        public string assetPath;
+        public SubactionNode data;
     }
 
     [Serializable]
@@ -71,6 +71,14 @@ public class ActionAsset : SerializedScriptableObject
     {
         if (gameEffectOnEnd != null)
             gameEffectOnEnd.Execute(context);
+    }
+
+    public IEnumerator<SubactionNode> GetSubactions()
+    {
+        foreach (var node in nodes)
+        {
+            yield return node.data;
+        }
     }
     
     public float CalculateScore(ConsiderationContext context)

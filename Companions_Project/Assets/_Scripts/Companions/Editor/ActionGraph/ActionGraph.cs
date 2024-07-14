@@ -1,13 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using Silvermoon.Utils;
 using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 using UnityEditor;
-using Object = UnityEngine.Object;
 
 [CustomEditor(typeof(ActionAsset))]
 public class ActionAssetEditor : OdinEditor
@@ -19,58 +16,9 @@ public class ActionAssetEditor : OdinEditor
             ActionAsset actionAsset = (ActionAsset)target;
             ActionGraph.ShowWindow(actionAsset);
         }
-        
+
         base.OnInspectorGUI();
     }
-}
-
-public class SubactionNode : ScriptableObject
-{
-    [HideInInspector]
-    public SubactionNode nextNode;
-
-    public virtual IEnumerator Execute(Npc npc)
-    {
-        yield break;
-    }
-}
-
-[ActionGraphContext("Play Animation")]
-public class AnimationContext : SubactionNode
-{
-    public AnimationClip animation;
-    public override IEnumerator Execute(Npc npc)
-    {
-        var animator = npc.GetComponent<Animator>();
-        if (animator != null && animation != null)
-        {
-            animator.Play(animation.name);
-            yield return new WaitForSeconds(animation.length);
-        }
-        
-        if (nextNode != null)
-        {
-            yield return nextNode.Execute(npc);
-        }
-    }
-}
-
-[ActionGraphContext("Wait")]
-public class WaitContext : ScriptableObject
-{
-    public float duration;
-}
-
-[ActionGraphContext("Execute Game Effect")]
-public class ExecuteGameEffectContext : ScriptableObject
-{
-    public GameEffect GameEffect;
-}
-
-[ActionGraphContext("Attach object")]
-public class AttachContext : ScriptableObject
-{
-    
 }
 
 public class GraphNode
@@ -78,10 +26,10 @@ public class GraphNode
     public Type NodeType { get; set; }
     public Vector2 Position { get; set; }
     public string Title { get; set; }
-    public UnityEngine.Object ScriptableObject { get; set; }
+    public SubactionNode ScriptableObject { get; set; }
     public SerializedObject SerializedObject { get; set; }
 
-    public GraphNode(Type nodeType, Vector2 position, string title, UnityEngine.Object scriptableObject)
+    public GraphNode(Type nodeType, Vector2 position, string title, SubactionNode scriptableObject)
     {
         NodeType = nodeType;
         Position = position;
@@ -155,11 +103,10 @@ public class ActionGraph : EditorWindow
 
         foreach (var nodeData in actionAsset.nodes)
         {
-            ScriptableObject nodeAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(nodeData.assetPath);
-            if (nodeAsset != null)
+            if (nodeData.data != null)
             {
                 Type nodeType = Type.GetType(nodeData.nodeType);
-                GraphNode node = new GraphNode(nodeType, nodeData.position, nodeData.title, nodeAsset);
+                GraphNode node = new GraphNode(nodeType, nodeData.position, nodeData.title, nodeData.data);
                 nodes.Add(node);
             }
         }
@@ -177,7 +124,7 @@ public class ActionGraph : EditorWindow
         
         foreach (var node in nodes)
         {
-            string assetPath = $"{nodesFolderPath}/{node.Title}.asset";
+            string assetPath = $"{nodesFolderPath}/{actionAsset.name}_{node.Title}_{node.Position}.asset";
             if (!AssetDatabase.Contains(node.ScriptableObject))
             {
                 AssetDatabase.CreateAsset(node.ScriptableObject, assetPath);
@@ -188,7 +135,7 @@ public class ActionGraph : EditorWindow
                 nodeType = node.NodeType.AssemblyQualifiedName,
                 position = node.Position,
                 title = node.Title,
-                assetPath = assetPath
+                data = node.ScriptableObject
             };
             actionAsset.nodes.Add(nodeData);
         }
@@ -427,7 +374,7 @@ public class ActionGraph : EditorWindow
     
     private void AddNode(Type nodeType, string nodeTitle, Vector2 pos)
     {
-        ScriptableObject scriptableObject = CreateInstance(nodeType);
+        SubactionNode scriptableObject = CreateInstance(nodeType) as SubactionNode;
         if (scriptableObject != null)
         {
             GraphNode node = new GraphNode(nodeType, pos, nodeTitle, scriptableObject);
