@@ -375,7 +375,18 @@ public class ActionGraph : EditorWindow
     private void DeleteNode(GraphNode clickedNode)
     {
         nodes.Remove(clickedNode);
-        DestroyImmediate(clickedNode.ScriptableObject);
+        if (clickedNode.ScriptableObject != null)
+        {
+            string assetPath = AssetDatabase.GetAssetPath(clickedNode.ScriptableObject);
+            AssetDatabase.DeleteAsset(assetPath);
+        }
+        
+        actionAsset.nodes.RemoveAll(n => n.title == clickedNode.Title && n.position == clickedNode.Position);
+        
+        connections.RemoveAll(conn => conn.StartNode == clickedNode || conn.EndNode == clickedNode);
+        
+        EditorUtility.SetDirty(actionAsset);
+        AssetDatabase.SaveAssets();
     }
 
     private void StartConnection(GraphNode node)
