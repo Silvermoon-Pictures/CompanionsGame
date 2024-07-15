@@ -103,13 +103,14 @@ public class ActionGraph : EditorWindow
     
     private void CenterOnBeginningNode()
     {
+        return;
         // Calculate the center position of the viewport
         float windowCenterX = position.width / 2f;
         float windowCenterY = position.height / 2f;
 
         // Calculate the node position considering zoom
-        float nodeCenterX = (beginningNode.Position.x + nodeWidth / 2f) * zoom;
-        float nodeCenterY = (beginningNode.Position.y + nodeHeight / 2f) * zoom;
+        float nodeCenterX = beginningNode.Position.x * zoom + nodeWidth * zoom / 2f;
+        float nodeCenterY = beginningNode.Position.y * zoom + nodeHeight * zoom / 2f;
 
         // Set panOffset to center the first node
         panOffset = new Vector2(windowCenterX - nodeCenterX, windowCenterY - nodeCenterY);
@@ -471,13 +472,9 @@ public class ActionGraph : EditorWindow
 
     private Rect CreateNodeRect(GraphNode node) 
     {
-        float x = (node.Position.x * zoom) + panOffset.x;
-        float y = (node.Position.y * zoom) + panOffset.y;
-        
-        float width = nodeWidth * zoom;
-        float height = nodeHeight * zoom;
-        
-        return new Rect(x, y, width, height);
+        float finalWidth = nodeWidth * zoom;
+        float finalHeight = nodeHeight * zoom;
+        return new Rect((node.Position.x + panOffset.x) * zoom, (node.Position.y + panOffset.y) * zoom, finalWidth, finalHeight);
     }
 
     private void CreateBeginningNode()
