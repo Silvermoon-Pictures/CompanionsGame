@@ -356,8 +356,12 @@ public class ActionGraph : EditorWindow
         }
         
         actionAsset.nodes.RemoveAll(n => n.title == clickedNode.Title && n.position == clickedNode.Position);
-        
         connections.RemoveAll(conn => conn.StartNode == clickedNode || conn.EndNode == clickedNode);
+
+        if (clickedNode.nextNode != null)
+            clickedNode.nextNode.previousNode = null;
+        if (clickedNode.previousNode != null)
+            clickedNode.previousNode.nextNode = null;
         
         EditorUtility.SetDirty(actionAsset);
         AssetDatabase.SaveAssets();
