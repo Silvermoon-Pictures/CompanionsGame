@@ -56,17 +56,19 @@ public class NodeConnection
 
 public class ActionGraph : EditorWindow
 {
-    private ActionAsset actionAsset;
+    public ActionAsset actionAsset;
     private List<GraphNode> nodes = new();
     private List<NodeConnection> connections = new();
     private List<(Type, ActionGraphContextAttribute)> contextActions = new();
     private GraphNode selectedStartNode;
+
+    private GraphNode beginningNode;
     
     private GraphNode selectedNode;
     private Vector2 offset;
 
-    private const int nodeWidth = 500;
-    private const int nodeHeight = 350;
+    private const int nodeWidth = 300;
+    private const int nodeHeight = 200;
     
     private float zoom = 1.0f;
     private const float zoomMin = 0.1f;
@@ -99,11 +101,42 @@ public class ActionGraph : EditorWindow
         SaveGraphData();
     }
     
+    private void CenterOnBeginningNode()
+    {
+        // Calculate the center position of the viewport
+        float windowCenterX = position.width / 2f;
+        float windowCenterY = position.height / 2f;
+
+        // Calculate the node position considering zoom
+        float nodeCenterX = (beginningNode.Position.x + nodeWidth / 2f) * zoom;
+        float nodeCenterY = (beginningNode.Position.y + nodeHeight / 2f) * zoom;
+
+        // Set panOffset to center the first node
+        panOffset = new Vector2(windowCenterX - nodeCenterX, windowCenterY - nodeCenterY);
+        
+    }
+
     private void LoadGraphData()
     {
         nodes.Clear();
         connections.Clear();
 
+
+        var beginningNodeData = actionAsset.beginningNode;
+        if (beginningNodeData.data != null)
+        {
+            Type nodeType = Type.GetType(actionAsset.beginningNode.nodeType);
+            GraphNode node = new GraphNode(nodeType, beginningNodeData.position, beginningNodeData.title, beginningNodeData.data);
+            beginningNode = node;
+            nodes.Add(node);
+        }
+        else
+        {
+            CreateBeginningNode();
+        }
+
+        CenterOnBeginningNode();
+        
         foreach (var nodeData in actionAsset.nodes)
         {
             if (nodeData.data != null)
@@ -152,7 +185,15 @@ public class ActionGraph : EditorWindow
                 title = node.Title,
                 data = node.ScriptableObject,
             };
-            actionAsset.nodes.Add(nodeData);
+
+            if (node.ScriptableObject == actionAsset.beginningNode.data)
+            {
+                actionAsset.beginningNode = nodeData;
+            }
+            else
+            {
+                actionAsset.nodes.Add(nodeData);
+            }
         }
         
         foreach (var connection in connections)
@@ -319,21 +360,30 @@ public class ActionGraph : EditorWindow
         
         if (clickedNode != null)
         {
-            if (NodeHasConnections(clickedNode))
+            if (clickedNode.ScriptableObject == beginningNode.ScriptableObject)
             {
-                menu.AddItem(new GUIContent("Break Connection"), false, () => BreakNodeConnections(clickedNode));
+                if (NodeHasConnections(clickedNode))
+                {
+                    menu.AddItem(new GUIContent("Break Connection"), false, () => BreakNodeConnections(clickedNode));
+                }
+                if (clickedNode.nextNode == null)
+                {
+                    menu.AddItem(new GUIContent("Start Connection"), false, () => StartConnection(clickedNode));
+                }
             }
-            if (clickedNode.nextNode == null)
+            else
             {
-                menu.AddItem(new GUIContent("Start Connection"), false, () => StartConnection(clickedNode));
-            }
-
-            if (selectedStartNode != null && selectedStartNode != clickedNode)
-            {
-                menu.AddItem(new GUIContent("End Connection"), false, () => EndConnection(clickedNode));
-            }
+                if (NodeHasConnections(clickedNode))
+                {
+                    menu.AddItem(new GUIContent("Break Connection"), false, () => BreakNodeConnections(clickedNode));
+                }
+                if (clickedNode.nextNode == null)
+                {
+                    menu.AddItem(new GUIContent("Start Connection"), false, () => StartConnection(clickedNode));
+                }
             
-            menu.AddItem(new GUIContent("Delete"), false, () => DeleteNode(clickedNode));
+                menu.AddItem(new GUIContent("Delete"), false, () => DeleteNode(clickedNode));
+            }
         }
         else
         {
@@ -405,25 +455,42 @@ public class ActionGraph : EditorWindow
     }
 
     
-    private void AddNode(Type nodeType, string nodeTitle, Vector2 pos)
+    private GraphNode AddNode(Type nodeType, string nodeTitle, Vector2 pos)
     {
         SubactionNode scriptableObject = CreateInstance(nodeType) as SubactionNode;
         if (scriptableObject != null)
         {
             GraphNode node = new GraphNode(nodeType, pos, nodeTitle, scriptableObject);
             nodes.Add(node);
+            return node;
         }
-        else
-        {
-            Debug.LogError($"Failed to create instance of type {nodeType.Name}. Ensure it derives from UnityEngine.Object.");
-        }
+        
+        Debug.LogError($"Failed to create instance of type {nodeType.Name}. Ensure it derives from UnityEngine.Object.");
+        return null;
     }
 
     private Rect CreateNodeRect(GraphNode node) 
     {
-        float finalWidth = nodeWidth * zoom;
-        float finalHeight = nodeHeight * zoom;
-        return new Rect((node.Position.x + panOffset.x) * zoom, (node.Position.y + panOffset.y) * zoom, finalWidth, finalHeight);;
+        float x = (node.Position.x * zoom) + panOffset.x;
+        float y = (node.Position.y * zoom) + panOffset.y;
+        
+        float width = nodeWidth * zoom;
+        float height = nodeHeight * zoom;
+        
+        return new Rect(x, y, width, height);
+    }
+
+    private void CreateBeginningNode()
+    {
+        var beginningNode = AddNode(typeof(SubactionNode), "Start Node", new Vector2(160, 400));
+        ActionAsset.NodeData nodeData = new ActionAsset.NodeData
+        {
+            nodeType = beginningNode.NodeType.AssemblyQualifiedName,
+            position = beginningNode.Position,
+            title = beginningNode.Title,
+            data = beginningNode.ScriptableObject,
+        };
+        actionAsset.beginningNode = nodeData;
     }
     
     private void DrawNode(GraphNode node)
@@ -437,7 +504,6 @@ public class ActionGraph : EditorWindow
         {
             GUIStyle titleStyle = new GUIStyle(GUI.skin.label)
             {
-                alignment = TextAnchor.MiddleCenter,
                 fontStyle = FontStyle.Bold,
                 fontSize = Mathf.CeilToInt(14 * zoom)
             };
@@ -463,30 +529,48 @@ public class ActionGraph : EditorWindow
     
     private void DrawConnections()
     {
-        float finalHeight = nodeHeight * zoom;
         foreach (var connection in connections)
         {
-            DrawConnection(connection.StartNode, connection.EndNode.Position);
+            DrawConnection(connection.StartNode, connection.EndNode.Position, true);
         }
     }
 
-    private void DrawConnection(GraphNode node, Vector2 endPosition)
+    private void DrawConnection(GraphNode startNode, Vector2 endPosition, bool isEndNodeLeftCenter = false)
     {
-        float finalHeight = nodeHeight * zoom;
-        Vector3 startPos = new Vector3((node.Position.x + nodeWidth + panOffset.x) * zoom, (node.Position.y + finalHeight / 2 + panOffset.y) * zoom, 0);
-        Vector3 endPos = new Vector3((endPosition.x + panOffset.x) * zoom, (endPosition.y + finalHeight / 2 + panOffset.y) * zoom, 0);
+        float startX = (startNode.Position.x + nodeWidth) * zoom + panOffset.x;
+        float startY = (startNode.Position.y + nodeHeight / 2) * zoom + panOffset.y;
+
+        float endX, endY;
+        if (isEndNodeLeftCenter)
+        {
+            // Calculate the end position to be the left center of the end node
+            endX = endPosition.x * zoom + panOffset.x;
+            endY = (endPosition.y + nodeHeight / 2) * zoom + panOffset.y;
+        }
+        else
+        {
+            // Use the mouse position for the end position
+            endX = endPosition.x * zoom + panOffset.x;
+            endY = endPosition.y * zoom + panOffset.y;
+        }
+
+        Vector3 startPos = new Vector3(startX, startY, 0);
+        Vector3 endPos = new Vector3(endX, endY, 0);
 
         Handles.DrawLine(startPos, endPos);
         DrawArrow(startPos, endPos);
     }
-    
-    private void DrawArrow(Vector3 start, Vector3 end)
+
+    private void DrawArrow(Vector3 startPos, Vector3 endPos)
     {
-        Vector3 direction = (end - start).normalized;
-        Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 + 20, 0) * new Vector3(1, 0, 0);
-        Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 - 20, 0) * new Vector3(1, 0, 0);
-    
-        Handles.DrawLine(end, end + right * 0.2f);
-        Handles.DrawLine(end, end + left * 0.2f);
+        float arrowHeadLength = 10.0f;
+        float arrowHeadAngle = 20.0f;
+
+        Vector3 direction = (endPos - startPos).normalized;
+        Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 + arrowHeadAngle, 0) * new Vector3(0, 0, 1);
+        Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 - arrowHeadAngle, 0) * new Vector3(0, 0, 1);
+
+        Handles.DrawLine(endPos, endPos + right * arrowHeadLength);
+        Handles.DrawLine(endPos, endPos + left * arrowHeadLength);
     }
 }

@@ -53,10 +53,11 @@ public class ActionAsset : SerializedScriptableObject
     public List<Consideration> requiredConsiderations = new();
     [TitleGroup("Decision Making")]
     public List<Consideration> incompatibleConsiderations = new();
-    
-    [HideInInspector]
+
+    public NodeData beginningNode;
+    // [HideInInspector]
     public List<NodeData> nodes = new List<NodeData>();
-    [HideInInspector]
+    // [HideInInspector]
     public List<ConnectionData> connections = new List<ConnectionData>();
 
     public void Execute(GameEffectContext context)
