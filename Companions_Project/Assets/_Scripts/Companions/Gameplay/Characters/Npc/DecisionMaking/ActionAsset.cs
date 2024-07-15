@@ -74,9 +74,14 @@ public class ActionAsset : SerializedScriptableObject
 
     public IEnumerable<SubactionNode> GetSubactions()
     {
-        foreach (var node in nodes)
+        if (beginningNode.data.nextNode == null)
+            yield break;
+        
+        SubactionNode currentNodeData = beginningNode.data.nextNode;
+        while (currentNodeData != null)
         {
-            yield return node.data;
+            yield return currentNodeData;
+            currentNodeData = currentNodeData.nextNode;
         }
     }
     
