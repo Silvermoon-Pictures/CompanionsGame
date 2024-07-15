@@ -451,10 +451,8 @@ public class ActionGraph : EditorWindow
         
         NodeConnection connection = new NodeConnection(startNode, endNode);
         connections.Add(connection);
-        startNode.nextNode = endNode;
-        endNode.previousNode = startNode;
+        startNode.ScriptableObject.nextNode = endNode.ScriptableObject;
     }
-
     
     private GraphNode AddNode(Type nodeType, string nodeTitle, Vector2 pos)
     {
