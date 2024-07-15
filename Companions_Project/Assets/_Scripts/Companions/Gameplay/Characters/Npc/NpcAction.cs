@@ -23,6 +23,7 @@ public partial class Npc
         public void EndAction(GameEffectContext context)
         {
             actionData.End(context);
+            actionData = null;
             actionEnded = true;
         }
 

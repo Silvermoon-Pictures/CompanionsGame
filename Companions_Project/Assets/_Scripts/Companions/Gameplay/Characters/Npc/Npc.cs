@@ -21,7 +21,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
     public NpcAction Action { get; private set; }
     private NpcFSM stateMachine;
 
-    public bool HasAction { get; set; }
+    public bool HasAction => Action.actionData != null;
     public bool ShouldMove { get; set; }
     public bool ExecuteAction => HasAction && !ShouldMove && !WaitForTarget();
 
@@ -52,7 +52,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 
     public void Decide()
     {
-        HasAction = false;
         Action.Reset();
         
         var decisionData = brain.Decide();
@@ -64,8 +63,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
             Action.target = ((Component)decisionData.target).gameObject;
         else
             Action.randomPosition = decisionData.randomPosition;
-
-        HasAction = true;
+        
         ShouldMove = !IsInTargetRange() && !Action.WaitForTarget;
     }
 
