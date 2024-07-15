@@ -10,15 +10,16 @@ public class PlayAnimationNode : SubactionNode
     public override IEnumerator Execute(SubactionContext context)
     {
         var animator = context.animator;
-        if (animator != null && animation != null)
-        {
-            animator.SetTrigger(triggerName);
-            yield return new WaitForSeconds(GetDuration());
-        }
+        if (animator == null) 
+            yield break;
+        
+        animator.SetTrigger(triggerName);
+        
+        yield return new WaitForSeconds(GetDuration());
     }
 
     protected override float GetDuration()
     {
-        return animation.length;
+        return animation != null ? animation.length : 0;
     }
 }
