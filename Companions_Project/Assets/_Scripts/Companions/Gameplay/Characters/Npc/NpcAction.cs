@@ -15,14 +15,8 @@ public partial class Npc
         public bool actionEnded;
         public Queue<SubactionNode> Subactions = new();
 
-        public void Execute(GameEffectContext context)
+        public void EndAction()
         {
-            actionData.Execute(context);
-        }
-
-        public void EndAction(GameEffectContext context)
-        {
-            actionData.End(context);
             actionData = null;
             actionEnded = true;
         }

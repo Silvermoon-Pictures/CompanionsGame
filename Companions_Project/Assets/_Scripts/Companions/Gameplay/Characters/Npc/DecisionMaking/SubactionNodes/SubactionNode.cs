@@ -5,6 +5,7 @@ public class SubactionContext
 {
     public Npc npc;
     public Animator animator;
+    public GameObject target;
 }
 
 public class SubactionNode : ScriptableObject

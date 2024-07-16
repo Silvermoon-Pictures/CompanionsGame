@@ -35,7 +35,7 @@ namespace Companions.StateMachine
 
             ended = false;
             
-            currentAction.EndAction(gameEffectContext);
+            currentAction.EndAction();
             owner.Decide();
         }
 
@@ -44,10 +44,11 @@ namespace Companions.StateMachine
             SubactionContext context = new()
             {
                 npc = owner,
-                animator = owner.GetComponentInChildren<Animator>()
+                target = currentAction.target,
+                animator = owner.GetComponentInChildren<Animator>(),
             };
             
-            foreach (var subaction in currentAction.actionData.GetSubactions())
+            foreach (var subaction in currentAction.actionData.SubactionQueue)
             {
                 currentAction.Subactions.Enqueue(subaction);
             }

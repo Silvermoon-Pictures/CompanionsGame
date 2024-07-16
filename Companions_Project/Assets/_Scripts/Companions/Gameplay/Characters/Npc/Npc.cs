@@ -42,7 +42,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         Instantiate(visual, transform);
     }
 
-    void Start()
+    void ICompanionComponent.WorldLoaded()
     {
         if (NpcData == null)
             throw new DesignException($"NpcData on {name} is not set!");

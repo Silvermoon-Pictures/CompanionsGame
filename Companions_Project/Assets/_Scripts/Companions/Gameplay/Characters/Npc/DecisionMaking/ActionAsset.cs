@@ -31,9 +31,6 @@ public class ActionAsset : SerializedScriptableObject
             endNodeIndex = end;
         }
     }
-    
-    public GameEffect gameEffectOnStart;
-    public GameEffect gameEffectOnEnd;
 
     public bool randomPosition;
     [ShowIf("randomPosition")] 
@@ -61,31 +58,30 @@ public class ActionAsset : SerializedScriptableObject
     [HideInInspector]
     public List<ConnectionData> connections = new List<ConnectionData>();
 
-    public void Execute(GameEffectContext context)
-    {
-        if (gameEffectOnStart != null)
-            gameEffectOnStart.Execute(context);
-    }
+    public Queue<SubactionNode> SubactionQueue { get; private set; } = new();
 
-    public void End(GameEffectContext context)
+    private Queue<SubactionNode> FillSubactions()
     {
-        if (gameEffectOnEnd != null)
-            gameEffectOnEnd.Execute(context);
-    }
-
-    public IEnumerable<SubactionNode> GetSubactions()
-    {
+        if (beginningNode == null || beginningNode.data == null)
+            return SubactionQueue;
         if (beginningNode.data.nextNode == null)
-            yield break;
+            return SubactionQueue;
         
         SubactionNode currentNodeData = beginningNode.data.nextNode;
         while (currentNodeData != null)
         {
-            yield return currentNodeData;
+            SubactionQueue.Enqueue(currentNodeData);
             currentNodeData = currentNodeData.nextNode;
         }
+
+        return SubactionQueue;
     }
-    
+
+    private void OnEnable()
+    {
+        FillSubactions();
+    }
+
     public float CalculateScore(ConsiderationContext context)
     {
         if (weightedConsiderations == null || weightedConsiderations.Count == 0)
