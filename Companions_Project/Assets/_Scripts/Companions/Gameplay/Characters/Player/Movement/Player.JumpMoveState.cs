@@ -4,6 +4,7 @@ using Silvermoon.Movement;
 public partial class Player
 {
     public float JumpSpeed = 4f;
+    private static readonly int JumpFlag = Animator.StringToHash("Jump");
 
     public class JumpingMoveState : MoveState
     {
@@ -20,11 +21,18 @@ public partial class Player
 
         protected override void OnEnter(MovementContext context)
         {
+            base.OnEnter(context);
             if ((context.collisionFlags & CollisionFlags.Below) != 0)
             {
                 context.velocity.y = player.JumpSpeed;
-                // TODO: set animation jump flag
+                animator.SetBool(JumpFlag, true);
             }
+        }
+
+        protected override void OnExit(MovementContext context)
+        {
+            base.OnExit(context);
+            animator.SetBool(JumpFlag, false);
         }
 
     }
