@@ -165,18 +165,12 @@ public class ActionGraph : EditorWindow
     {
         actionAsset.nodes.Clear();
         actionAsset.connections.Clear();
-        string actionAssetPath = AssetDatabase.GetAssetPath(actionAsset);
-        string directoryPath = Path.GetDirectoryName(actionAssetPath);
-        string nodesFolderPath = Path.Combine(directoryPath, "ActionGraphData");
-        if (!AssetDatabase.IsValidFolder(nodesFolderPath))
-            AssetDatabase.CreateFolder(directoryPath, "ActionGraphData");
         
-        foreach (var node in nodes)
+        foreach (var node in nodes) 
         {
-            string assetPath = $"{nodesFolderPath}/{actionAsset.name}_{node.Title}_{node.Position}.asset";
             if (!AssetDatabase.Contains(node.ScriptableObject))
             {
-                AssetDatabase.CreateAsset(node.ScriptableObject, assetPath);
+                AssetDatabase.AddObjectToAsset(node.ScriptableObject, actionAsset);
             }
             
             ActionAsset.NodeData nodeData = new ActionAsset.NodeData
