@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,11 @@ public class GameEffect : ScriptableObject
 
     public void Execute(GameEffectContext context)
     {
-        foreach (var behavior in behaviors)
-            behavior.Execute(context);
+        GameEffectSystem.Execute(behaviors, context);
+    }
+
+    public IEnumerator ExecuteCoroutine(GameEffectContext context)
+    {
+        yield return GameEffectSystem.ExecuteCoroutine(this, context);
     }
 }
