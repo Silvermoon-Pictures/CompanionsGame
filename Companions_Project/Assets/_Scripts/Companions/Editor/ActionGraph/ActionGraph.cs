@@ -79,11 +79,14 @@ public class ActionGraph : EditorWindow
     
     private bool isDraggingConnection = false;
     
+    private static string strActionAssetPathKey = "ActionAssetPath";
+    
     public static void ShowWindow(ActionAsset actionAsset)
     {
+        PlayerPrefs.SetString(strActionAssetPathKey, AssetDatabase.GetAssetPath(actionAsset));
+        
         ActionGraph window = GetWindow<ActionGraph>("Action Graph");
         window.actionAsset = actionAsset;
-        window.LoadGraphData();
         window.Show();
     }
 
@@ -94,6 +97,16 @@ public class ActionGraph : EditorWindow
         {
             contextActions.Add((systemType, attribute));
         }
+
+
+        string actionAssetPath = PlayerPrefs.GetString(strActionAssetPathKey, string.Empty);
+        if (string.IsNullOrEmpty(actionAssetPath)) 
+            return;
+        
+        if (actionAsset == null) 
+            actionAsset = AssetDatabase.LoadAssetAtPath<ActionAsset>(actionAssetPath);
+            
+        LoadGraphData();
     }
 
     private void OnDisable()
@@ -532,13 +545,11 @@ public class ActionGraph : EditorWindow
         float endX, endY;
         if (isEndNodeLeftCenter)
         {
-            // Calculate the end position to be the left center of the end node
             endX = endPosition.x * zoom + panOffset.x;
             endY = (endPosition.y + nodeHeight / 2) * zoom + panOffset.y;
         }
         else
         {
-            // Use the mouse position for the end position
             endX = endPosition.x * zoom + panOffset.x;
             endY = endPosition.y * zoom + panOffset.y;
         }
