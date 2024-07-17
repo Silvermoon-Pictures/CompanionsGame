@@ -10,11 +10,16 @@ namespace Silvermoon.Movement
     {
         Vector3 Direction { get; }
     }
-    
+
+    public interface ISpeedProvider
+    {
+        float GetSpeed();
+    }
+
     public class MovementComponent : MonoBehaviour
     {
         [field: SerializeField] private bool hasCustomInitialization;
-    
+
         [SerializeField]
         private float colliderRadius = 1f;
         [SerializeField]
@@ -31,33 +36,36 @@ namespace Silvermoon.Movement
         public float DefaultSpeed { get; private set; }
         public float Gravity = 9.81f;
         public float Drag = 1f;
-        
+
         private MovementRequest request;
         private MovementStateMachine stateMachine;
 
         private CharacterController characterController;
-        
+
         private Vector2 inputVector = Vector2.zero;
         private Vector3 velocity;
         public Vector3 Velocity => velocity;
         private CollisionFlags collisionFlags;
 
         private IDirectionProvider directionProvider;
+        private ISpeedProvider speedProvider;
 
         private void Awake()
         {
             characterController = GetComponent<CharacterController>();
             if (characterController == null)
                 characterController = gameObject.AddComponent<CharacterController>();
-            
+
             characterController.center = colliderCenter;
             characterController.radius = colliderRadius;
             characterController.height = colliderHeight;
             characterController.material = physicMaterial;
 
             Speed = Random.Range(RandomSpeed.x, RandomSpeed.y);
-            
+            DefaultSpeed = Speed;
+
             directionProvider = GetComponent(typeof(IDirectionProvider)) as IDirectionProvider;
+            speedProvider = GetComponent(typeof(ISpeedProvider)) as ISpeedProvider;
         }
 
         private void Start()
@@ -65,7 +73,7 @@ namespace Silvermoon.Movement
             if (!hasCustomInitialization)
                 stateMachine = MovementStateMachine.Make(this);
         }
-        
+
         public void Initialize(List<State> states)
         {
             stateMachine = MovementStateMachine.Make(this, states);
@@ -80,12 +88,13 @@ namespace Silvermoon.Movement
         private void Update()
         {
             Vector3 direction = directionProvider?.Direction ?? transform.forward;
-            
+            float speed = speedProvider?.GetSpeed() ?? Speed;
+
             var context = new MovementContext(Time.deltaTime)
             {
                 transform = transform,
                 input = inputVector,
-                speed = Speed,
+                speed = speed,
                 velocity = velocity,
                 collisionFlags = collisionFlags,
                 drag = Drag,
@@ -93,21 +102,26 @@ namespace Silvermoon.Movement
                 position = transform.position,
                 direction = direction,
             };
-            
+
             stateMachine.Transition(context);
             stateMachine.Update(context);
-            
+
+            collisionFlags = characterController.Move(context.velocity * Time.deltaTime);
+
             if (!characterController.isGrounded)
                 context.velocity.y -= Gravity * Time.deltaTime;
             else
-                context.velocity.y = 0f;
-            
-            collisionFlags = characterController.Move(context.velocity * Time.deltaTime);
+            {
+                // isGrounded check is not stable, often gives false negatives
+                // a workaround is to always have a small negative y velocity
+                context.velocity.y = -0.1f * Gravity;
+            }
+
             if (context.velocity.magnitude > float.Epsilon)
             {
                 onMovement?.Invoke();
             }
-            
+
             context.position = transform.position;
             stateMachine.PostUpdate(context);
             velocity = context.velocity;

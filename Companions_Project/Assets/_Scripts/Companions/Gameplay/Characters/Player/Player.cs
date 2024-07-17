@@ -1,23 +1,20 @@
-using System;
-using System.Collections.Generic;
 using Companions.Common;
 using Companions.Systems;
 using Silvermoon.Core;
-using Silvermoon.Movement;
 using UnityEngine;
 
 public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
 {
     private InputComponent inputComponent;
-    private PlayerCamera camera;
+    private PlayerCamera playerCamera;
     public Vector3 interactionOffset = new Vector3(0.5f, 1, 1f);
 
     private LiftableComponent currentLiftable;
-    
+
     private void OnEnable()
     {
         inputComponent = GetComponent<InputComponent>();
-        camera = GetComponentInChildren<PlayerCamera>();
+        playerCamera = GetComponentInChildren<PlayerCamera>();
         SetupMovement();
     }
 
@@ -40,7 +37,7 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
             return;
         }
 
-        if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out RaycastHit hit, 50))
+        if (!Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, 50))
             return;
         if (!hit.transform.TryGetComponent(out InteractionComponent interactionComponent))
             return;
@@ -50,4 +47,5 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
 
         interactionComponent.Interact(gameObject);
     }
+
 }
