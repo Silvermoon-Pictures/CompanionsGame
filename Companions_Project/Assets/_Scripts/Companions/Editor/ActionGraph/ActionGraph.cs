@@ -23,7 +23,6 @@ public class ActionAssetEditor : OdinEditor
 
 public class GraphNode
 {
-    public Type NodeType { get; set; }
     public Vector2 Position { get; set; }
     public string Title { get; set; }
     public SubactionNode ScriptableObject { get; set; }
@@ -32,9 +31,15 @@ public class GraphNode
     public GraphNode previousNode;
     public GraphNode nextNode;
 
-    public GraphNode(Type nodeType, Vector2 position, string title, SubactionNode scriptableObject)
+    public GUIStyle TitleStyle = new();
+
+    public bool isBeginningNode;
+
+    public delegate void DrawMethod();
+    public DrawMethod drawMethod;
+
+    public GraphNode(SubactionNode scriptableObject, Vector2 position, string title)
     {
-        NodeType = nodeType;
         Position = position;
         Title = title;
         ScriptableObject = scriptableObject;
@@ -80,7 +85,9 @@ public class ActionGraph : EditorWindow
     private bool isDraggingConnection = false;
     
     private static string strActionAssetPathKey = "ActionAssetPath";
-    
+    private GUIStyle defaultTitleStyle;
+    private GraphNode currentDrawnNode;
+
     public static void ShowWindow(ActionAsset actionAsset)
     {
         PlayerPrefs.SetString(strActionAssetPathKey, AssetDatabase.GetAssetPath(actionAsset));
@@ -97,6 +104,16 @@ public class ActionGraph : EditorWindow
         {
             contextActions.Add((systemType, attribute));
         }
+        
+        defaultTitleStyle = new GUIStyle
+        {
+            fontStyle = FontStyle.Bold,
+            fontSize = Mathf.CeilToInt(24 * zoom),
+            normal =
+            {
+                textColor = Color.white
+            }
+        };
 
 
         string actionAssetPath = PlayerPrefs.GetString(strActionAssetPathKey, string.Empty);
@@ -107,6 +124,11 @@ public class ActionGraph : EditorWindow
             actionAsset = AssetDatabase.LoadAssetAtPath<ActionAsset>(actionAssetPath);
             
         LoadGraphData();
+    }
+
+    private void OnBecameVisible()
+    {
+        
     }
 
     private void OnDisable()
@@ -139,9 +161,11 @@ public class ActionGraph : EditorWindow
         var beginningNodeData = actionAsset.beginningNode;
         if (beginningNodeData.data != null)
         {
-            Type nodeType = Type.GetType(actionAsset.beginningNode.nodeType);
-            GraphNode node = new GraphNode(nodeType, beginningNodeData.position, beginningNodeData.title, beginningNodeData.data);
+            GraphNode node = new GraphNode(beginningNodeData.data, beginningNodeData.position, beginningNodeData.title);
+            node.drawMethod = DrawBeginningNode;
+            node.isBeginningNode = true;
             beginningNode = node;
+            beginningNode.TitleStyle = beginningNodeData.titleStyle;
             nodes.Add(node);
         }
         else
@@ -149,14 +173,16 @@ public class ActionGraph : EditorWindow
             CreateBeginningNode();
         }
 
+
         CenterOnBeginningNode();
         
         foreach (var nodeData in actionAsset.nodes)
         {
             if (nodeData.data != null)
             {
-                Type nodeType = Type.GetType(nodeData.nodeType);
-                GraphNode node = new GraphNode(nodeType, nodeData.position, nodeData.title, nodeData.data);
+                GraphNode node = new GraphNode(nodeData.data, nodeData.position, nodeData.title);
+                node.TitleStyle = nodeData.titleStyle;
+                node.drawMethod = DrawNormalNode;
                 nodes.Add(node);
             }
         }
@@ -188,10 +214,10 @@ public class ActionGraph : EditorWindow
             
             ActionAsset.NodeData nodeData = new ActionAsset.NodeData
             {
-                nodeType = node.NodeType.AssemblyQualifiedName,
                 position = node.Position,
                 title = node.Title,
                 data = node.ScriptableObject,
+                titleStyle = node.TitleStyle
             };
 
             if (node.ScriptableObject == actionAsset.beginningNode.data)
@@ -395,9 +421,20 @@ public class ActionGraph : EditorWindow
         }
         else
         {
+            GUIStyle titleStyle = new()
+            {
+                alignment = TextAnchor.MiddleLeft,
+                fontSize = Mathf.CeilToInt(24 * zoom),
+                fontStyle = FontStyle.Bold,
+                normal =
+                {
+                    textColor = Color.white
+                }
+            };
             foreach (var (type, attribute) in contextActions)
             {
-                menu.AddItem(new GUIContent(attribute.contextName), false, () => AddNode(type, attribute.contextName, mousePosition));
+                menu.AddItem(new GUIContent(attribute.contextName), false, () => 
+                    AddNode(type, attribute.contextName, mousePosition, DrawNormalNode, titleStyle));
             }
         }
         
@@ -461,12 +498,14 @@ public class ActionGraph : EditorWindow
         startNode.ScriptableObject.nextNode = endNode.ScriptableObject;
     }
     
-    private GraphNode AddNode(Type nodeType, string nodeTitle, Vector2 pos)
+    private GraphNode AddNode(Type nodeType, string nodeTitle, Vector2 pos, GraphNode.DrawMethod drawMethod, GUIStyle titleStyle = null)
     {
         SubactionNode scriptableObject = CreateInstance(nodeType) as SubactionNode;
         if (scriptableObject != null)
         {
-            GraphNode node = new GraphNode(nodeType, pos, nodeTitle, scriptableObject);
+            GraphNode node = new GraphNode(scriptableObject, pos, nodeTitle);
+            node.TitleStyle = titleStyle;
+            node.drawMethod = drawMethod;
             nodes.Add(node);
             return node;
         }
@@ -484,19 +523,60 @@ public class ActionGraph : EditorWindow
 
     private void CreateBeginningNode()
     {
-        var beginningNode = AddNode(typeof(SubactionNode), "Start Node", new Vector2(160, 400));
+        GUIStyle titleStyle = new()
+        {
+            alignment = TextAnchor.MiddleCenter,
+            fontSize = Mathf.CeilToInt(48 * zoom),
+            fontStyle = FontStyle.Bold,
+            normal =
+            {
+                textColor = Color.white
+            }
+        };
+        var node = AddNode(
+            typeof(SubactionNode), 
+            "Start",
+            new Vector2(160, 400),
+            DrawBeginningNode,
+            titleStyle);
+        
         ActionAsset.NodeData nodeData = new ActionAsset.NodeData
         {
-            nodeType = beginningNode.NodeType.AssemblyQualifiedName,
-            position = beginningNode.Position,
-            title = beginningNode.Title,
-            data = beginningNode.ScriptableObject,
+            position = node.Position,
+            title = node.Title,
+            data = node.ScriptableObject,
         };
         actionAsset.beginningNode = nodeData;
+        beginningNode = node;
+        beginningNode.isBeginningNode = true;
     }
-    
+
+    private void DrawBeginningNode()
+    {
+        GUILayout.FlexibleSpace();
+        GUILayout.Label(currentDrawnNode.Title, currentDrawnNode.TitleStyle, GUILayout.ExpandWidth(true));
+        GUILayout.FlexibleSpace();
+    }
+
+    private void DrawNormalNode()
+    {
+        GUILayout.Label(currentDrawnNode.Title, currentDrawnNode.TitleStyle, GUILayout.ExpandWidth(true));
+
+        SerializedProperty iterator = currentDrawnNode.SerializedObject.GetIterator();
+        iterator.NextVisible(true);
+        currentDrawnNode.SerializedObject.Update();
+        while (iterator.NextVisible(false))
+        {
+            EditorGUILayout.PropertyField(iterator, true);
+        }
+            
+        currentDrawnNode.SerializedObject.ApplyModifiedProperties();
+    }
+
     private void DrawNode(GraphNode node)
     {
+        currentDrawnNode = node;
+        
         Rect nodeRect = CreateNodeRect(node);
         GUI.Box(nodeRect, String.Empty);
         
@@ -504,26 +584,7 @@ public class ActionGraph : EditorWindow
 
         if (node.SerializedObject != null)
         {
-            GUIStyle titleStyle = new GUIStyle(GUI.skin.label)
-            {
-                fontStyle = FontStyle.Bold,
-                fontSize = Mathf.CeilToInt(14 * zoom)
-            };
-            GUILayout.Label(node.Title, titleStyle, GUILayout.ExpandWidth(true));
-            
-            SerializedProperty iterator = node.SerializedObject.GetIterator();
-            iterator.NextVisible(true);
-            EditorGUI.BeginChangeCheck();
-            node.SerializedObject.Update();
-            while (iterator.NextVisible(false))
-            {
-                EditorGUILayout.PropertyField(iterator, true);
-            }
-
-            if (EditorGUI.EndChangeCheck())
-            {
-            }
-            node.SerializedObject.ApplyModifiedProperties();
+            node.drawMethod.Invoke();
         }
 
         GUILayout.EndArea();

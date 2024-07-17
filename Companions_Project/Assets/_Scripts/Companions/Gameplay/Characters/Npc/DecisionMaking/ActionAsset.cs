@@ -17,6 +17,7 @@ public class ActionAsset : SerializedScriptableObject
         public Vector2 position;
         public string title;
         public SubactionNode data;
+        public GUIStyle titleStyle;
     }
 
     [Serializable]
