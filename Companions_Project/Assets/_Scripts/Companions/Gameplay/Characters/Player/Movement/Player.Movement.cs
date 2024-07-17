@@ -23,7 +23,7 @@ public partial class Player : IDirectionProvider, ISpeedProvider
         movementComponent.Initialize(states);
     }
 
-    float ISpeedProvider.Speed()
+    float ISpeedProvider.GetSpeed()
     {
         if (inputComponent.SprintInput)
             return SprintSpeed;

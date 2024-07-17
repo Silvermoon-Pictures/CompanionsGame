@@ -13,7 +13,7 @@ namespace Silvermoon.Movement
 
     public interface ISpeedProvider
     {
-        float Speed();
+        float GetSpeed();
     }
 
     public class MovementComponent : MonoBehaviour
@@ -88,7 +88,7 @@ namespace Silvermoon.Movement
         private void Update()
         {
             Vector3 direction = directionProvider?.Direction ?? transform.forward;
-            float speed = speedProvider?.Speed() ?? Speed;
+            float speed = speedProvider?.GetSpeed() ?? Speed;
 
             var context = new MovementContext(Time.deltaTime)
             {

@@ -16,6 +16,7 @@ public partial class Player
         }
 
         protected override bool CanEnter(MovementContext context) => player.inputComponent.JumpTriggered;
+        public override bool CanExit(MovementContext context) => true;
 
         protected override void OnEnter(MovementContext context)
         {

@@ -45,15 +45,8 @@ public class InputComponent : MonoBehaviour
         JumpTriggered = true;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        if (JumpTriggered)
-            StartCoroutine(ConsumeJumpNextFrame());
-    }
-
-    IEnumerator ConsumeJumpNextFrame()
-    {
-        yield return null;
         JumpTriggered = false;
     }
 }
