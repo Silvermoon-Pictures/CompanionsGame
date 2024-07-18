@@ -22,8 +22,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
     private NpcFSM stateMachine;
 
     public bool HasAction => Action.actionData != null;
-    public bool ShouldMove { get; set; }
-    public bool ExecuteAction => HasAction && !ShouldMove && !WaitForTarget();
+    public bool ExecuteAction => HasAction && !WaitForTarget();
 
     internal NpcFSMContext stateMachineContext;
 
@@ -39,8 +38,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         stateMachine = NpcFSM.Make(this);
         
         SetupMovement();
-
-
         
         brain = new NpcBrain(this);
         Action = new NpcAction();
@@ -103,7 +100,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         stateMachineContext.dt = Time.deltaTime;
         stateMachineContext.velocity = MovementComponent.Velocity;
         stateMachineContext.executeAction = ExecuteAction;
-        stateMachineContext.shouldMove = ShouldMove;
         stateMachineContext.waitForTarget = WaitForTarget();
         
         stateMachine.Transition(stateMachineContext);
