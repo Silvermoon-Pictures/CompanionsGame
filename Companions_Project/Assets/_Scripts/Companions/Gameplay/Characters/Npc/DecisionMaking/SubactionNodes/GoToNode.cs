@@ -8,7 +8,8 @@ public class GoToNode : SubactionNode
     
     public override IEnumerator Execute(SubactionContext context)
     {
-        while ((context.npc.transform.position - context.target.transform.position).sqrMagnitude > stoppingDistance * stoppingDistance)
+        float stoppingDistanceSqr = stoppingDistance * stoppingDistance + 1;
+        while ((context.npc.transform.position - context.target.transform.position).sqrMagnitude > stoppingDistanceSqr)
         {
             context.npc.GoTo(context.target.transform.position, stoppingDistance);
             yield return null;
