@@ -78,15 +78,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         stateMachineContext.executeAction = true;
     }
 
-    private bool IsInTargetRange()
-    {
-        if (Action.target == null && !Action.randomPosition.HasValue)
-            return false;
-        
-        float distance = Vector3.Distance(Action.TargetPosition, transform.position);
-        return distance <= Action.actionData.Range;
-    }
-
     public void GoTo(Vector3 destination, float stoppingDistance)
     {
         stateMachineContext.targetPosition = destination;

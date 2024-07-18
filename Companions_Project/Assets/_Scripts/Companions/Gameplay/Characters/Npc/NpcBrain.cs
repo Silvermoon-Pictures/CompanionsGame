@@ -40,27 +40,8 @@ public class NpcBrain
         var filteredActions = FilterActions(context);
         selectedAction = ScoreActions(filteredActions, context);
         data.action = selectedAction;
-
         if (selectedAction != null)
-        {
-            if (!selectedAction.randomPosition)
-            {
-                data.target = FindTarget(selectedAction);
-            }
-            else
-            {
-                for (int i = 0; i < 50; i++)
-                {
-                    Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * selectedAction.radius;
-                    randomDirection += npc.transform.position;
-                    if (NavMesh.SamplePosition(randomDirection, out var hit, selectedAction.radius, NavMesh.AllAreas))
-                    {
-                        data.randomPosition = hit.position;
-                        break;
-                    }
-                }
-            }
-        }
+            data.target = FindTarget(selectedAction);
         
         return data;
     }

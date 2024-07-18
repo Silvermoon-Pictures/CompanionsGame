@@ -13,7 +13,6 @@ public class ActionAsset : SerializedScriptableObject
     [Serializable]
     public class NodeData
     {
-        public string nodeType;
         public Vector2 position;
         public string title;
         public SubactionNode data;
@@ -32,18 +31,10 @@ public class ActionAsset : SerializedScriptableObject
             endNodeIndex = end;
         }
     }
-
-    public bool randomPosition;
-    [ShowIf("randomPosition")] 
-    public float radius = 30f;
-    [ShowIf("@!randomPosition")] 
+    
     public List<ETargetType> targetTypes;
     [ShowIf("@targetTypes.Contains(ETargetType.Other)")] 
     public Identifier targetIdentifier;
-    [ShowIf("@targetTypes.Contains(ETargetType.Other)")] 
-    public bool waitForTarget = false;
-    
-    public float Range;
     
     [TitleGroup("Decision Making")]
     public List<WeightedConsideration> weightedConsiderations = new();
