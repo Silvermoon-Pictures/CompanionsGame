@@ -61,12 +61,12 @@ public class ActionAsset : SerializedScriptableObject
 
     public Queue<SubactionNode> SubactionQueue { get; private set; } = new();
 
-    private Queue<SubactionNode> FillSubactions()
+    private void FillSubactions()
     {
         if (beginningNode == null || beginningNode.data == null)
-            return SubactionQueue;
+            return;
         if (beginningNode.data.nextNode == null)
-            return SubactionQueue;
+            return;
         
         SubactionNode currentNodeData = beginningNode.data.nextNode;
         while (currentNodeData != null)
@@ -74,8 +74,6 @@ public class ActionAsset : SerializedScriptableObject
             SubactionQueue.Enqueue(currentNodeData);
             currentNodeData = currentNodeData.nextNode;
         }
-
-        return SubactionQueue;
     }
 
     private void OnEnable()
