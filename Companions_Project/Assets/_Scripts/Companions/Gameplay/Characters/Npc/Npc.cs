@@ -59,17 +59,23 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 
     public void Decide()
     {
-        Action.Reset();
-        
+        stateMachineContext.executeAction = false;
         var decisionData = brain.Decide();
-        if (decisionData.action == null || (decisionData.target == null && !decisionData.randomPosition.HasValue))
+        if (decisionData.action == null)
+            return;
+        if (HasAction && decisionData.action.name == Action.actionData.name)
+            return;
+        if (decisionData.target == null && !decisionData.randomPosition.HasValue)
             return;
 
+        Action.Reset();
         Action.actionData = decisionData.action;
         if (decisionData.target != null)
             Action.target = decisionData.target;
         else
             Action.randomPosition = decisionData.randomPosition;
+
+        stateMachineContext.executeAction = true;
     }
 
     private bool IsInTargetRange()
@@ -96,7 +102,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
     private void UpdateStateMachine()
     {
         stateMachineContext.dt = Time.deltaTime;
-        stateMachineContext.executeAction = ExecuteAction;
         
         stateMachine.Transition(stateMachineContext);
         stateMachine.Update(stateMachineContext);

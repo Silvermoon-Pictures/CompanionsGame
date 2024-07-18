@@ -13,6 +13,8 @@ namespace Companions.StateMachine
         private Npc.NpcAction currentAction;
 
         private GameEffectContext gameEffectContext;
+
+        private Coroutine actionCoroutine;
         
         public NpcActionState(Npc owner) : base(owner) { }
 
@@ -26,7 +28,7 @@ namespace Companions.StateMachine
             currentAction = owner.Action;
             
             timer = duration;
-            owner.StartCoroutine(ExecuteAction());
+            actionCoroutine = owner.StartCoroutine(ExecuteAction());
         }
 
         protected override void OnExit(NpcFSMContext context)
@@ -37,6 +39,8 @@ namespace Companions.StateMachine
             
             currentAction.EndAction();
             owner.Decide();
+            owner.StopCoroutine(actionCoroutine);
+            actionCoroutine = null;
         }
 
         private IEnumerator ExecuteAction()

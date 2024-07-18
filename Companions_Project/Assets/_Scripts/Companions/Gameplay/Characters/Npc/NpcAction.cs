@@ -17,8 +17,8 @@ public partial class Npc
 
         public void EndAction()
         {
-            actionData = null;
             actionEnded = true;
+            Subactions.Clear();
         }
 
         public void Reset()
