@@ -51,10 +51,10 @@ namespace Companions.StateMachine
             
             foreach (var subaction in currentAction.actionData.SubactionQueue)
             {
-                currentAction.Subactions.Enqueue(subaction);
+                currentAction.Subactions.Add(subaction);
             }
             
-            while (currentAction.Subactions.TryDequeue(out SubactionNode subaction))
+            foreach (var subaction in currentAction.Subactions)
             {
                 yield return subaction.Execute(context);
             }

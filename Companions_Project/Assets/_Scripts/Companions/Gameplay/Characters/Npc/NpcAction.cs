@@ -13,7 +13,7 @@ public partial class Npc
         public Vector3 TargetPosition => target != null ? target.transform.position : randomPosition.Value;
         public Vector3? randomPosition;
         public bool actionEnded;
-        public Queue<SubactionNode> Subactions = new();
+        public List<SubactionNode> Subactions = new();
 
         public void EndAction()
         {
