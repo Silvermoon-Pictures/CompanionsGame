@@ -1,3 +1,4 @@
+using Companions.StateMachine;
 using Silvermoon.Movement;
 using UnityEngine;
 using UnityEngine.AI;
@@ -13,13 +14,19 @@ public partial class Npc
         private bool enter;
         
         private NavMeshPath path;
+        private NpcFSMContext fsmContext;
         
-        public WalkingMoveState(MovementComponent owner, NavMeshAgent navMeshAgent) : base(owner)
+        public WalkingMoveState(MovementComponent owner, NavMeshAgent navMeshAgent, NpcFSMContext fsmContext) : base(owner)
         {
             this.navMeshAgent = navMeshAgent;
             npc = owner.GetComponent<Npc>();
             path = new NavMeshPath();
+            this.fsmContext = fsmContext;
         }
+        
+        protected override bool CanEnter(MovementContext context) => (navMeshAgent.destination - fsmContext.targetPosition).sqrMagnitude > 0.3f;
+        public override bool CanExit(MovementContext context) => navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance + float.Epsilon 
+                                                                 || navMeshAgent.isStopped;
 
         public void UpdateDestination(Vector3 position)
         {
@@ -30,28 +37,29 @@ public partial class Npc
         {
             base.OnEnter(context);
             
+            navMeshAgent.SetDestination(fsmContext.targetPosition);
+            navMeshAgent.stoppingDistance = fsmContext.stoppingDistance;
             navMeshAgent.isStopped = false;
+            navMeshAgent.speed = context.speed;
         }
 
         protected override void OnExit(MovementContext context)
         {
             base.OnExit(context);
             
-            npc.OnReachedTarget();
+            navMeshAgent.ResetPath();
+            navMeshAgent.isStopped = true;
         }
-
-        protected override bool CanEnter(MovementContext context) => npc.ShouldMove;
-        public override bool CanExit(MovementContext context) => npc.IsInTargetRange();
 
 
         protected override void Update(MovementContext context)
         {
             base.Update(context);
             
-            navMeshAgent.CalculatePath(npc.Action.TargetPosition, path);
-            navMeshAgent.SetPath(path);
+            if(CanEnter(context))
+                OnEnter(context);
 
-            context.velocity = navMeshAgent.velocity.normalized * context.speed;
+            context.velocity = navMeshAgent.velocity;
         }
         
         protected override void PostUpdate(MovementContext context)

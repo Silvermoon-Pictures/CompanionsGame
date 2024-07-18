@@ -25,15 +25,22 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
     public bool ShouldMove { get; set; }
     public bool ExecuteAction => HasAction && !ShouldMove && !WaitForTarget();
 
-    private NpcFSMContext stateMachineContext;
+    internal NpcFSMContext stateMachineContext;
 
     private void Awake()
     {
         MovementComponent = GetComponent<MovementComponent>();
-        SetupMovement();
+        stateMachineContext = new(0f)
+        {
+            animator = GetComponentInChildren<Animator>(),
+            targetPosition = transform.position
+        };
+        
         stateMachine = NpcFSM.Make(this);
-        stateMachineContext = new(0f);
-        stateMachineContext.animator = GetComponentInChildren<Animator>();
+        
+        SetupMovement();
+
+
         
         brain = new NpcBrain(this);
         Action = new NpcAction();
@@ -42,11 +49,11 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         Instantiate(visual, transform);
     }
 
-    void ICompanionComponent.WorldLoaded()
+    void Start()
     {
         if (NpcData == null)
             throw new DesignException($"NpcData on {name} is not set!");
-
+        
         Decide();
     }
 
@@ -60,11 +67,9 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 
         Action.actionData = decisionData.action;
         if (decisionData.target != null)
-            Action.target = ((Component)decisionData.target).gameObject;
+            Action.target = decisionData.target;
         else
             Action.randomPosition = decisionData.randomPosition;
-        
-        ShouldMove = !IsInTargetRange() && !Action.WaitForTarget;
     }
 
     private bool IsInTargetRange()
@@ -76,20 +81,15 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         return distance <= Action.actionData.Range;
     }
 
+    public void GoTo(Vector3 destination, float stoppingDistance)
+    {
+        stateMachineContext.targetPosition = destination;
+        stateMachineContext.stoppingDistance = stoppingDistance;
+    }
+
     private bool WaitForTarget()
     {
         return Action.IsValid && Action.WaitForTarget && !IsInTargetRange();
-    }
-
-    public GameEffectContext CreateContext()
-    {
-        var context = new GameEffectContext()
-        {
-            instigator = gameObject,
-            target = Action.target
-        };
-
-        return context;
     }
 
     private void Update()
@@ -120,10 +120,5 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
     {
         liftableComponent.transform.position = transform.position + 5 * transform.forward;
         liftableComponent.transform.SetParent(transform);
-    }
-
-    private void OnReachedTarget()
-    {
-        ShouldMove = false;
     }
 }

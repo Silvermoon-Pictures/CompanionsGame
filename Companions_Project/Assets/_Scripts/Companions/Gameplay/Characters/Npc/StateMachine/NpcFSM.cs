@@ -14,7 +14,6 @@ namespace Companions.StateMachine
             {
                 new NpcActionState(owner),
                 new NpcWaitForTargetState(owner),
-                new NpcWalkState(owner),
                 new NpcFreeState(owner)
             };
 
@@ -33,6 +32,8 @@ namespace Companions.StateMachine
         public bool executeAction;
         public bool shouldMove;
         public bool waitForTarget;
+        public Vector3 targetPosition;
+        public float stoppingDistance;
         public Animator animator;
 
         public NpcFSMContext(float deltaTime) : base(deltaTime)

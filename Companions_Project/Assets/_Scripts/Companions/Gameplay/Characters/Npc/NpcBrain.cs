@@ -13,7 +13,7 @@ public interface IAvailablity
 public class ActionDecisionData
 {
     public ActionAsset action;
-    public ICoreComponent target;
+    public GameObject target;
     public Vector3? randomPosition;
 }
 
@@ -65,12 +65,17 @@ public class NpcBrain
         return data;
     }
 
-    private ICoreComponent FindTarget(ActionAsset action)
+    // TODO Omer: Move target acquisition into its own node
+    private GameObject FindTarget(ActionAsset action)
     {
         if (action.targetTypes.Contains(ETargetType.Self))
-            return npc;
+            return npc.gameObject;
         
-        return ComponentSystem.GetClosestTarget(typeof(ICoreComponent), npc.transform.position, filter: FilterTargets);
+        Component comp = ComponentSystem.GetClosestTarget(typeof(ICoreComponent), npc.transform.position, filter: FilterTargets) as Component;
+        if (comp == null)
+            return null;
+        
+        return comp.gameObject;
     }
 
     private bool FilterTargets(Component component)
@@ -83,10 +88,6 @@ public class NpcBrain
 
         if (!identifierComponent.identifiers.Contains(selectedAction.targetIdentifier))
             return false;
-        
-        if (component.TryGetComponent(out IAvailablity availability))
-            if (!availability.IsAvailable(npc.gameObject))
-                return false;
 
         return true;
     }
