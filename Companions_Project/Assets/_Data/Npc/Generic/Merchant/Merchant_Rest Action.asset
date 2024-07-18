@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-113933559790949835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dd31d6876e6e964e9423fe6c77f2740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextNode: {fileID: 0}
+  deplete: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +186,7 @@ MonoBehaviour:
   radius: 30
   targetTypes: 00000000
   targetIdentifier:
-    identifier: Rock
+    identifier: RestingCarpet
   waitForTarget: 0
   Range: 0
   beginningNode:
@@ -249,9 +263,9 @@ MonoBehaviour:
       m_StretchHeight: 0
   nodes:
   - nodeType: 
-    position: {x: 515, y: 396}
+    position: {x: 525, y: 401}
     title: Go To
-    data: {fileID: 2825035927968624133}
+    data: {fileID: 2852908340825501619}
     titleStyle:
       m_Name: 
       m_Normal:
@@ -320,9 +334,9 @@ MonoBehaviour:
       m_StretchWidth: 1
       m_StretchHeight: 0
   - nodeType: 
-    position: {x: 870, y: 403}
-    title: Play Animation
-    data: {fileID: 1732893642332356125}
+    position: {x: 863, y: 400}
+    title: Alter Stamina
+    data: {fileID: -113933559790949835}
     titleStyle:
       m_Name: 
       m_Normal:
@@ -395,22 +409,7 @@ MonoBehaviour:
     endNodeIndex: 1
   - startNodeIndex: 1
     endNodeIndex: 2
---- !u!114 &1732893642332356125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e1f35a9142c55e41ac2581ef76ef305, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextNode: {fileID: 0}
-  animation: {fileID: 0}
-  triggerName: TriggerIdle
---- !u!114 &2825035927968624133
+--- !u!114 &2852908340825501619
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -422,8 +421,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14a00e9526436694094f510095d846fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextNode: {fileID: 1732893642332356125}
-  stoppingDistance: 2
+  nextNode: {fileID: -113933559790949835}
+  stoppingDistance: 1
+  lookAtPoint:
+    identifier: None
 --- !u!114 &3949733929911662384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -436,4 +437,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aedda3ed5190b1c4ea4ac9155657f9ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextNode: {fileID: 2825035927968624133}
+  nextNode: {fileID: 2852908340825501619}
