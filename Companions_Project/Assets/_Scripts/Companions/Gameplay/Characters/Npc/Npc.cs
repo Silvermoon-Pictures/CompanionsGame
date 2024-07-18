@@ -28,6 +28,9 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 
     private void Awake()
     {
+        GameObject visual = visualPrefabs[UnityEngine.Random.Range(0, visualPrefabs.Count)];
+        Instantiate(visual, transform);
+        
         MovementComponent = GetComponent<MovementComponent>();
         stateMachineContext = new(0f)
         {
@@ -41,9 +44,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         
         brain = new NpcBrain(this);
         Action = new NpcAction();
-
-        GameObject visual = visualPrefabs[UnityEngine.Random.Range(0, visualPrefabs.Count)];
-        Instantiate(visual, transform);
     }
 
     void Start()
