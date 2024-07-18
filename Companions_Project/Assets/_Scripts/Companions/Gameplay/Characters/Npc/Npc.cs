@@ -23,7 +23,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
     private NpcFSM stateMachine;
 
     public bool HasAction => Action.actionData != null;
-    public bool ExecuteAction => HasAction && !WaitForTarget();
+    public bool ExecuteAction => HasAction;
 
     internal NpcFSMContext stateMachineContext;
     internal DictionaryComponent dictionaryComponent;
@@ -87,11 +87,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         stateMachineContext.stoppingDistance = stoppingDistance;
     }
 
-    private bool WaitForTarget()
-    {
-        return Action.IsValid && Action.WaitForTarget && !IsInTargetRange();
-    }
-
     private void Update()
     {
         UpdateAnimations();
@@ -101,9 +96,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
     private void UpdateStateMachine()
     {
         stateMachineContext.dt = Time.deltaTime;
-        stateMachineContext.velocity = MovementComponent.Velocity;
         stateMachineContext.executeAction = ExecuteAction;
-        stateMachineContext.waitForTarget = WaitForTarget();
         
         stateMachine.Transition(stateMachineContext);
         stateMachine.Update(stateMachineContext);
