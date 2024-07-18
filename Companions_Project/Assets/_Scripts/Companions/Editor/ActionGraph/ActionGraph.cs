@@ -403,8 +403,10 @@ public class ActionGraph : EditorWindow
         nodes.Remove(clickedNode);
         if (clickedNode.ScriptableObject != null)
         {
-            string assetPath = AssetDatabase.GetAssetPath(clickedNode.ScriptableObject);
-            AssetDatabase.DeleteAsset(assetPath);
+            AssetDatabase.RemoveObjectFromAsset(clickedNode.ScriptableObject);
+            DestroyImmediate(clickedNode.ScriptableObject, true);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
         
         actionAsset.nodes.RemoveAll(n => n.title == clickedNode.Title && n.position == clickedNode.Position);
