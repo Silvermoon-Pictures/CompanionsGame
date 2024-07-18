@@ -59,7 +59,7 @@ PrefabInstance:
     - target: {fileID: 3046271143669374525, guid: 600bad5b6a6fb3c42955c7940b24f738,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.36
+      value: -0.261
       objectReference: {fileID: 0}
     - target: {fileID: 3046271143669374525, guid: 600bad5b6a6fb3c42955c7940b24f738,
         type: 3}
@@ -69,7 +69,7 @@ PrefabInstance:
     - target: {fileID: 3046271143669374525, guid: 600bad5b6a6fb3c42955c7940b24f738,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -30.65
+      value: -31.817
       objectReference: {fileID: 0}
     - target: {fileID: 3046271143669374525, guid: 600bad5b6a6fb3c42955c7940b24f738,
         type: 3}
@@ -144,7 +144,7 @@ PrefabInstance:
     - target: {fileID: 4198765365414010916, guid: 600bad5b6a6fb3c42955c7940b24f738,
         type: 3}
       propertyPath: colliderCenter.y
-      value: 1.08
+      value: 1.075
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -154,6 +154,10 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1590132896070631788}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3562871609498577617, guid: 600bad5b6a6fb3c42955c7940b24f738,
+        type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 6479282763857762655}
     - targetCorrespondingSourceObject: {fileID: 3562871609498577617, guid: 600bad5b6a6fb3c42955c7940b24f738,
         type: 3}
       insertIndex: -1
@@ -179,6 +183,22 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4638358721752134439}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6479282763857762655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8155770936820390390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a2e15744b405f841b70d9addb53b775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dictionaryEntries:
+  - key:
+      identifier: MerchantSpot
+    value: {fileID: 0}
 --- !u!114 &4798577142209758702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,12 +212,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxStamina: 50
-  depletionRate: 1
+  currentStamina: 100
+  depletionRate: 2
+  regenerationRate: 1
   exhaustionThreshold: 10
-  coolOffThreshold: 30
-  increaseRate: 1
-  depleteWhenIdle: 1
-  stamina: 0
+  coolOffThreshold: 50
+  depleteWhenMoving: 1
 --- !u!114 &5036860712009740338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +265,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7644937168744443162}
     m_Modifications:
+    - target: {fileID: 961532493353954826, guid: f95c59948a3c4184f8928ffc769e5df3,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 177d67dedc72bc54781ebe7d5194ff8e, type: 2}
     - target: {fileID: 5833270706935574218, guid: f95c59948a3c4184f8928ffc769e5df3,
         type: 3}
       propertyPath: m_Name
@@ -258,7 +283,7 @@ PrefabInstance:
     - target: {fileID: 6609068057759741040, guid: f95c59948a3c4184f8928ffc769e5df3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0173
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6609068057759741040, guid: f95c59948a3c4184f8928ffc769e5df3,
         type: 3}
