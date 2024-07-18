@@ -6,12 +6,13 @@ using Silvermoon.Core;
 using Silvermoon.Movement;
 using Silvermoon.Utils;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 {
     [field: SerializeField]
     public NpcData NpcData { get; private set; }
-
+    
     public List<GameObject> visualPrefabs;
         
     private NpcBrain brain;
@@ -25,13 +26,15 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
     public bool ExecuteAction => HasAction && !WaitForTarget();
 
     internal NpcFSMContext stateMachineContext;
+    internal DictionaryComponent dictionaryComponent;
 
     private void Awake()
     {
-        GameObject visual = visualPrefabs[UnityEngine.Random.Range(0, visualPrefabs.Count)];
-        Instantiate(visual, transform);
+        // GameObject visual = visualPrefabs[UnityEngine.Random.Range(0, visualPrefabs.Count)];
+        // Instantiate(visual, transform);
         
         MovementComponent = GetComponent<MovementComponent>();
+        dictionaryComponent = GetComponent<DictionaryComponent>();
         stateMachineContext = new(0f)
         {
             animator = GetComponentInChildren<Animator>(),

@@ -6,6 +6,7 @@ public class SubactionContext
     public Npc npc;
     public Animator animator;
     public GameObject target;
+    public DictionaryComponent dictionaryComponent;
 }
 
 public class SubactionNode : ScriptableObject

@@ -46,6 +46,7 @@ namespace Companions.StateMachine
                 npc = owner,
                 target = currentAction.target,
                 animator = owner.GetComponentInChildren<Animator>(),
+                dictionaryComponent = owner.dictionaryComponent
             };
             
             foreach (var subaction in currentAction.actionData.SubactionQueue)
