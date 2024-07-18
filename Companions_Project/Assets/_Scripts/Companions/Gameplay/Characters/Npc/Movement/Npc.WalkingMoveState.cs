@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public partial class Npc
 {
+    private static readonly int IsMoving = Animator.StringToHash("isMoving");
+    private static readonly int Speed = Animator.StringToHash("Speed");
+
     public class WalkingMoveState : MoveState
     {
         private NavMeshAgent navMeshAgent;
@@ -15,7 +18,9 @@ public partial class Npc
         
         private NavMeshPath path;
         private NpcFSMContext fsmContext;
-        
+        Vector3 previousPosition;
+        private const float threshold = 0.01f;
+
         public WalkingMoveState(MovementComponent owner, NavMeshAgent navMeshAgent, NpcFSMContext fsmContext) : base(owner)
         {
             this.navMeshAgent = navMeshAgent;
@@ -24,7 +29,7 @@ public partial class Npc
             this.fsmContext = fsmContext;
         }
         
-        protected override bool CanEnter(MovementContext context) => (navMeshAgent.destination - fsmContext.targetPosition).sqrMagnitude > 0.3f;
+        protected override bool CanEnter(MovementContext context) => (navMeshAgent.destination - fsmContext.targetPosition).sqrMagnitude > fsmContext.stoppingDistance * fsmContext.stoppingDistance;
         public override bool CanExit(MovementContext context) => navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance + float.Epsilon 
                                                                  || navMeshAgent.isStopped;
 
@@ -41,6 +46,7 @@ public partial class Npc
             navMeshAgent.stoppingDistance = fsmContext.stoppingDistance;
             navMeshAgent.isStopped = false;
             navMeshAgent.speed = context.speed;
+            fsmContext.animator.SetBool(IsMoving, true);
         }
 
         protected override void OnExit(MovementContext context)
@@ -49,6 +55,7 @@ public partial class Npc
             
             navMeshAgent.ResetPath();
             navMeshAgent.isStopped = true;
+            fsmContext.animator.SetBool(IsMoving, false);
         }
 
 
