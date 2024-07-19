@@ -6,6 +6,7 @@ using UnityEditor.Experimental.GraphView;
 public class ActionGraphEditorNode : Node
 {
     private ActionGraphNode node;
+    public ActionGraphNode Node => node;
     public ActionGraphEditorNode(ActionGraphNode node)
     {
         this.node = node;
@@ -24,5 +25,10 @@ public class ActionGraphEditorNode : Node
         }
         
         name = typeInfo.Name;
+    }
+
+    public void SavePosition()
+    {
+        node.SetPosition(GetPosition());
     }
 }

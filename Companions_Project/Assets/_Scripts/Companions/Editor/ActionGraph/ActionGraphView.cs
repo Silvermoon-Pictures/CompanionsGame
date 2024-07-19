@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -42,6 +43,46 @@ public class ActionGraphView : GraphView
         this.AddManipulator(new ClickSelector());
 
         DrawNodes();
+
+        graphViewChanged += OnGraphViewChangedEvent;
+    }
+
+    private GraphViewChange OnGraphViewChangedEvent(GraphViewChange graphViewChange)
+    {
+        if (graphViewChange.movedElements != null)
+        {
+            Undo.RecordObject(serializedObject.targetObject, "Node Moved");
+            foreach (ActionGraphEditorNode editorNode in graphViewChange.movedElements.OfType<ActionGraphEditorNode>())
+            {
+                editorNode.SavePosition();
+            }
+
+        }
+        
+        if (graphViewChange.elementsToRemove != null)
+        {
+            List<ActionGraphEditorNode> editorNodes = graphViewChange.elementsToRemove.OfType<ActionGraphEditorNode>().ToList();
+            if (editorNodes.Count > 0)
+            {
+                Undo.RecordObject(serializedObject.targetObject, "Node Removed");
+                for (int i = editorNodes.Count - 1; i >= 0; i--)
+                {
+                    RemoveNode(editorNodes[i]);
+                }
+            }
+        }
+
+        return graphViewChange;
+    }
+
+    private void RemoveNode(ActionGraphEditorNode editorNode)
+    {
+
+        actionAsset.GraphNodes.Remove(editorNode.Node);
+        nodeDictionary.Remove(editorNode.Node.Id);
+        graphNodes.Remove(editorNode);
+        serializedObject.Update();
+        
     }
 
     private void DrawNodes()
@@ -60,7 +101,7 @@ public class ActionGraphView : GraphView
 
     public void Add(ActionGraphNode node)
     {
-        Undo.RecordObject(serializedObject.targetObject, "Added Node");
+        Undo.RecordObject(serializedObject.targetObject, "Node Added");
         actionAsset.GraphNodes.Add(node);
         
         serializedObject.Update();
