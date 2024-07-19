@@ -1,7 +1,10 @@
+using System;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEditor.Callbacks;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 [CustomEditor(typeof(ActionAsset))]
 public class ActionAssetEditor : OdinEditor
@@ -61,16 +64,36 @@ public class ActionGraph : EditorWindow
             DrawGraph();
     }
 
+    private void OnDisable()
+    {
+        
+    }
+
     public void Load(ActionAsset asset) 
     {
         actionAsset = asset;
         DrawGraph();
     }
 
+    private void OnGUI()
+    {
+        if (actionAsset == null)
+            return;
+
+        hasUnsavedChanges = EditorUtility.IsDirty(actionAsset);
+    }
+
     private void DrawGraph()
     {
         serializedObject = new(actionAsset);
         currentView = new ActionGraphView(serializedObject, this);
+        currentView.graphViewChanged += OnChange;
         rootVisualElement.Add(currentView);
+    }
+
+    private GraphViewChange OnChange(GraphViewChange graphviewchange)
+    {
+        EditorUtility.SetDirty(actionAsset);
+        return graphviewchange;
     }
 }
