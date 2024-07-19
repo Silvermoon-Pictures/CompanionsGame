@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ActionGraphNode
 {
+    public EventNodeType eventNodeType;
     public Vector2 Position { get; set; }
     public string Title { get; set; }
     public SubactionNode ScriptableObject { get; set; }
