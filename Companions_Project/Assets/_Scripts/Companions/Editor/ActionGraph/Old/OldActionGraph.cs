@@ -144,19 +144,6 @@ public class OldActionGraph : EditorWindow
             }
         }
         
-        var exitNodeData = actionAsset.exitNode;
-        if (exitNodeData.data != null)
-        {
-            OldActionGraphNode node = new OldActionGraphNode(exitNodeData.data, exitNodeData.position, exitNodeData.title);
-            node.drawMethod = DrawEventNode;
-            node.TitleStyle = exitNodeData.titleStyle;
-            nodes.Add(node);
-        }
-        else
-        {
-            CreateEventNode("Exit", new Vector2(160, 0));
-        }
-        
         foreach (var connectionData in actionAsset.connections)
         {
             if (connectionData.startNodeIndex >= 0 && connectionData.startNodeIndex < nodes.Count &&
