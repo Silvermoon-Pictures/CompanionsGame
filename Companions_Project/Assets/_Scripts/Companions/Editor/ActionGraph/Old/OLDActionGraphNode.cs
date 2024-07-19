@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public class ActionGraphNode
+public class OldActionGraphNode
 {
     public EventNodeType eventNodeType;
     public Vector2 Position { get; set; }
@@ -9,8 +9,8 @@ public class ActionGraphNode
     public SubactionNode ScriptableObject { get; set; }
     public SerializedObject SerializedObject { get; set; }
 
-    public ActionGraphNode previousNode;
-    public ActionGraphNode nextNode;
+    public OldActionGraphNode previousNode;
+    public OldActionGraphNode nextNode;
 
     public GUIStyle TitleStyle = new();
 
@@ -19,7 +19,7 @@ public class ActionGraphNode
     public delegate void DrawMethod();
     public DrawMethod drawMethod;
 
-    public ActionGraphNode(SubactionNode scriptableObject, Vector2 position, string title)
+    public OldActionGraphNode(SubactionNode scriptableObject, Vector2 position, string title)
     {
         Position = position;
         Title = title;
@@ -30,10 +30,10 @@ public class ActionGraphNode
 
 public class NodeConnection
 {
-    public ActionGraphNode StartNode { get; private set; }
-    public ActionGraphNode EndNode { get; private set; }
+    public OldActionGraphNode StartNode { get; private set; }
+    public OldActionGraphNode EndNode { get; private set; }
 
-    public NodeConnection(ActionGraphNode startNode, ActionGraphNode endNode)
+    public NodeConnection(OldActionGraphNode startNode, OldActionGraphNode endNode)
     {
         StartNode = startNode;
         EndNode = endNode;

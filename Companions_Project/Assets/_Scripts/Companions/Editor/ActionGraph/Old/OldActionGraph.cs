@@ -15,15 +15,15 @@ public enum EventNodeType
 public class OldActionGraph : EditorWindow
 {
     public ActionAsset actionAsset;
-    private List<ActionGraphNode> nodes = new();
-    private Dictionary<EventNodeType, List<ActionGraphNode>> nodeChains = new();
+    private List<OldActionGraphNode> nodes = new();
+    private Dictionary<EventNodeType, List<OldActionGraphNode>> nodeChains = new();
     private List<NodeConnection> connections = new();
     private List<(Type, ActionGraphContextAttribute)> contextActions = new();
-    private ActionGraphNode selectedStartNode;
+    private OldActionGraphNode selectedStartNode;
 
-    private ActionGraphNode beginningNode;
+    private OldActionGraphNode beginningNode;
     
-    private ActionGraphNode selectedNode;
+    private OldActionGraphNode selectedNode;
     private Vector2 offset;
 
     private const int nodeWidth = 300;
@@ -40,7 +40,7 @@ public class OldActionGraph : EditorWindow
     
     private static string strActionAssetPathKey = "ActionAssetPath";
     private GUIStyle defaultTitleStyle;
-    private ActionGraphNode currentDrawnNode;
+    private OldActionGraphNode currentDrawnNode;
 
     public static void ShowWindow(ActionAsset actionAsset)
     {
@@ -101,7 +101,7 @@ public class OldActionGraph : EditorWindow
         
     }
 
-    private void AddToChain(EventNodeType eventNodeType, ActionGraphNode node)
+    private void AddToChain(EventNodeType eventNodeType, OldActionGraphNode node)
     {
         if (!nodeChains.TryGetValue(eventNodeType, out var nodeChain))
             nodeChains.Add(eventNodeType, new());
@@ -119,7 +119,7 @@ public class OldActionGraph : EditorWindow
         var beginningNodeData = actionAsset.beginningNode;
         if (beginningNodeData.data != null)
         {
-            ActionGraphNode node = new ActionGraphNode(beginningNodeData.data, beginningNodeData.position, beginningNodeData.title);
+            OldActionGraphNode node = new OldActionGraphNode(beginningNodeData.data, beginningNodeData.position, beginningNodeData.title);
             node.drawMethod = DrawEventNode;
             node.isBeginningNode = true;
             beginningNode = node;
@@ -137,7 +137,7 @@ public class OldActionGraph : EditorWindow
         {
             if (nodeData.data != null)
             {
-                ActionGraphNode node = new ActionGraphNode(nodeData.data, nodeData.position, nodeData.title);
+                OldActionGraphNode node = new OldActionGraphNode(nodeData.data, nodeData.position, nodeData.title);
                 node.TitleStyle = nodeData.titleStyle;
                 node.drawMethod = DrawNormalNode;
                 nodes.Add(node);
@@ -147,7 +147,7 @@ public class OldActionGraph : EditorWindow
         var exitNodeData = actionAsset.exitNode;
         if (exitNodeData.data != null)
         {
-            ActionGraphNode node = new ActionGraphNode(exitNodeData.data, exitNodeData.position, exitNodeData.title);
+            OldActionGraphNode node = new OldActionGraphNode(exitNodeData.data, exitNodeData.position, exitNodeData.title);
             node.drawMethod = DrawEventNode;
             node.TitleStyle = exitNodeData.titleStyle;
             nodes.Add(node);
@@ -162,8 +162,8 @@ public class OldActionGraph : EditorWindow
             if (connectionData.startNodeIndex >= 0 && connectionData.startNodeIndex < nodes.Count &&
                 connectionData.endNodeIndex >= 0 && connectionData.endNodeIndex < nodes.Count)
             {
-                ActionGraphNode startNode = nodes[connectionData.startNodeIndex];
-                ActionGraphNode endNode = nodes[connectionData.endNodeIndex];
+                OldActionGraphNode startNode = nodes[connectionData.startNodeIndex];
+                OldActionGraphNode endNode = nodes[connectionData.endNodeIndex];
                 NodeConnection connection = new NodeConnection(startNode, endNode);
                 connections.Add(connection);
             }
@@ -239,7 +239,7 @@ public class OldActionGraph : EditorWindow
         {
             if (currentEvent.type == EventType.MouseUp && currentEvent.button == 0)
             {
-                ActionGraphNode endNode = GetNodeAtPosition(currentEvent.mousePosition);
+                OldActionGraphNode endNode = GetNodeAtPosition(currentEvent.mousePosition);
                 if (endNode != null && endNode != selectedStartNode)
                     EndConnection(endNode);
                 else
@@ -338,7 +338,7 @@ public class OldActionGraph : EditorWindow
         }
     }
     
-    private bool NodeHasConnections(ActionGraphNode node)
+    private bool NodeHasConnections(OldActionGraphNode node)
     {
         foreach (var connection in connections)
         {
@@ -352,7 +352,7 @@ public class OldActionGraph : EditorWindow
     
     
     
-    private void BreakNodeConnections(ActionGraphNode node)
+    private void BreakNodeConnections(OldActionGraphNode node)
     {
         connections.RemoveAll(connection => connection.StartNode == node || connection.EndNode == node);
     }
@@ -360,7 +360,7 @@ public class OldActionGraph : EditorWindow
     private void ShowContextMenu(Vector2 mousePosition)
     {
         GenericMenu menu = new GenericMenu();
-        ActionGraphNode clickedNode = GetNodeAtPosition(mousePosition);
+        OldActionGraphNode clickedNode = GetNodeAtPosition(mousePosition);
         
         if (clickedNode != null)
         {
@@ -411,7 +411,7 @@ public class OldActionGraph : EditorWindow
         menu.ShowAsContext();
     }
 
-    private void DeleteNode(ActionGraphNode clickedNode)
+    private void DeleteNode(OldActionGraphNode clickedNode)
     {
         nodes.Remove(clickedNode);
         if (clickedNode.ScriptableObject != null)
@@ -434,13 +434,13 @@ public class OldActionGraph : EditorWindow
         AssetDatabase.SaveAssets();
     }
 
-    private void StartConnection(ActionGraphNode node)
+    private void StartConnection(OldActionGraphNode node)
     {
         selectedStartNode = node;
         isDraggingConnection = true;
     }
 
-    private void EndConnection(ActionGraphNode node)
+    private void EndConnection(OldActionGraphNode node)
     {
         if (selectedStartNode != null && node != null && selectedStartNode != node)
         {
@@ -450,7 +450,7 @@ public class OldActionGraph : EditorWindow
         isDraggingConnection = false;
     }
 
-    private ActionGraphNode GetNodeAtPosition(Vector2 pos)
+    private OldActionGraphNode GetNodeAtPosition(Vector2 pos)
     {
         foreach (var node in nodes)
         {
@@ -461,7 +461,7 @@ public class OldActionGraph : EditorWindow
         return null;
     }
 
-    private void CreateConnection(ActionGraphNode startNode, ActionGraphNode endNode)
+    private void CreateConnection(OldActionGraphNode startNode, OldActionGraphNode endNode)
     {
         connections.RemoveAll(connection => connection.EndNode == endNode);
         
@@ -470,12 +470,12 @@ public class OldActionGraph : EditorWindow
         startNode.ScriptableObject.nextNode = endNode.ScriptableObject;
     }
     
-    private ActionGraphNode AddNode(Type nodeType, string nodeTitle, Vector2 pos, ActionGraphNode.DrawMethod drawMethod, GUIStyle titleStyle = null)
+    private OldActionGraphNode AddNode(Type nodeType, string nodeTitle, Vector2 pos, OldActionGraphNode.DrawMethod drawMethod, GUIStyle titleStyle = null)
     {
         SubactionNode scriptableObject = CreateInstance(nodeType) as SubactionNode;
         if (scriptableObject != null)
         {
-            ActionGraphNode node = new ActionGraphNode(scriptableObject, pos, nodeTitle);
+            OldActionGraphNode node = new OldActionGraphNode(scriptableObject, pos, nodeTitle);
             node.TitleStyle = titleStyle;
             node.drawMethod = drawMethod;
             nodes.Add(node);
@@ -486,7 +486,7 @@ public class OldActionGraph : EditorWindow
         return null;
     }
 
-    private Rect CreateNodeRect(ActionGraphNode node) 
+    private Rect CreateNodeRect(OldActionGraphNode node) 
     {
         float finalWidth = nodeWidth * zoom;
         float finalHeight = nodeHeight * zoom;
@@ -542,7 +542,7 @@ public class OldActionGraph : EditorWindow
         currentDrawnNode.SerializedObject.ApplyModifiedProperties();
     }
 
-    private void DrawNode(ActionGraphNode node)
+    private void DrawNode(OldActionGraphNode node)
     {
         currentDrawnNode = node;
         
@@ -567,7 +567,7 @@ public class OldActionGraph : EditorWindow
         }
     }
 
-    private void DrawConnection(ActionGraphNode startNode, Vector2 endPosition, bool isEndNodeLeftCenter = false)
+    private void DrawConnection(OldActionGraphNode startNode, Vector2 endPosition, bool isEndNodeLeftCenter = false)
     {
         float startX = (startNode.Position.x + nodeWidth) * zoom + panOffset.x;
         float startY = (startNode.Position.y + nodeHeight / 2) * zoom + panOffset.y;
