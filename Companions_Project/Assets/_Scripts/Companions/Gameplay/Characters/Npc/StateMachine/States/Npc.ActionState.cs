@@ -26,6 +26,7 @@ namespace Companions.StateMachine
             base.OnEnter(context);
 
             currentAction = owner.Action;
+            currentAction.actionData.Init();
             
             timer = duration;
             actionCoroutine = owner.StartCoroutine(ExecuteAction());
@@ -52,18 +53,25 @@ namespace Companions.StateMachine
                 animator = owner.GetComponentInChildren<Animator>(),
                 dictionaryComponent = owner.dictionaryComponent
             };
-            
-            foreach (var subaction in currentAction.actionData.SubactionQueue)
-            {
-                currentAction.Subactions.Add(subaction);
-            }
-            
-            foreach (var subaction in currentAction.Subactions)
-            {
-                yield return subaction.Execute(context);
-            }
+
+            ActionGraphNode startNode = currentAction.actionData.GetStartNode();
+            yield return ExecuteAction(startNode);
 
             ended = true;
+        }
+
+        private IEnumerator ExecuteAction(ActionGraphNode startNode)
+        {
+           var nextNode = startNode.ExecuteCoroutine();
+
+           while (nextNode.MoveNext())
+           {
+               if (!string.IsNullOrEmpty(nextNode.Current))
+               {
+                   ActionGraphNode node = currentAction.actionData.GetNode(nextNode.Current);
+                   yield return ExecuteAction(node);
+               }
+           }
         }
     }
 }

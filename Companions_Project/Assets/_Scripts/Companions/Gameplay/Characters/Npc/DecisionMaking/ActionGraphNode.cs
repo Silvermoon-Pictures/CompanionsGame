@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -25,5 +26,15 @@ public class ActionGraphNode
     public void SetPosition(Rect pos)
     {
         position = pos;
+    }
+
+    public virtual IEnumerator<string> ExecuteCoroutine()
+    {
+        yield return string.Empty;
+    }
+
+    public virtual string Execute()
+    {
+        return string.Empty;
     }
 }

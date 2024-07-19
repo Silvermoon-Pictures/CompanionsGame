@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Companions.Common;
 using Silvermoon.Core;
 using Sirenix.OdinInspector;
@@ -114,6 +115,32 @@ public class ActionAsset : SerializedScriptableObject
         }
 
         return true;
+    }
+
+    public ActionGraphNode GetStartNode()
+    {
+        StartNode[] startNodes = graphNodes.OfType<StartNode>().ToArray();
+        if (startNodes.Length == 0)
+            Debug.LogError($"There is no start node");
+        return startNodes[0];
+    }
+
+    public ActionGraphNode GetNode(string nextNodeCurrent)
+    {
+        if (nodeDictionary.TryGetValue(nextNodeCurrent, out var node))
+            return node;
+
+        return null;
+    }
+
+    private Dictionary<string, ActionGraphNode> nodeDictionary;
+    public void Init()
+    {
+        nodeDictionary = new();
+        foreach (var node in graphNodes)
+        {
+            nodeDictionary.Add(node.Id, node);
+        }
     }
 }
 
