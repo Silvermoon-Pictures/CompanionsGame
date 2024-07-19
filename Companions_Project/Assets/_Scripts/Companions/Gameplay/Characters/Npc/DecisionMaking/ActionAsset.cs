@@ -46,12 +46,16 @@ public class ActionAsset : SerializedScriptableObject
 
     [SerializeReference]
     private List<ActionGraphNode> graphNodes;
+    [SerializeField]
+    private List<ActionGraphConnection> connections;
 
     public List<ActionGraphNode> GraphNodes => graphNodes;
+    public List<ActionGraphConnection> Connections => connections;
 
     public ActionAsset()
     {
         graphNodes = new List<ActionGraphNode>();
+        connections = new List<ActionGraphConnection>();
     }
     
     [HideInInspector]
@@ -59,7 +63,7 @@ public class ActionAsset : SerializedScriptableObject
     [HideInInspector]
     public List<NodeData> nodes = new List<NodeData>();
     [HideInInspector]
-    public List<ConnectionData> connections = new List<ConnectionData>();
+    public List<ConnectionData> oldConnections = new List<ConnectionData>();
 
     public Queue<SubactionNode> SubactionQueue { get; private set; } = new();
     

@@ -144,7 +144,7 @@ public class OldActionGraph : EditorWindow
             }
         }
         
-        foreach (var connectionData in actionAsset.connections)
+        foreach (var connectionData in actionAsset.oldConnections)
         {
             if (connectionData.startNodeIndex >= 0 && connectionData.startNodeIndex < nodes.Count &&
                 connectionData.endNodeIndex >= 0 && connectionData.endNodeIndex < nodes.Count)
@@ -160,7 +160,7 @@ public class OldActionGraph : EditorWindow
     private void SaveGraphData()
     {
         actionAsset.nodes.Clear();
-        actionAsset.connections.Clear();
+        actionAsset.oldConnections.Clear();
         
         foreach (var node in nodes) 
         {
@@ -195,7 +195,7 @@ public class OldActionGraph : EditorWindow
             if (startNodeIndex >= 0 && endNodeIndex >= 0)
             {
                 ActionAsset.ConnectionData connectionData = new ActionAsset.ConnectionData(startNodeIndex, endNodeIndex);
-                actionAsset.connections.Add(connectionData);
+                actionAsset.oldConnections.Add(connectionData);
             }
         }
 

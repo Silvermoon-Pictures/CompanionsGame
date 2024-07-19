@@ -10,7 +10,8 @@ public class ActionGraphEditorNode : Node
     public ActionGraphNode Node => node;
 
     private Port outputPort;
-    private List<Port> ports; 
+    private List<Port> ports;
+    public List<Port> Ports => ports;
     
     public ActionGraphEditorNode(ActionGraphNode node)
     {

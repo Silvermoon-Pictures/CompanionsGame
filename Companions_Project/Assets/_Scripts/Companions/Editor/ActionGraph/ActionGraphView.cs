@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -43,8 +44,33 @@ public class ActionGraphView : GraphView
         this.AddManipulator(new ClickSelector());
 
         DrawNodes();
+        DrawConnections();
 
         graphViewChanged += OnGraphViewChangedEvent;
+    }
+
+    public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+    {
+        List<Port> allPorts = new();
+        List<Port> portList = new();
+        
+        foreach (var node in graphNodes)
+            allPorts.AddRange(node.Ports);
+
+        foreach (var p in allPorts)
+        {
+            if (p == startPort)
+                continue;
+            if (p.node == startPort.node)
+                continue;
+            if (p.direction == startPort.direction)
+                continue;
+            if (p.portType == startPort.portType)
+                portList.Add(p);
+        }
+
+
+        return portList;
     }
 
     private GraphViewChange OnGraphViewChangedEvent(GraphViewChange graphViewChange)
@@ -72,7 +98,29 @@ public class ActionGraphView : GraphView
             }
         }
 
+        if (graphViewChange.edgesToCreate != null)
+        {
+            Undo.RecordObject(serializedObject.targetObject, "Connections added");
+            foreach (Edge edge in graphViewChange.edgesToCreate)
+            {
+                CreateEdge(edge);
+            }
+        }
+
         return graphViewChange;
+    }
+
+    private void CreateEdge(Edge edge)
+    {
+        ActionGraphEditorNode inputNode = (ActionGraphEditorNode)edge.input.node;
+        int inputIndex = inputNode.Ports.IndexOf(edge.input);
+        ActionGraphEditorNode outputNode = (ActionGraphEditorNode)edge.output.node;       
+        int outputIndex = outputNode.Ports.IndexOf(edge.output);
+
+        ActionGraphConnection connection =
+            new ActionGraphConnection(inputNode.Node.Id, inputIndex, outputNode.Node.Id, outputIndex);
+        actionAsset.Connections.Add(connection);
+
     }
 
     private void RemoveNode(ActionGraphEditorNode editorNode)
@@ -91,6 +139,37 @@ public class ActionGraphView : GraphView
         {
             AddNodeToGraph(node);
         }
+    }
+    
+    private void DrawConnections()
+    {
+        if (actionAsset.Connections == null)
+            return;
+
+        foreach (var connection in actionAsset.Connections)
+        {
+            DrawConnection(connection);
+        }
+    }
+
+    private void DrawConnection(ActionGraphConnection connection)
+    {
+        ActionGraphEditorNode inputNode = GetNode(connection.inputPort.nodeId);
+        ActionGraphEditorNode outputNode = GetNode(connection.outputPort.nodeId);
+        if (inputNode == null || outputNode == null)
+            return;
+
+        Port inputPort = inputNode.Ports[connection.inputPort.portIndex];
+        Port outputPort = outputNode.Ports[connection.outputPort.portIndex];
+        Edge edge = inputPort.ConnectTo(outputPort);
+        AddElement(edge);
+    }
+
+    private ActionGraphEditorNode GetNode(string nodeId)
+    {
+        ActionGraphEditorNode node = null;
+        nodeDictionary.TryGetValue(nodeId, out node);
+        return node;
     }
 
     private void ShowSearchWindow(NodeCreationContext obj)
