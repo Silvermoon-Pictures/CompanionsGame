@@ -1,5 +1,21 @@
+using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
+
+[CustomEditor(typeof(ActionAsset))]
+public class ActionAssetEditor : OdinEditor
+{
+    public override void OnInspectorGUI()
+    {
+        if (GUILayout.Button("Open Action Graph"))
+        {
+            ActionAsset actionAsset = (ActionAsset)target;
+            ActionGraph.Open(actionAsset);
+        }
+
+        base.OnInspectorGUI();
+    }
+}
 
 public class ActionGraph : EditorWindow
 {
@@ -16,7 +32,7 @@ public class ActionGraph : EditorWindow
         }
 
         ActionGraph window = CreateWindow<ActionGraph>(typeof(ActionGraph), typeof(SceneView));
-        window.titleContent = new GUIContent($"{asset.name}", EditorGUIUtility.ObjectContent(null, typeof(ActionAsset)).image);
+        window.titleContent = new GUIContent($"{asset.name}", EditorGUIUtility.ObjectContent(asset, typeof(ActionAsset)).image);
         window.Load(asset);
     }
     
@@ -34,7 +50,7 @@ public class ActionGraph : EditorWindow
     private void DrawGraph()
     {
         serializedObject = new(actionAsset);
-        currentView = new ActionGraphView();
+        currentView = new ActionGraphView(serializedObject);
         rootVisualElement.Add(currentView);
     }
 }

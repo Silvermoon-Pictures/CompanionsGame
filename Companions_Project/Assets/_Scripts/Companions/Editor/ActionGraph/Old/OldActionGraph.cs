@@ -6,21 +6,6 @@ using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(ActionAsset))]
-public class ActionAssetEditor : OdinEditor
-{
-    public override void OnInspectorGUI()
-    {
-        if (GUILayout.Button("Open Action Graph"))
-        {
-            ActionAsset actionAsset = (ActionAsset)target;
-            OldActionGraph.ShowWindow(actionAsset);
-        }
-
-        base.OnInspectorGUI();
-    }
-}
-
 public enum EventNodeType
 {
     Start,
