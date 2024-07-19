@@ -4,7 +4,7 @@ using UnityEngine;
 
 public partial class Player : IDirectionProvider, ISpeedProvider
 {
-    public Vector3 Direction => playerCamera.transform.forward;
+    public Vector3 Direction => mainCamera.transform.forward;
 
     private MovementComponent movementComponent;
 
