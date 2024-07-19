@@ -15,6 +15,7 @@ public class ActionGraphView : GraphView
 
     public List<ActionGraphEditorNode> graphNodes;
     public Dictionary<string, ActionGraphEditorNode> nodeDictionary;
+    public Dictionary<Edge, ActionGraphConnection> connectionDictionary;
 
     private ActionGraphSearchProvider searchProvider;
     public ActionGraphView(SerializedObject serializedObject, ActionGraph window)
@@ -25,6 +26,7 @@ public class ActionGraphView : GraphView
 
         graphNodes = new();
         nodeDictionary = new();
+        connectionDictionary = new();
 
         searchProvider = ScriptableObject.CreateInstance<ActionGraphSearchProvider>();
         searchProvider.graph = this;
@@ -96,6 +98,11 @@ public class ActionGraphView : GraphView
                     RemoveNode(editorNodes[i]);
                 }
             }
+
+            foreach (Edge edge in graphViewChange.elementsToRemove.OfType<Edge>())
+            {
+                RemoveConnection(edge);
+            }
         }
 
         if (graphViewChange.edgesToCreate != null)
@@ -121,6 +128,15 @@ public class ActionGraphView : GraphView
             new ActionGraphConnection(inputNode.Node.Id, inputIndex, outputNode.Node.Id, outputIndex);
         actionAsset.Connections.Add(connection);
 
+    }
+
+    private void RemoveConnection(Edge edge)
+    {
+        if (connectionDictionary.TryGetValue(edge, out var connection))
+        {
+            actionAsset.Connections.Remove(connection);
+            connectionDictionary.Remove(edge);
+        }
     }
 
     private void RemoveNode(ActionGraphEditorNode editorNode)
@@ -163,6 +179,8 @@ public class ActionGraphView : GraphView
         Port outputPort = outputNode.Ports[connection.outputPort.portIndex];
         Edge edge = inputPort.ConnectTo(outputPort);
         AddElement(edge);
+
+        connectionDictionary.Add(edge, connection);
     }
 
     private ActionGraphEditorNode GetNode(string nodeId)
