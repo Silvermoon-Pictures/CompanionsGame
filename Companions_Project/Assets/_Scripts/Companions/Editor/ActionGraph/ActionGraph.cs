@@ -1,10 +1,24 @@
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 [CustomEditor(typeof(ActionAsset))]
 public class ActionAssetEditor : OdinEditor
 {
+    [OnOpenAsset]
+    public static bool OnOpenAsset(int instanceId, int index)
+    {
+        Object asset = EditorUtility.InstanceIDToObject(instanceId);
+        if (asset.GetType() == typeof(ActionAsset))
+        {
+            ActionGraph.Open((ActionAsset)asset);
+            return true;
+        }
+
+        return false;
+    }
+    
     public override void OnInspectorGUI()
     {
         if (GUILayout.Button("Open Action Graph"))
