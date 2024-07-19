@@ -41,7 +41,13 @@ public class ActionGraph : EditorWindow
     [SerializeField] private ActionGraphView currentView;
     [SerializeField] private SerializedObject serializedObject;
 
-    public void Load(ActionAsset asset)
+    private void OnEnable()
+    {
+        if (actionAsset != null)
+            DrawGraph();
+    }
+
+    public void Load(ActionAsset asset) 
     {
         actionAsset = asset;
         DrawGraph();
