@@ -1,6 +1,21 @@
 using System;
 using UnityEngine;
 
+public class NodeInfoAttribute : Attribute
+{
+    private string title;
+    private string menuItem;
+
+    public string Title => title;
+    public string MenuItem => menuItem;
+
+    public NodeInfoAttribute(string title, string menuItem = "")
+    {
+        this.title = title;
+        this.menuItem = menuItem;
+    }
+}
+
 public class TypeFilterAttribute : PropertyAttribute
 {
     public Type BaseType { get; private set; }

@@ -43,6 +43,17 @@ public class ActionAsset : SerializedScriptableObject
     [TitleGroup("Decision Making")]
     public List<Consideration> incompatibleConsiderations = new();
 
+
+    [SerializeReference]
+    private List<ActionGraphNode> graphNodes;
+
+    public List<ActionGraphNode> GraphNodes => graphNodes;
+
+    public ActionAsset()
+    {
+        graphNodes = new List<ActionGraphNode>();
+    }
+    
     [HideInInspector]
     public NodeData beginningNode;
     [HideInInspector]
@@ -51,27 +62,7 @@ public class ActionAsset : SerializedScriptableObject
     public List<ConnectionData> connections = new List<ConnectionData>();
 
     public Queue<SubactionNode> SubactionQueue { get; private set; } = new();
-
-    private void FillSubactions()
-    {
-        if (beginningNode == null || beginningNode.data == null)
-            return;
-        if (beginningNode.data.nextNode == null)
-            return;
-        
-        SubactionNode currentNodeData = beginningNode.data.nextNode;
-        while (currentNodeData != null)
-        {
-            SubactionQueue.Enqueue(currentNodeData);
-            currentNodeData = currentNodeData.nextNode;
-        }
-    }
-
-    private void OnEnable()
-    {
-        FillSubactions();
-    }
-
+    
     public float CalculateScore(ConsiderationContext context)
     {
         if (weightedConsiderations == null || weightedConsiderations.Count == 0)

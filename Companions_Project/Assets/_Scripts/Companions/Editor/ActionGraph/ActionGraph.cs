@@ -50,7 +50,7 @@ public class ActionGraph : EditorWindow
     private void DrawGraph()
     {
         serializedObject = new(actionAsset);
-        currentView = new ActionGraphView(serializedObject);
+        currentView = new ActionGraphView(serializedObject, this);
         rootVisualElement.Add(currentView);
     }
 }
