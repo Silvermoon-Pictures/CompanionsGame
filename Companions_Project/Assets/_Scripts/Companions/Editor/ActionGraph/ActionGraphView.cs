@@ -34,11 +34,22 @@ public class ActionGraphView : GraphView
         GridBackground background = new();
         background.name = "Grid";
         Add(background);
+        background.SendToBack();
         
         this.AddManipulator(new ContentDragger());
         this.AddManipulator(new SelectionDragger());
         this.AddManipulator(new RectangleSelector());
         this.AddManipulator(new ClickSelector());
+
+        DrawNodes();
+    }
+
+    private void DrawNodes()
+    {
+        foreach (ActionGraphNode node in actionAsset.GraphNodes)
+        {
+            AddNodeToGraph(node);
+        }
     }
 
     private void ShowSearchWindow(NodeCreationContext obj)
@@ -61,7 +72,7 @@ public class ActionGraphView : GraphView
     {
         node.typeName = node.GetType().AssemblyQualifiedName;
 
-        ActionGraphEditorNode editorNode = new();
+        ActionGraphEditorNode editorNode = new(node);
         editorNode.SetPosition(node.Position);
         graphNodes.Add(editorNode);
         nodeDictionary.Add(node.Id, editorNode);
