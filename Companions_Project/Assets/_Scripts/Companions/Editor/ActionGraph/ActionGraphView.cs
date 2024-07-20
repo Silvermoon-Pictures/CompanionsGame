@@ -3,6 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -155,6 +156,8 @@ public class ActionGraphView : GraphView
         {
             AddNodeToGraph(node);
         }
+        
+        Bind();
     }
     
     private void DrawConnections()
@@ -204,17 +207,24 @@ public class ActionGraphView : GraphView
         serializedObject.Update();
 
         AddNodeToGraph(node);
+        Bind();
     }
 
     private void AddNodeToGraph(ActionGraphNode node)
     {
         node.typeName = node.GetType().AssemblyQualifiedName;
 
-        ActionGraphEditorNode editorNode = new(node);
+        ActionGraphEditorNode editorNode = new(node, serializedObject);
         editorNode.SetPosition(node.Position);
         graphNodes.Add(editorNode);
         nodeDictionary.Add(node.Id, editorNode);
         
         AddElement(editorNode);
+    }
+
+    private void Bind()
+    {
+        serializedObject.Update();
+        this.Bind(serializedObject);
     }
 }

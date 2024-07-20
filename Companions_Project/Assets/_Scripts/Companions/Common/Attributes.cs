@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+public class ExposedPropertyAttribute : Attribute { }
+
 public class NodeInfoAttribute : Attribute
 {
     private string title;
