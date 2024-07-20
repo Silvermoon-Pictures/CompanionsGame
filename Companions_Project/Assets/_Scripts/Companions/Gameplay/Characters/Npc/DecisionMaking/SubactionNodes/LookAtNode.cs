@@ -1,15 +1,16 @@
 using System.Collections;
 using UnityEngine;
 
-[ActionGraphContext("Look At")]
-public class LookAtNode : SubactionNode
+[NodeInfo("Look At", "Gameplay/AI/Look At")]
+public class LookAtNode : ActionGraphNode
 {
+    public bool lookAtCurrentTarget;
     public Identifier lookAtPoint;
     public float rotationSpeed = 0.5f;
 
     public override IEnumerator Execute(SubactionContext context)
     {
-        GameObject lookAtTarget = context.dictionaryComponent.Get<GameObject>(lookAtPoint);
+        GameObject lookAtTarget = this.lookAtCurrentTarget ? context.target : context.dictionaryComponent.Get<GameObject>(lookAtPoint);
         if (lookAtTarget == null)
             yield break;
         

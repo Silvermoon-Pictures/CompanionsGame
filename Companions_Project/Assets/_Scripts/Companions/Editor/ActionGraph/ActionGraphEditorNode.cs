@@ -47,7 +47,7 @@ public class ActionGraphEditorNode : Node
 
         foreach (FieldInfo property in typeInfo.GetFields())
         {
-            if (property.GetCustomAttribute<ExposedPropertyAttribute>() is { } exposedPropertyAttribute)
+            if (property.IsPublic)
             {
                 PropertyField field = DrawProperty(property.Name);
                 //field.RegisterValueChangeCallback(OnFieldChangeCallback);
@@ -55,6 +55,7 @@ public class ActionGraphEditorNode : Node
         }
         
         RefreshExpandedState();
+        RefreshPorts();
     }
 
     private PropertyField DrawProperty(string propertyName)

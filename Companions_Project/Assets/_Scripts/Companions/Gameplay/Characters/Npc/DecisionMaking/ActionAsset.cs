@@ -11,11 +11,6 @@ using UnityEngine.Serialization;
 [CreateAssetMenu(menuName = "Companions/Npc/Actions", fileName = "Action")]
 public class ActionAsset : SerializedScriptableObject
 {
-    
-    public List<ETargetType> targetTypes;
-    [ShowIf("@targetTypes.Contains(ETargetType.Other)")] 
-    public Identifier targetIdentifier;
-    
     [TitleGroup("Decision Making")]
     public List<WeightedConsideration> weightedConsiderations = new();
     [TitleGroup("Decision Making")]
@@ -24,7 +19,7 @@ public class ActionAsset : SerializedScriptableObject
     public List<Consideration> incompatibleConsiderations = new();
 
 
-    [SerializeReference, HideInInspector]
+    [SerializeReference]
     private List<ActionGraphNode> graphNodes;
     [SerializeField, HideInInspector]
     private List<ActionGraphConnection> connections;

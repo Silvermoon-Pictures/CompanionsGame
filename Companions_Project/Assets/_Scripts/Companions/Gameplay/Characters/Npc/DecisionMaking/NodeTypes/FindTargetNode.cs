@@ -6,12 +6,11 @@ using UnityEngine;
 [NodeInfo("Find Target", "Gameplay/Find Target")]
 public class FindTargetNode : ActionGraphNode
 {
-    [ExposedProperty] public bool findClosest;
-
-    [ExposedProperty]
+    public bool findClosest;
+    
     public float radius = 10f;
 
-    [ExposedProperty] public Identifier targetIdentifier;
+    public Identifier targetIdentifier;
 
     private SubactionContext context;
 

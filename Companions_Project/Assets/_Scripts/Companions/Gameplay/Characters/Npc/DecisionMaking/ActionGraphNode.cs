@@ -18,8 +18,6 @@ public class ActionGraphNode
     [SerializeField] private Rect position;
     [SerializeField] private string nextNodeId;
 
-    public string typeName;
-
     public void SetNextNode(string nextNodeGuid) => this.nextNodeId = nextNodeGuid;
 
 

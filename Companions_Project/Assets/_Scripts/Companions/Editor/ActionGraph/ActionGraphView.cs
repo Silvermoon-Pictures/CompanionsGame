@@ -41,6 +41,7 @@ public class ActionGraphView : GraphView
         Add(background);
         background.SendToBack();
         
+        SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale); 
         this.AddManipulator(new ContentDragger());
         this.AddManipulator(new SelectionDragger());
         this.AddManipulator(new RectangleSelector());
@@ -212,8 +213,6 @@ public class ActionGraphView : GraphView
 
     private void AddNodeToGraph(ActionGraphNode node)
     {
-        node.typeName = node.GetType().AssemblyQualifiedName;
-
         ActionGraphEditorNode editorNode = new(node, serializedObject);
         editorNode.SetPosition(node.Position);
         graphNodes.Add(editorNode);
