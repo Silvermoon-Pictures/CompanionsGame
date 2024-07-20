@@ -38,7 +38,8 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         stateMachineContext = new(0f)
         {
             animator = GetComponentInChildren<Animator>(),
-            targetPosition = transform.position
+            targetPosition = transform.position,
+            stoppingDistance = 1f
         };
         
         stateMachine = NpcFSM.Make(this);
