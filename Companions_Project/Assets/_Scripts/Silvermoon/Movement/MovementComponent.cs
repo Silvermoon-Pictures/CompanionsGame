@@ -16,11 +16,6 @@ namespace Silvermoon.Movement
         float GetSpeed();
     }
 
-    public interface IAnimationController
-    {
-        void UpdateAnimationParameters(MovementContext context);
-    }
-
     public class MovementComponent : MonoBehaviour
     {
         [field: SerializeField] private bool hasCustomInitialization;
@@ -54,7 +49,6 @@ namespace Silvermoon.Movement
 
         private IDirectionProvider directionProvider;
         private ISpeedProvider speedProvider;
-        private IAnimationController animationController;
 
         private void Awake()
         {
@@ -72,7 +66,6 @@ namespace Silvermoon.Movement
 
             directionProvider = GetComponent(typeof(IDirectionProvider)) as IDirectionProvider;
             speedProvider = GetComponent(typeof(ISpeedProvider)) as ISpeedProvider;
-            animationController = GetComponent(typeof(IAnimationController)) as IAnimationController;
         }
 
         private void Start()
@@ -131,7 +124,6 @@ namespace Silvermoon.Movement
 
             context.position = transform.position;
             stateMachine.PostUpdate(context);
-            animationController.UpdateAnimationParameters(context);
             velocity = context.velocity;
         }
     }

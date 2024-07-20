@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Silvermoon.Movement;
 using UnityEngine;
 
-public partial class Player : IDirectionProvider, ISpeedProvider, IAnimationController
+public partial class Player : IDirectionProvider, ISpeedProvider
 {
     public Vector3 Direction => playerCamera.transform.forward;
 
@@ -30,10 +30,4 @@ public partial class Player : IDirectionProvider, ISpeedProvider, IAnimationCont
         return movementComponent.Speed;
     }
 
-    public void UpdateAnimationParameters(MovementContext context)
-    {
-        float currentHorizontalSpeed = new Vector3(context.velocity.x, 0.0f, context.velocity.z).magnitude;
-        animator.SetFloat(Speed, currentHorizontalSpeed);
-        animator.SetBool(Grounded, (context.collisionFlags & CollisionFlags.Below) != 0);
-    }
 }

@@ -17,12 +17,12 @@ public partial class Player
         }
 
         protected override bool CanEnter(MovementContext context) => player.inputComponent.JumpTriggered;
-        public override bool CanExit(MovementContext context) => true;
+        public override bool CanExit(MovementContext context) => context.OnGround;
 
         protected override void OnEnter(MovementContext context)
         {
             base.OnEnter(context);
-            if ((context.collisionFlags & CollisionFlags.Below) != 0)
+            if (context.OnGround)
             {
                 context.velocity.y = player.JumpSpeed;
                 animator.SetBool(JumpFlag, true);
@@ -33,6 +33,7 @@ public partial class Player
         {
             base.OnExit(context);
             animator.SetBool(JumpFlag, false);
+            animator.SetBool(Grounded, true);
         }
 
     }

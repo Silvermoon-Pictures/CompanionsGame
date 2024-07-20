@@ -28,6 +28,10 @@ public partial class Player
             Vector3 rightDirection = -Vector3.Cross(context.direction, Vector3.up);
             Vector3 movement = (rightDirection * moveInput.x + context.direction * moveInput.y) * context.speed;
 
+            float currentHorizontalSpeed = new Vector3(context.velocity.x, 0.0f, context.velocity.z).magnitude;
+            animator.SetFloat(Speed, currentHorizontalSpeed);
+            animator.SetBool(Grounded, context.OnGround);
+
             context.velocity = movement.WithY(context.velocity.y);
         }
 
