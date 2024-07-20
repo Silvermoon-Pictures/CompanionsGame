@@ -12,9 +12,7 @@ public interface IAvailablity
 
 public class ActionDecisionData
 {
-    public ActionAsset action;
-    public GameObject target;
-    public Vector3? randomPosition;
+    
 }
 
 public class NpcBrain
@@ -28,7 +26,7 @@ public class NpcBrain
         this.npc = npc;
     }
 
-    public ActionDecisionData Decide()
+    public ActionAsset Decide()
     {
         var context = new ConsiderationContext()
         {
@@ -39,38 +37,7 @@ public class NpcBrain
 
         var filteredActions = FilterActions(context);
         selectedAction = ScoreActions(filteredActions, context);
-        data.action = selectedAction;
-        if (selectedAction != null)
-            data.target = FindTarget(selectedAction);
-        
-        return data;
-    }
-
-    // TODO Omer: Move target acquisition into its own node
-    private GameObject FindTarget(ActionAsset action)
-    {
-        if (action.targetTypes.Contains(ETargetType.Self))
-            return npc.gameObject;
-        
-        Component comp = ComponentSystem.GetClosestTarget(typeof(ICoreComponent), npc.transform.position, filter: FilterTargets) as Component;
-        if (comp == null)
-            return null;
-        
-        return comp.gameObject;
-    }
-
-    private bool FilterTargets(Component component)
-    {
-        if (component.gameObject == npc.gameObject)
-            return false;
-
-        if (!component.TryGetComponent(out IdentifierComponent identifierComponent))
-            return false;
-
-        if (!identifierComponent.identifiers.Contains(selectedAction.targetIdentifier))
-            return false;
-
-        return true;
+        return selectedAction;
     }
 
     private IEnumerable<ActionAsset> FilterActions(ConsiderationContext context)

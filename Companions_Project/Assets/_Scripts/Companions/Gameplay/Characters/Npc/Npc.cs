@@ -60,22 +60,15 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 
     public void Decide()
     {
-        var decisionData = brain.Decide();
-        if (decisionData.action == null)
+        var action = brain.Decide();
+        if (action == null)
             return;
-        if (HasAction && decisionData.action.name == Action.actionData.name)
-            return;
-        if (decisionData.target == null && !decisionData.randomPosition.HasValue)
+        if (HasAction && action.name == Action.actionData.name)
             return;
 
         Action.Reset();
-        Action.actionData = decisionData.action;
+        Action.actionData = action;
         Action.Subactions = new(Action.actionData.SubactionQueue);
-        if (decisionData.target != null)
-            Action.target = decisionData.target;
-        else
-            Action.randomPosition = decisionData.randomPosition;
-
         stateMachineContext.executeAction = true;
     }
 

@@ -55,7 +55,7 @@ namespace Companions.StateMachine
 
             while (currentAction.Subactions.TryDequeue(out ActionGraphNode node))
             {
-                yield return node.ExecuteCoroutine(actionContext);
+                yield return node.Execute(actionContext);
             }
 
             context.executeAction = false;
