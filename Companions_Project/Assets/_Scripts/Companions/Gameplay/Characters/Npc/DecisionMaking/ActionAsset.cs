@@ -11,27 +11,6 @@ using UnityEngine.Serialization;
 [CreateAssetMenu(menuName = "Companions/Npc/Actions", fileName = "Action")]
 public class ActionAsset : SerializedScriptableObject
 {
-    [Serializable]
-    public class NodeData
-    {
-        public Vector2 position;
-        public string title;
-        public SubactionNode data;
-        public GUIStyle titleStyle;
-    }
-
-    [Serializable]
-    public class ConnectionData
-    {
-        public int startNodeIndex;
-        public int endNodeIndex;
-
-        public ConnectionData(int start, int end)
-        {
-            startNodeIndex = start;
-            endNodeIndex = end;
-        }
-    }
     
     public List<ETargetType> targetTypes;
     [ShowIf("@targetTypes.Contains(ETargetType.Other)")] 
@@ -45,28 +24,21 @@ public class ActionAsset : SerializedScriptableObject
     public List<Consideration> incompatibleConsiderations = new();
 
 
-    [SerializeReference]
+    [SerializeReference, HideInInspector]
     private List<ActionGraphNode> graphNodes;
-    [SerializeField]
+    [SerializeField, HideInInspector]
     private List<ActionGraphConnection> connections;
 
     public List<ActionGraphNode> GraphNodes => graphNodes;
     public List<ActionGraphConnection> Connections => connections;
+    public Queue<ActionGraphNode> SubactionQueue { get; private set; } = new();
 
     public ActionAsset()
     {
         graphNodes = new List<ActionGraphNode>();
         connections = new List<ActionGraphConnection>();
     }
-    
-    [HideInInspector]
-    public NodeData beginningNode;
-    [HideInInspector]
-    public List<NodeData> nodes = new List<NodeData>();
-    [HideInInspector]
-    public List<ConnectionData> oldConnections = new List<ConnectionData>();
 
-    public Queue<ActionGraphNode> SubactionQueue { get; private set; } = new();
 
     private void OnEnable()
     {
