@@ -66,7 +66,23 @@ public class ActionAsset : SerializedScriptableObject
     [HideInInspector]
     public List<ConnectionData> oldConnections = new List<ConnectionData>();
 
-    public Queue<SubactionNode> SubactionQueue { get; private set; } = new();
+    public Queue<ActionGraphNode> SubactionQueue { get; private set; } = new();
+
+    private void OnEnable()
+    {
+        Init();
+        FillSubactions();
+    }
+
+    void FillSubactions()
+    {
+        ActionGraphNode currentNode = GetStartNode();
+        while (currentNode != null)
+        {
+            SubactionQueue.Enqueue(currentNode);
+            currentNode = GetNode(currentNode.NextNodeId);
+        }
+    }
     
     public float CalculateScore(ConsiderationContext context)
     {
@@ -121,16 +137,16 @@ public class ActionAsset : SerializedScriptableObject
     {
         StartNode[] startNodes = graphNodes.OfType<StartNode>().ToArray();
         if (startNodes.Length == 0)
+        {
             Debug.LogError($"There is no start node");
+            return null;
+        }
         return startNodes[0];
     }
 
     public ActionGraphNode GetNode(string nextNodeCurrent)
     {
-        if (nodeDictionary.TryGetValue(nextNodeCurrent, out var node))
-            return node;
-
-        return null;
+        return nodeDictionary.GetValueOrDefault(nextNodeCurrent);
     }
 
     private Dictionary<string, ActionGraphNode> nodeDictionary;

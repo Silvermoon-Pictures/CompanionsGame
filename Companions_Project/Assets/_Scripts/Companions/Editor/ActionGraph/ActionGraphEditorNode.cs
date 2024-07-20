@@ -34,10 +34,11 @@ public class ActionGraphEditorNode : Node
         
         name = typeInfo.Name;
 
-        if (attribute.HasInput)
-            CreateInputPort(attribute);
+        // This is to make the output always be index 0
         if (attribute.HasOutput)
             CreateOutputPort(attribute);
+        if (attribute.HasInput)
+            CreateInputPort(attribute);
     }
     
     private void CreateInputPort(NodeInfoAttribute attribute)

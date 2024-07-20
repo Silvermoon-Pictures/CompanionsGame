@@ -26,10 +26,9 @@ namespace Companions.StateMachine
             base.OnEnter(context);
 
             currentAction = owner.Action;
-            currentAction.actionData.Init();
             
             timer = duration;
-            actionCoroutine = owner.StartCoroutine(ExecuteAction());
+            actionCoroutine = owner.StartCoroutine(ExecuteAction(context));
         }
 
         protected override void OnExit(NpcFSMContext context)
@@ -44,9 +43,9 @@ namespace Companions.StateMachine
             actionCoroutine = null;
         }
 
-        private IEnumerator ExecuteAction()
+        private IEnumerator ExecuteAction(NpcFSMContext context)
         {
-            SubactionContext context = new()
+            SubactionContext actionContext = new()
             {
                 npc = owner,
                 target = currentAction.target,
@@ -54,24 +53,12 @@ namespace Companions.StateMachine
                 dictionaryComponent = owner.dictionaryComponent
             };
 
-            ActionGraphNode startNode = currentAction.actionData.GetStartNode();
-            yield return ExecuteAction(startNode);
+            while (currentAction.Subactions.TryDequeue(out ActionGraphNode node))
+            {
+                yield return node.ExecuteCoroutine(actionContext);
+            }
 
-            ended = true;
-        }
-
-        private IEnumerator ExecuteAction(ActionGraphNode startNode)
-        {
-           var nextNode = startNode.ExecuteCoroutine();
-
-           while (nextNode.MoveNext())
-           {
-               if (!string.IsNullOrEmpty(nextNode.Current))
-               {
-                   ActionGraphNode node = currentAction.actionData.GetNode(nextNode.Current);
-                   yield return ExecuteAction(node);
-               }
-           }
+            context.executeAction = false;
         }
     }
 }

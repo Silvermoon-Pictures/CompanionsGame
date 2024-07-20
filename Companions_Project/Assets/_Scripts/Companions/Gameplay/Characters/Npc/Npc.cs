@@ -59,7 +59,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 
     public void Decide()
     {
-        stateMachineContext.executeAction = false;
         var decisionData = brain.Decide();
         if (decisionData.action == null)
             return;
@@ -70,6 +69,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 
         Action.Reset();
         Action.actionData = decisionData.action;
+        Action.Subactions = new(Action.actionData.SubactionQueue);
         if (decisionData.target != null)
             Action.target = decisionData.target;
         else

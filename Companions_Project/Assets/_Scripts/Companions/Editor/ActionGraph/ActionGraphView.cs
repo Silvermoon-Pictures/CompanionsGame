@@ -124,8 +124,8 @@ public class ActionGraphView : GraphView
         ActionGraphEditorNode outputNode = (ActionGraphEditorNode)edge.output.node;       
         int outputIndex = outputNode.Ports.IndexOf(edge.output);
 
-        ActionGraphConnection connection =
-            new ActionGraphConnection(inputNode.Node.Id, inputIndex, outputNode.Node.Id, outputIndex);
+        ActionGraphConnection connection = new ActionGraphConnection(inputNode.Node.Id, inputIndex, outputNode.Node.Id, outputIndex);
+        outputNode.Node.SetNextNode(inputNode.Node.Id);
         actionAsset.Connections.Add(connection);
 
     }
