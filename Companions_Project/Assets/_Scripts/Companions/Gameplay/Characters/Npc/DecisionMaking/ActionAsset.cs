@@ -138,7 +138,6 @@ public class ActionAsset : SerializedScriptableObject
         StartNode[] startNodes = graphNodes.OfType<StartNode>().ToArray();
         if (startNodes.Length == 0)
         {
-            Debug.LogError($"There is no start node");
             return null;
         }
         return startNodes[0];
