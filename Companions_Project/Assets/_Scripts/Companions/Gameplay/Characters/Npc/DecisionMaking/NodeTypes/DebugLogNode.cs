@@ -4,9 +4,12 @@ using UnityEngine;
 [NodeInfo("Debug Log", "Debug/Debug Log")]
 public class DebugLogNode : ActionGraphNode
 {
+    [ExposedProperty]
+    public string message;
+    
     public override IEnumerator ExecuteCoroutine(SubactionContext context)
     {
-        Debug.Log("Debug Log Node!");
+        Debug.Log(message);
         yield break;
     }
 }
