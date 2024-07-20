@@ -42,13 +42,8 @@ public class ActionGraphNode
         position = pos;
     }
 
-    public virtual IEnumerator ExecuteCoroutine(SubactionContext context)
+    public virtual IEnumerator Execute(SubactionContext context)
     {
         yield break;
-    }
-
-    public virtual string Execute()
-    {
-        return string.Empty;
     }
 }

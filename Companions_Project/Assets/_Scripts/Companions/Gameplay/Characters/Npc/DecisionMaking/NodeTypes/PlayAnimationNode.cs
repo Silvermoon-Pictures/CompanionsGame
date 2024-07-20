@@ -9,7 +9,7 @@ public class PlayAnimationNode : ActionGraphNode
     [ExposedProperty]
     public string triggerName;
 
-    public override IEnumerator ExecuteCoroutine(SubactionContext context)
+    public override IEnumerator Execute(SubactionContext context)
     {
         var animator = context.animator;
         if (animator == null) 

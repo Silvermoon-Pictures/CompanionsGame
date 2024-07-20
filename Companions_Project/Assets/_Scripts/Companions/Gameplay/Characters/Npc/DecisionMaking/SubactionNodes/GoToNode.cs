@@ -1,9 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-[ActionGraphContext("Go To")]
-public class GoToNode : SubactionNode
+[NodeInfo("Go To", "Gameplay/AI/Go To")]
+public class GoToNode : ActionGraphNode
 {
+    [ExposedProperty]
     public float stoppingDistance = 1f;
     
     public override IEnumerator Execute(SubactionContext context)

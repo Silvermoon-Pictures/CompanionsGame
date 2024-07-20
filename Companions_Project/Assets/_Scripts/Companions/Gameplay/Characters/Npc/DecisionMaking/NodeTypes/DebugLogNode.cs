@@ -7,7 +7,7 @@ public class DebugLogNode : ActionGraphNode
     [ExposedProperty]
     public string message;
     
-    public override IEnumerator ExecuteCoroutine(SubactionContext context)
+    public override IEnumerator Execute(SubactionContext context)
     {
         Debug.Log(message);
         yield break;
