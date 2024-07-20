@@ -23,7 +23,9 @@ public class LiftableComponent : InteractionComponent
     private void Lift(GameObject instigator)
     {
         transform.SetParent(instigator.transform);
-        
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+
         var context = new GameEffectContext()
         {
             instigator = instigator,

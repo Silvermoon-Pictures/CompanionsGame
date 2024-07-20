@@ -8,13 +8,17 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
     private InputComponent inputComponent;
     private PlayerCamera playerCamera;
     public Vector3 interactionOffset = new Vector3(0.5f, 1, 1f);
+    private Animator animator;
 
+    private static readonly int Lifting = Animator.StringToHash("Lifting");
+    public GameObject rockCarryPosition;
     private LiftableComponent currentLiftable;
 
     private void OnEnable()
     {
         inputComponent = GetComponent<InputComponent>();
         playerCamera = GetComponentInChildren<PlayerCamera>();
+        animator = GetComponentInChildren<Animator>();
         SetupMovement();
     }
 
@@ -32,8 +36,7 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
     {
         if (currentLiftable != null)
         {
-            currentLiftable.Interact(gameObject);
-            currentLiftable = null;
+            animator.SetBool(Lifting, false);
             return;
         }
 
@@ -43,9 +46,22 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
             return;
 
         if (interactionComponent is LiftableComponent liftable)
+        {
+            animator.SetBool(Lifting, true);
             currentLiftable = liftable;
+        }
 
-        interactionComponent.Interact(gameObject);
+    }
+
+    public void AttachLiftable()
+    {
+        currentLiftable.Interact(rockCarryPosition);
+    }
+
+    public void DetachLiftable()
+    {
+        currentLiftable.Interact(gameObject);
+        currentLiftable = null;
     }
 
 }
