@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayAnimationNode : ActionGraphNode
 {
     public AnimationClip clip;
+    public string booleanName;
+    public bool boolean;
     public string triggerName;
 
     public override IEnumerator Execute(SubactionContext context)
@@ -13,7 +15,10 @@ public class PlayAnimationNode : ActionGraphNode
         if (animator == null) 
             yield break;
         
-        animator.SetTrigger(triggerName);
+        if (!string.IsNullOrEmpty(booleanName))
+            animator.SetBool(booleanName, boolean);
+        if (!string.IsNullOrEmpty(triggerName))
+            animator.SetTrigger(triggerName);
         
         if (clip != null)
             yield return new WaitForSeconds(clip.length);

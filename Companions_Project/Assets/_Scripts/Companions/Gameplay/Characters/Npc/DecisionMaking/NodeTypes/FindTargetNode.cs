@@ -10,6 +10,7 @@ public class FindTargetNode : ActionGraphNode
     
     public float radius = 10f;
 
+    public bool useDictionaryComponent;
     public Identifier targetIdentifier;
 
     private SubactionContext context;
@@ -25,11 +26,30 @@ public class FindTargetNode : ActionGraphNode
     
     private GameObject FindTarget(SubactionContext context)
     {
-        Component comp = ComponentSystem.GetClosestTarget(typeof(ICoreComponent), context.npc.transform.position, filter: FilterTargets) as Component;
-        if (comp == null)
+        GameObject target = null;
+        if (useDictionaryComponent)
+        {
+            target = context.dictionaryComponent.Get<GameObject>(targetIdentifier);
+        }
+        else
+        {
+            var component = ComponentSystem.GetClosestTarget(typeof(ICoreComponent), context.npc.transform.position, filter: FilterTargets) as Component;
+            if (component != null)
+                target = component.gameObject;
+        }
+
+        if (target == null)
             return null;
+
+        if (target.TryGetComponent(out AvailabilityComponent availabilityComponent))
+        {
+            if (!availabilityComponent.TryOccupySpot(out Transform spot))
+                return null;
+
+            target = spot.gameObject;
+        }
         
-        return comp.gameObject;
+        return target;
     }
 
     private bool FilterTargets(Component component)
