@@ -143,12 +143,18 @@ public class ActionGraphView : GraphView
 
     private void RemoveNode(ActionGraphEditorNode editorNode)
     {
-
         actionAsset.GraphNodes.Remove(editorNode.Node);
         nodeDictionary.Remove(editorNode.Node.Id);
+        foreach (ActionGraphNode node in actionAsset.GraphNodes)
+        {
+            if (node.NextNodeId == editorNode.Node.Id)
+            {
+                node.SetNextNode(string.Empty);
+                break;
+            }
+        }
         graphNodes.Remove(editorNode);
         serializedObject.Update();
-        
     }
 
     private void DrawNodes()
