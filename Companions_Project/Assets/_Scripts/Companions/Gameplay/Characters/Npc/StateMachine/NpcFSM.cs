@@ -28,6 +28,9 @@ namespace Companions.StateMachine
     public class NpcFSMContext : StateMachineContext
     {
         public bool executeAction;
+        public bool HasPreviousAction => previousActionData != null;
+        public Npc.NpcAction currentActionData;
+        public Npc.NpcAction previousActionData;
         public Vector3 targetPosition;
         public float stoppingDistance;
         public Animator animator;

@@ -13,17 +13,14 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
     [field: SerializeField]
     public NpcData NpcData { get; private set; }
     
-    public List<GameObject> visualPrefabs;
-        
     private NpcBrain brain;
     
     public MovementComponent MovementComponent { get; private set; }
 
-    public NpcAction Action { get; private set; }
+    public NpcAction Action => stateMachineContext.currentActionData;
     private NpcFSM stateMachine;
 
-    public bool HasAction => Action.actionData != null;
-    public bool ExecuteAction => HasAction;
+    public bool HasAction => stateMachineContext.currentActionData != null;
 
     internal NpcFSMContext stateMachineContext;
     internal DictionaryComponent dictionaryComponent;
@@ -39,7 +36,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         {
             animator = GetComponentInChildren<Animator>(),
             targetPosition = transform.position,
-            stoppingDistance = 1f
+            stoppingDistance = 1f,
         };
         
         stateMachine = NpcFSM.Make(this);
@@ -47,7 +44,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         SetupMovement();
         
         brain = new NpcBrain(this);
-        Action = new NpcAction();
     }
 
     void Start()
@@ -58,18 +54,21 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         Decide();
     }
 
-    public void Decide()
+    public ActionAsset Decide()
     {
+        stateMachineContext.executeAction = false;
         var action = brain.Decide();
         if (action == null)
-            return;
+            return null;
         if (HasAction && action.name == Action.actionData.name)
-            return;
+            return null;
 
-        Action.Reset();
-        Action.actionData = action;
-        Action.Subactions = new(Action.actionData.SubactionQueue);
+        stateMachineContext.previousActionData = Action;
+        stateMachineContext.currentActionData = new NpcAction(action);
+        
         stateMachineContext.executeAction = true;
+
+        return action;
     }
 
     public void GoTo(Vector3 destination, float stoppingDistance)

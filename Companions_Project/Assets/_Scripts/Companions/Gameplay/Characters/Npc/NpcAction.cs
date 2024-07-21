@@ -8,22 +8,14 @@ public partial class Npc
     {
         public ActionAsset actionData;
         public bool IsValid => actionData != null;
-        public GameObject target;
-        public Vector3 TargetPosition => target != null ? target.transform.position : randomPosition.Value;
-        public Vector3? randomPosition;
-        public bool actionEnded;
         public Queue<ActionGraphNode> Subactions = new();
+        public Queue<ActionGraphNode> ExitSubactions = new();
 
-        public void EndAction()
+        public NpcAction(ActionAsset actionAsset)
         {
-            actionEnded = true;
-            Subactions.Clear();
-        }
-
-        public void Reset()
-        {
-            actionData = null;
-            target = null;
+            actionData = actionAsset;
+            Subactions = new(actionData.SubactionQueue);
+            ExitSubactions = new(actionData.ExitSubactionQueue);
         }
     }
 

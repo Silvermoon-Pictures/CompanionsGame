@@ -27,6 +27,7 @@ public class ActionAsset : SerializedScriptableObject
     public List<ActionGraphNode> GraphNodes => graphNodes;
     public List<ActionGraphConnection> Connections => connections;
     public Queue<ActionGraphNode> SubactionQueue { get; private set; } = new();
+    public Queue<ActionGraphNode> ExitSubactionQueue { get; private set; } = new();
 
     public ActionAsset()
     {
@@ -47,6 +48,13 @@ public class ActionAsset : SerializedScriptableObject
         while (currentNode != null)
         {
             SubactionQueue.Enqueue(currentNode);
+            currentNode = GetNode(currentNode.NextNodeId);
+        }
+        
+        currentNode = GetExitNode();
+        while (currentNode != null)
+        {
+            ExitSubactionQueue.Enqueue(currentNode);
             currentNode = GetNode(currentNode.NextNodeId);
         }
     }
@@ -108,6 +116,16 @@ public class ActionAsset : SerializedScriptableObject
             return null;
         }
         return startNodes[0];
+    }
+    
+    public ActionGraphNode GetExitNode()
+    {
+        ExitNode[] exitNodes = graphNodes.OfType<ExitNode>().ToArray();
+        if (exitNodes.Length == 0)
+        {
+            return null;
+        }
+        return exitNodes[0];
     }
 
     public ActionGraphNode GetNode(string nextNodeCurrent)
