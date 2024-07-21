@@ -40,6 +40,16 @@ public class ActionGraphNode
         position = pos;
     }
 
+    public void SetPosition(Vector2 pos)
+    {
+        position.position = pos;
+    }
+
+    public void SetY(float y)
+    {
+        position.y = y;
+    }
+
     public virtual IEnumerator Execute(SubactionContext context)
     {
         yield break;

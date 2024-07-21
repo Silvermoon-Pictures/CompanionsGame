@@ -8,6 +8,9 @@ public class GoToNode : ActionGraphNode
     
     public override IEnumerator Execute(SubactionContext context)
     {
+        if (context.target == null)
+            yield break;
+        
         float stoppingDistanceSqr = stoppingDistance * stoppingDistance + 1;
         while ((context.npc.transform.position - context.target.transform.position).sqrMagnitude > stoppingDistanceSqr)
         {

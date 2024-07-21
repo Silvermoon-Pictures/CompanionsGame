@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -47,10 +49,103 @@ public class ActionGraphView : GraphView
         this.AddManipulator(new RectangleSelector());
         this.AddManipulator(new ClickSelector());
 
+        AddStartNode();
+        AddExitNode();
         DrawNodes();
         DrawConnections();
 
         graphViewChanged += OnGraphViewChangedEvent;
+    }
+
+    private void AddStartNode()
+    {
+        StartNode[] startNodes = actionAsset.GraphNodes.OfType<StartNode>().ToArray();
+        if (startNodes.Length > 0)
+        {
+            AddNodeToGraph(startNodes[0]);
+            return;
+        }
+        
+        Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        foreach (var assembly in assemblies)
+        {
+            foreach (Type type in assembly.GetTypes())
+            {
+                var attribute = type.GetCustomAttribute(typeof(NodeInfoAttribute));
+                if (attribute != null)
+                {
+                    NodeInfoAttribute att = (NodeInfoAttribute)attribute;
+                    if (type == typeof(StartNode))
+                    {
+                        Add((StartNode)Activator.CreateInstance(type));
+                    }
+                }
+            }
+        }
+    }
+    
+    private void AddExitNode()
+    {
+        ExitNode[] exitNodes = actionAsset.GraphNodes.OfType<ExitNode>().ToArray();
+        if (exitNodes.Length > 0)
+        {
+            AddNodeToGraph(exitNodes[0]);
+            return;
+        }
+        
+        Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        foreach (var assembly in assemblies)
+        {
+            foreach (Type type in assembly.GetTypes())
+            {
+                var attribute = type.GetCustomAttribute(typeof(NodeInfoAttribute));
+                if (attribute != null)
+                {
+                    NodeInfoAttribute att = (NodeInfoAttribute)attribute;
+                    if (type == typeof(ExitNode))
+                    {
+                        StartNode[] startNodes = actionAsset.GraphNodes.OfType<StartNode>().ToArray();
+                        var exitNode = (ExitNode)Activator.CreateInstance(type);
+                        exitNode.SetPosition(startNodes[0].Position.position + Vector2.up * 250);
+                        Add(exitNode);
+                    }
+                }
+            }
+        }
+    }
+    
+    private void DrawNodes()
+    {
+        foreach (ActionGraphNode node in actionAsset.GraphNodes)
+        {
+            if (IsStartOrExit(node))
+                continue;
+            
+            AddNodeToGraph(node);
+        }
+        
+        Bind();
+    }
+    
+    public void Add(ActionGraphNode node)
+    {
+        Undo.RecordObject(serializedObject.targetObject, "Node Added");
+        actionAsset.GraphNodes.Add(node);
+        
+        serializedObject.Update();
+
+        AddNodeToGraph(node);
+        Bind();
+    }
+
+    private void AddNodeToGraph(ActionGraphNode node)
+    {
+        ActionGraphEditorNode editorNode = new(node, serializedObject);
+        editorNode.SetPosition(node.Position);
+        graphNodes.Add(editorNode);
+        nodeDictionary.Add(node.Id, editorNode);
+        
+        AddElement(editorNode);
     }
 
     public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -157,14 +252,9 @@ public class ActionGraphView : GraphView
         serializedObject.Update();
     }
 
-    private void DrawNodes()
+    private bool IsStartOrExit(ActionGraphNode node)
     {
-        foreach (ActionGraphNode node in actionAsset.GraphNodes)
-        {
-            AddNodeToGraph(node);
-        }
-        
-        Bind();
+        return node.GetType() == typeof(StartNode) || node.GetType() == typeof(ExitNode);
     }
     
     private void DrawConnections()
@@ -204,27 +294,6 @@ public class ActionGraphView : GraphView
     {
         searchProvider.target = (VisualElement)focusController.focusedElement;
         SearchWindow.Open(new SearchWindowContext(obj.screenMousePosition), searchProvider);
-    }
-
-    public void Add(ActionGraphNode node)
-    {
-        Undo.RecordObject(serializedObject.targetObject, "Node Added");
-        actionAsset.GraphNodes.Add(node);
-        
-        serializedObject.Update();
-
-        AddNodeToGraph(node);
-        Bind();
-    }
-
-    private void AddNodeToGraph(ActionGraphNode node)
-    {
-        ActionGraphEditorNode editorNode = new(node, serializedObject);
-        editorNode.SetPosition(node.Position);
-        graphNodes.Add(editorNode);
-        nodeDictionary.Add(node.Id, editorNode);
-        
-        AddElement(editorNode);
     }
 
     private void Bind()

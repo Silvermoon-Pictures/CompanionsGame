@@ -37,19 +37,16 @@ public class ActionGraphSearchProvider : ScriptableObject, ISearchWindowProvider
         {
             foreach (Type type in assembly.GetTypes())
             {
-                if (type.CustomAttributes.ToList() != null)
+                var attribute = type.GetCustomAttribute(typeof(NodeInfoAttribute));
+                if (attribute != null)
                 {
-                    var attribute = type.GetCustomAttribute(typeof(NodeInfoAttribute));
-                    if (attribute != null)
-                    {
-                        NodeInfoAttribute att = (NodeInfoAttribute)attribute;
-                        var node = Activator.CreateInstance(type);
+                    NodeInfoAttribute att = (NodeInfoAttribute)attribute;
+                    var node = Activator.CreateInstance(type);
 
-                        if (string.IsNullOrEmpty(att.MenuItem))
-                            continue;
+                    if (string.IsNullOrEmpty(att.MenuItem))
+                        continue;
 
-                        elements.Add(new SearchContextElement(node, att.MenuItem));
-                    }
+                    elements.Add(new SearchContextElement(node, att.MenuItem));
                 }
             }
         }
