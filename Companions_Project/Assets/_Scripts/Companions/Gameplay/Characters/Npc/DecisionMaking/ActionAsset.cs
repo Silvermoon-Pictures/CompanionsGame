@@ -19,7 +19,7 @@ public class ActionAsset : SerializedScriptableObject
     public List<Consideration> incompatibleConsiderations = new();
 
 
-    [SerializeReference]
+    [SerializeReference, HideInInspector]
     private List<ActionGraphNode> graphNodes;
     [SerializeField, HideInInspector]
     private List<ActionGraphConnection> connections;
