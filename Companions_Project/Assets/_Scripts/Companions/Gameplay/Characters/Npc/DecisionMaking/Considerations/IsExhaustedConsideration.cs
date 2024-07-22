@@ -7,7 +7,7 @@ public class IsExhaustedConsideration : Consideration
         if (!context.npc.TryGetComponent(out StaminaComponent staminaComponent))
             return 0;
 
-        if (staminaComponent.GetPercentage() < staminaComponent.GetExhaustionPercentage())
+        if (staminaComponent.GetPercentage() <= staminaComponent.GetExhaustionPercentage())
             return 1;
 
         return 0;
