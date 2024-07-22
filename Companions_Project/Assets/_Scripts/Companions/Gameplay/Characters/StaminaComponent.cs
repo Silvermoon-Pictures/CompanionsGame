@@ -14,7 +14,7 @@ public class StaminaComponent : MonoBehaviour
     public float coolOffThreshold = 40f;
     public bool depleteWhenMoving = false;
     private bool IsMoving => movementComponent.Velocity.WithY(0).magnitude > 0f;
-    private bool CanDeplete => (depleteWhenMoving && IsMoving) || depletionTriggered;
+    private bool CanDeplete => ((depleteWhenMoving && IsMoving) || depletionTriggered);
 
     private MovementComponent movementComponent;
 
@@ -38,11 +38,11 @@ public class StaminaComponent : MonoBehaviour
     {
         if (CanDeplete)
         {
-            currentStamina -= depletionRate * Time.deltaTime;
+            DepleteStamina();
         }
         else
         {
-            currentStamina += regenerationRate * Time.deltaTime;
+            RegenerateStamina();
         }
 
         currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
@@ -58,10 +58,7 @@ public class StaminaComponent : MonoBehaviour
         }
 
         if (currentStamina <= 0)
-        {
-            currentStamina = 0;
             onStaminaDepleted?.Invoke();
-        }
     }
 
     private void RegenerateStamina()
@@ -83,6 +80,16 @@ public class StaminaComponent : MonoBehaviour
     public float GetPercentage()
     {
         return currentStamina / maxStamina;
+    }
+
+    public float GetCoolOffPercentage()
+    {
+        return coolOffThreshold / maxStamina;
+    }
+    
+    public float GetExhaustionPercentage()
+    {
+        return exhaustionThreshold / maxStamina;
     }
 
     public void StartDepleting()
