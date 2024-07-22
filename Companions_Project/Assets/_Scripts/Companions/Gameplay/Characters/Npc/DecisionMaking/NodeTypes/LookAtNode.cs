@@ -1,4 +1,5 @@
 using System.Collections;
+using Silvermoon.Utils;
 using UnityEngine;
 
 [NodeInfo("Look At", "Gameplay/AI/Look At")]
@@ -14,7 +15,7 @@ public class LookAtNode : ActionGraphNode
         if (lookAtTarget == null)
             yield break;
         
-        Vector3 direction = (lookAtTarget.transform.position - context.npc.transform.position).normalized;
+        Vector3 direction = (lookAtTarget.transform.position - context.npc.transform.position).WithY(0).normalized;
         while (true)
         {
             Quaternion lookRotation = Quaternion.LookRotation(direction);
