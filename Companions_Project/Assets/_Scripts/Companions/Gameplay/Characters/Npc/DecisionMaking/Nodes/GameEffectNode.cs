@@ -1,8 +1,7 @@
 using System.Collections;
-using UnityEngine;
 
-[ActionGraphContext("Game Effect")]
-public class GameEffectNode : SubactionNode
+[NodeInfo("Game Effect", "Gameplay/Game Effect")]
+public class GameEffectNode : ActionGraphNode
 {
     public GameEffect GameEffect;
 
@@ -13,6 +12,7 @@ public class GameEffectNode : SubactionNode
             instigator = context.npc.gameObject,
             target = context.target
         };
+        GameEffect.Execute(effectContext);
         yield return GameEffect.ExecuteCoroutine(effectContext);
     }
 }
