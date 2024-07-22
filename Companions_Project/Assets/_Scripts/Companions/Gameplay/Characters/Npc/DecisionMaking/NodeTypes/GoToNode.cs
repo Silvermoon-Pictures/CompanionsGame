@@ -20,7 +20,7 @@ public class GoToNode : ActionGraphNode
         float stoppingDistanceSqr = stoppingDistance * stoppingDistance + 1;
         while ((context.npc.transform.position - hit.position).sqrMagnitude > stoppingDistanceSqr)
         {
-            context.npc.GoTo(context.target.transform.position, stoppingDistance);
+            context.npc.GoTo(hit.position, stoppingDistance);
             
             yield return null;
         }
