@@ -1,47 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6901510559929830320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3188c074611b1a247a21f15ef29bf035, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextNode: {fileID: 0}
-  duration: 2
---- !u!114 &-3969697030343571052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14a00e9526436694094f510095d846fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextNode: {fileID: 3278846677449723408}
-  stoppingDistance: 1
---- !u!114 &-404562297982510837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dd31d6876e6e964e9423fe6c77f2740, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextNode: {fileID: 5366177999488893877}
-  deplete: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,16 +87,16 @@ MonoBehaviour:
       Data: 1
     - Name: m_Time
       Entry: 4
-      Data: 0.768695652
+      Data: 0.0703035
     - Name: m_Value
       Entry: 4
-      Data: 0.402562618
+      Data: 0.8913702
     - Name: m_InTangent
       Entry: 4
-      Data: 1.01733983
+      Data: 0
     - Name: m_OutTangent
       Entry: 4
-      Data: 1.01733983
+      Data: 0
     - Name: m_TangentMode
       Entry: 3
       Data: 0
@@ -223,7 +181,13 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 6|IsStaminaRecovered, com.companions
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -232,7 +196,7 @@ MonoBehaviour:
       Data: 
     - Name: incompatibleConsiderations
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[Consideration, com.companions]],
+      Data: 7|System.Collections.Generic.List`1[[Consideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
@@ -243,493 +207,181 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  randomPosition: 0
-  radius: 30
-  targetTypes: 00000000
-  targetIdentifier:
-    identifier: MerchantSpot
-  waitForTarget: 0
-  Range: 0
-  beginningNode:
-    nodeType: 
-    position: {x: 160, y: 400}
-    title: Start
-    data: {fileID: 5120474552564497461}
-    titleStyle:
-      m_Name: 
-      m_Normal:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 1, g: 1, b: 1, a: 1}
-      m_Hover:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Active:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Focused:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnNormal:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnHover:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnActive:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnFocused:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Border:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Margin:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Padding:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Overflow:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Font: {fileID: 0}
-      m_FontSize: 48
-      m_FontStyle: 1
-      m_Alignment: 4
-      m_WordWrap: 0
-      m_RichText: 1
-      m_TextClipping: 0
-      m_ImagePosition: 0
-      m_ContentOffset: {x: 0, y: 0}
-      m_FixedWidth: 0
-      m_FixedHeight: 0
-      m_StretchWidth: 1
-      m_StretchHeight: 0
-  nodes:
-  - nodeType: 
-    position: {x: 498, y: 339}
-    title: Go To
-    data: {fileID: -3969697030343571052}
-    titleStyle:
-      m_Name: 
-      m_Normal:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 1, g: 1, b: 1, a: 1}
-      m_Hover:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Active:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Focused:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnNormal:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnHover:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnActive:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnFocused:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Border:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Margin:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Padding:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Overflow:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Font: {fileID: 0}
-      m_FontSize: 24
-      m_FontStyle: 1
-      m_Alignment: 3
-      m_WordWrap: 0
-      m_RichText: 1
-      m_TextClipping: 0
-      m_ImagePosition: 0
-      m_ContentOffset: {x: 0, y: 0}
-      m_FixedWidth: 0
-      m_FixedHeight: 0
-      m_StretchWidth: 1
-      m_StretchHeight: 0
-  - nodeType: 
-    position: {x: 1572, y: 341}
-    title: Play Animation
-    data: {fileID: 5366177999488893877}
-    titleStyle:
-      m_Name: 
-      m_Normal:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 1, g: 1, b: 1, a: 1}
-      m_Hover:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Active:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Focused:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnNormal:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnHover:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnActive:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnFocused:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Border:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Margin:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Padding:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Overflow:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Font: {fileID: 0}
-      m_FontSize: 24
-      m_FontStyle: 1
-      m_Alignment: 3
-      m_WordWrap: 0
-      m_RichText: 1
-      m_TextClipping: 0
-      m_ImagePosition: 0
-      m_ContentOffset: {x: 0, y: 0}
-      m_FixedWidth: 0
-      m_FixedHeight: 0
-      m_StretchWidth: 1
-      m_StretchHeight: 0
-  - nodeType: 
-    position: {x: 1229, y: 352}
-    title: Alter Stamina
-    data: {fileID: -404562297982510837}
-    titleStyle:
-      m_Name: 
-      m_Normal:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 1, g: 1, b: 1, a: 1}
-      m_Hover:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Active:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Focused:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnNormal:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnHover:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnActive:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnFocused:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Border:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Margin:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Padding:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Overflow:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Font: {fileID: 0}
-      m_FontSize: 24
-      m_FontStyle: 1
-      m_Alignment: 3
-      m_WordWrap: 0
-      m_RichText: 1
-      m_TextClipping: 0
-      m_ImagePosition: 0
-      m_ContentOffset: {x: 0, y: 0}
-      m_FixedWidth: 0
-      m_FixedHeight: 0
-      m_StretchWidth: 1
-      m_StretchHeight: 0
-  - nodeType: 
-    position: {x: 1965, y: 387}
-    title: Wait
-    data: {fileID: -6901510559929830320}
-    titleStyle:
-      m_Name: 
-      m_Normal:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 1, g: 1, b: 1, a: 1}
-      m_Hover:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Active:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Focused:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnNormal:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnHover:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnActive:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnFocused:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Border:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Margin:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Padding:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Overflow:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Font: {fileID: 0}
-      m_FontSize: 24
-      m_FontStyle: 1
-      m_Alignment: 3
-      m_WordWrap: 0
-      m_RichText: 1
-      m_TextClipping: 0
-      m_ImagePosition: 0
-      m_ContentOffset: {x: 0, y: 0}
-      m_FixedWidth: 0
-      m_FixedHeight: 0
-      m_StretchWidth: 1
-      m_StretchHeight: 0
-  - nodeType: 
-    position: {x: 875, y: 282}
-    title: Look At
-    data: {fileID: 3278846677449723408}
-    titleStyle:
-      m_Name: 
-      m_Normal:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 1, g: 1, b: 1, a: 1}
-      m_Hover:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Active:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Focused:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnNormal:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnHover:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnActive:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_OnFocused:
-        m_Background: {fileID: 0}
-        m_ScaledBackgrounds: []
-        m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-      m_Border:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Margin:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Padding:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Overflow:
-        m_Left: 0
-        m_Right: 0
-        m_Top: 0
-        m_Bottom: 0
-      m_Font: {fileID: 0}
-      m_FontSize: 24
-      m_FontStyle: 1
-      m_Alignment: 3
-      m_WordWrap: 0
-      m_RichText: 1
-      m_TextClipping: 0
-      m_ImagePosition: 0
-      m_ContentOffset: {x: 0, y: 0}
-      m_FixedWidth: 0
-      m_FixedHeight: 0
-      m_StretchWidth: 1
-      m_StretchHeight: 0
+  graphNodes:
+  - rid: 5859783948307791878
+  - rid: 5859783948307791879
+  - rid: 5859783948307791880
+  - rid: 5859783948307791881
+  - rid: 5859783948307791882
+  - rid: 5859783957192376320
+  - rid: 5859783957192376321
+  - rid: 5859783957192376323
+  - rid: 5859783957192376324
   connections:
-  - startNodeIndex: 3
-    endNodeIndex: 2
-  - startNodeIndex: 2
-    endNodeIndex: 4
-  - startNodeIndex: 1
-    endNodeIndex: 5
-  - startNodeIndex: 0
-    endNodeIndex: 1
-  - startNodeIndex: 5
-    endNodeIndex: 3
---- !u!114 &3278846677449723408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22ffed57d779a5e44b5f7dbb10e93154, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextNode: {fileID: -404562297982510837}
-  lookAtPoint:
-    identifier: MerchantSpot
-  rotationSpeed: 7
---- !u!114 &5120474552564497461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aedda3ed5190b1c4ea4ac9155657f9ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextNode: {fileID: -3969697030343571052}
---- !u!114 &5366177999488893877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e1f35a9142c55e41ac2581ef76ef305, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextNode: {fileID: -6901510559929830320}
-  animation: {fileID: 0}
-  triggerName: TriggerHawk
+  - inputPort:
+      nodeId: 1e4ec613-6702-405b-a1f7-caf5b9c57502
+      portIndex: 1
+    outputPort:
+      nodeId: 6d64e875-26e1-4a8a-b9ef-5bf8c58c1893
+      portIndex: 0
+  - inputPort:
+      nodeId: ad49c101-a478-46d5-ac1e-65fa93ca1e3b
+      portIndex: 1
+    outputPort:
+      nodeId: 1e4ec613-6702-405b-a1f7-caf5b9c57502
+      portIndex: 0
+  - inputPort:
+      nodeId: d1e23185-847e-493f-a0a7-eea1baef4e8f
+      portIndex: 1
+    outputPort:
+      nodeId: ad49c101-a478-46d5-ac1e-65fa93ca1e3b
+      portIndex: 0
+  - inputPort:
+      nodeId: 62f99a69-d1f8-4563-bea6-5bcce179bed9
+      portIndex: 1
+    outputPort:
+      nodeId: d1e23185-847e-493f-a0a7-eea1baef4e8f
+      portIndex: 0
+  - inputPort:
+      nodeId: 3ff95bca-c132-4861-a2d9-7c1c0748daf0
+      portIndex: 1
+    outputPort:
+      nodeId: 62f99a69-d1f8-4563-bea6-5bcce179bed9
+      portIndex: 0
+  - inputPort:
+      nodeId: 9fa6dc37-4246-4912-bb2e-d973c675979a
+      portIndex: 1
+    outputPort:
+      nodeId: 3ff95bca-c132-4861-a2d9-7c1c0748daf0
+      portIndex: 0
+  - inputPort:
+      nodeId: 43ff5ede-8b0b-48e5-bc4a-cd62412482eb
+      portIndex: 1
+    outputPort:
+      nodeId: 54adabec-e61a-4ea1-8ee7-bb9bb51e7b0b
+      portIndex: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 5859783948307791878
+      type: {class: StartNode, ns: , asm: com.companions}
+      data:
+        guid: 6d64e875-26e1-4a8a-b9ef-5bf8c58c1893
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        nextNodeId: 1e4ec613-6702-405b-a1f7-caf5b9c57502
+    - rid: 5859783948307791879
+      type: {class: ExitNode, ns: , asm: com.companions}
+      data:
+        guid: 54adabec-e61a-4ea1-8ee7-bb9bb51e7b0b
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 250
+          width: 0
+          height: 0
+        nextNodeId: 43ff5ede-8b0b-48e5-bc4a-cd62412482eb
+    - rid: 5859783948307791880
+      type: {class: FindTargetNode, ns: , asm: com.companions}
+      data:
+        guid: 1e4ec613-6702-405b-a1f7-caf5b9c57502
+        position:
+          serializedVersion: 2
+          x: 117
+          y: 1
+          width: 219
+          height: 153
+        nextNodeId: ad49c101-a478-46d5-ac1e-65fa93ca1e3b
+        findClosest: 0
+        radius: 10
+        useDictionaryComponent: 1
+        targetIdentifier:
+          identifier: MerchantGoToSpot
+    - rid: 5859783948307791881
+      type: {class: GoToNode, ns: , asm: com.companions}
+      data:
+        guid: ad49c101-a478-46d5-ac1e-65fa93ca1e3b
+        position:
+          serializedVersion: 2
+          x: 360
+          y: 1
+          width: 281
+          height: 141
+        nextNodeId: d1e23185-847e-493f-a0a7-eea1baef4e8f
+        stoppingDistance: 0.25
+        target: {fileID: 0}
+    - rid: 5859783948307791882
+      type: {class: PlayAnimationNode, ns: , asm: com.companions}
+      data:
+        guid: 3ff95bca-c132-4861-a2d9-7c1c0748daf0
+        position:
+          serializedVersion: 2
+          x: 1227
+          y: 2
+          width: 288
+          height: 154
+        nextNodeId: 9fa6dc37-4246-4912-bb2e-d973c675979a
+        clip: {fileID: 0}
+        booleanName: 
+        boolean: 0
+        triggerName: TriggerHawk
+        waitForTransition: 0
+    - rid: 5859783957192376320
+      type: {class: AlterStaminaNode, ns: , asm: com.companions}
+      data:
+        guid: 9fa6dc37-4246-4912-bb2e-d973c675979a
+        position:
+          serializedVersion: 2
+          x: 1550
+          y: 2
+          width: 150
+          height: 96
+        nextNodeId: 
+        deplete: 1
+    - rid: 5859783957192376321
+      type: {class: AlterStaminaNode, ns: , asm: com.companions}
+      data:
+        guid: 43ff5ede-8b0b-48e5-bc4a-cd62412482eb
+        position:
+          serializedVersion: 2
+          x: 134
+          y: 250
+          width: 150
+          height: 96
+        nextNodeId: 
+        deplete: 0
+    - rid: 5859783957192376323
+      type: {class: LookAtNode, ns: , asm: com.companions}
+      data:
+        guid: 62f99a69-d1f8-4563-bea6-5bcce179bed9
+        position:
+          serializedVersion: 2
+          x: 944
+          y: 2
+          width: 219
+          height: 135
+        nextNodeId: 3ff95bca-c132-4861-a2d9-7c1c0748daf0
+        lookAtCurrentTarget: 1
+        lookAtPoint:
+          identifier: None
+        rotationSpeed: 7
+    - rid: 5859783957192376324
+      type: {class: FindTargetNode, ns: , asm: com.companions}
+      data:
+        guid: d1e23185-847e-493f-a0a7-eea1baef4e8f
+        position:
+          serializedVersion: 2
+          x: 673
+          y: 2
+          width: 219
+          height: 153
+        nextNodeId: 62f99a69-d1f8-4563-bea6-5bcce179bed9
+        findClosest: 0
+        radius: 10
+        useDictionaryComponent: 1
+        targetIdentifier:
+          identifier: MerchantLookAtSpot
