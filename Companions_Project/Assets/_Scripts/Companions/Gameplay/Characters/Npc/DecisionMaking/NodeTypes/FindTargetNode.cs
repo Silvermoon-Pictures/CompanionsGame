@@ -1,6 +1,5 @@
 using System.Collections;
 using Silvermoon.Core;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 [NodeInfo("Find Target", "Gameplay/Find Target")]
@@ -18,9 +17,7 @@ public class FindTargetNode : ActionGraphNode
     public override IEnumerator Execute(SubactionContext context)
     {
         this.context = context;
-
-        GameObject target = FindTarget(context);
-        context.target = target;
+        context.target = FindTarget(context);
         yield break;
     }
     
