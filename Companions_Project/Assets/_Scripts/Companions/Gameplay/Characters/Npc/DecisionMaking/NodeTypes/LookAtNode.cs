@@ -19,9 +19,11 @@ public class LookAtNode : ActionGraphNode
         {
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             float angle = Quaternion.Angle(context.npc.transform.rotation, lookRotation);
-            
-            if (angle < 5f)
+
+            if (angle < float.Epsilon)
+            {
                 break;
+            }
             
             context.npc.transform.rotation =
                 Quaternion.Slerp(context.npc.transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
