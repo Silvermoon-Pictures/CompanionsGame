@@ -5,8 +5,7 @@ using UnityEngine.AI;
 
 public partial class Npc
 {
-    private static readonly int IsMoving = Animator.StringToHash("isMoving");
-    private static readonly int Speed = Animator.StringToHash("Speed");
+    private static readonly int IsMoving = Animator.StringToHash("IsMoving");
 
     public class WalkingMoveState : MoveState
     {
@@ -19,7 +18,6 @@ public partial class Npc
         private NavMeshPath path;
         private NpcFSMContext fsmContext;
         Vector3 previousPosition;
-        private const float threshold = 0.01f;
 
         public WalkingMoveState(MovementComponent owner, NavMeshAgent navMeshAgent, NpcFSMContext fsmContext) : base(owner)
         {
@@ -29,7 +27,7 @@ public partial class Npc
             this.fsmContext = fsmContext;
         }
         
-        protected override bool CanEnter(MovementContext context) => (navMeshAgent.destination - fsmContext.targetPosition).sqrMagnitude > fsmContext.stoppingDistance * fsmContext.stoppingDistance + 0.1f;
+        protected override bool CanEnter(MovementContext context) => (context.position - fsmContext.targetPosition).sqrMagnitude > fsmContext.stoppingDistance * fsmContext.stoppingDistance + 0.1f;
         public override bool CanExit(MovementContext context) => navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance + float.Epsilon 
                                                                  || navMeshAgent.isStopped;
 
