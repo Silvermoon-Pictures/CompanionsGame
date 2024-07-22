@@ -9,7 +9,7 @@ public class GoToNode : ActionGraphNode
 {
     public float stoppingDistance = 1f;
 
-    [InputPort] public GameObject target;
+    public GameObject target;
 
     public override IEnumerator Execute(SubactionContext context)
     {
