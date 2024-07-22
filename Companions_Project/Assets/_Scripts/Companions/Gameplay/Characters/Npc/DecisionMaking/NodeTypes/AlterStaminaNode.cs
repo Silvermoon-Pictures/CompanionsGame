@@ -1,8 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-[ActionGraphContext("Alter Stamina")]
-public class AlterStaminaNode : SubactionNode
+[NodeInfo("Alter Stamina", "Gameplay/Alter Stamina")]
+public class AlterStaminaNode : ActionGraphNode
 {
     public bool deplete;
 
