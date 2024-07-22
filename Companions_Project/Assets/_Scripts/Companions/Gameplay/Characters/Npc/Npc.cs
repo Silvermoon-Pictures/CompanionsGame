@@ -6,92 +6,75 @@ using Silvermoon.Core;
 using Silvermoon.Movement;
 using Silvermoon.Utils;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 {
     [field: SerializeField]
     public NpcData NpcData { get; private set; }
-
-    public List<GameObject> visualPrefabs;
-        
+    
     private NpcBrain brain;
     
     public MovementComponent MovementComponent { get; private set; }
 
-    public NpcAction Action { get; private set; }
+    public NpcAction Action => stateMachineContext.currentActionData;
     private NpcFSM stateMachine;
 
-    public bool HasAction { get; set; }
-    public bool ShouldMove { get; set; }
-    public bool ExecuteAction => HasAction && !ShouldMove && !WaitForTarget();
+    public bool HasAction => stateMachineContext.currentActionData != null;
 
-    private NpcFSMContext stateMachineContext;
+    internal NpcFSMContext stateMachineContext;
+    internal DictionaryComponent dictionaryComponent;
 
     private void Awake()
     {
+        // GameObject visual = visualPrefabs[UnityEngine.Random.Range(0, visualPrefabs.Count)];
+        // Instantiate(visual, transform);
+        
         MovementComponent = GetComponent<MovementComponent>();
-        SetupMovement();
+        dictionaryComponent = GetComponent<DictionaryComponent>();
+        stateMachineContext = new(0f)
+        {
+            animator = GetComponentInChildren<Animator>(),
+            targetPosition = transform.position,
+            stoppingDistance = 1f,
+        };
+        
         stateMachine = NpcFSM.Make(this);
-        stateMachineContext = new(0f);
-        stateMachineContext.animator = GetComponentInChildren<Animator>();
+        
+        SetupMovement();
         
         brain = new NpcBrain(this);
-        Action = new NpcAction();
-
-        GameObject visual = visualPrefabs[UnityEngine.Random.Range(0, visualPrefabs.Count)];
-        Instantiate(visual, transform);
     }
 
     void Start()
     {
         if (NpcData == null)
             throw new DesignException($"NpcData on {name} is not set!");
-
+        
         Decide();
     }
 
-    public void Decide()
+    public ActionAsset Decide()
     {
-        HasAction = false;
-        Action.Reset();
+        stateMachineContext.executeAction = false;
+        var action = brain.Decide();
+        if (action == null)
+            return null;
+        if (HasAction && action.name == Action.actionData.name)
+            return null;
+
+        stateMachineContext.previousActionData = Action;
+        stateMachineContext.currentActionData = new NpcAction(action);
         
-        var decisionData = brain.Decide();
-        if (decisionData.action == null || (decisionData.target == null && !decisionData.randomPosition.HasValue))
-            return;
+        stateMachineContext.executeAction = true;
 
-        Action.actionData = decisionData.action;
-        if (decisionData.target != null)
-            Action.target = ((Component)decisionData.target).gameObject;
-        else
-            Action.randomPosition = decisionData.randomPosition;
-
-        HasAction = true;
-        ShouldMove = !IsInTargetRange() && !Action.WaitForTarget;
+        return action;
     }
 
-    private bool IsInTargetRange()
+    public void GoTo(Vector3 destination, float stoppingDistance)
     {
-        if (Action.target == null && !Action.randomPosition.HasValue)
-            return false;
-        
-        float distance = Vector3.Distance(Action.TargetPosition, transform.position);
-        return distance <= Action.actionData.Range;
-    }
-
-    private bool WaitForTarget()
-    {
-        return Action.IsValid && Action.WaitForTarget && !IsInTargetRange();
-    }
-
-    public GameEffectContext CreateContext()
-    {
-        var context = new GameEffectContext()
-        {
-            instigator = gameObject,
-            target = Action.target
-        };
-
-        return context;
+        stateMachineContext.targetPosition = destination;
+        stateMachineContext.stoppingDistance = stoppingDistance;
     }
 
     private void Update()
@@ -103,10 +86,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
     private void UpdateStateMachine()
     {
         stateMachineContext.dt = Time.deltaTime;
-        stateMachineContext.velocity = MovementComponent.Velocity;
-        stateMachineContext.executeAction = ExecuteAction;
-        stateMachineContext.shouldMove = ShouldMove;
-        stateMachineContext.waitForTarget = WaitForTarget();
         
         stateMachine.Transition(stateMachineContext);
         stateMachine.Update(stateMachineContext);
@@ -122,10 +101,5 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
     {
         liftableComponent.transform.position = transform.position + 5 * transform.forward;
         liftableComponent.transform.SetParent(transform);
-    }
-
-    private void OnReachedTarget()
-    {
-        ShouldMove = false;
     }
 }

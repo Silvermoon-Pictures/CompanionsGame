@@ -1,31 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Companions.Common;
 using Silvermoon.Core;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 [CreateAssetMenu(menuName = "Companions/Npc/Actions", fileName = "Action")]
 public class ActionAsset : SerializedScriptableObject
 {
-    public GameEffect gameEffectOnStart;
-    public GameEffect gameEffectOnEnd;
-    
-    public float duration = 0f;
-
-    public bool randomPosition;
-    [ShowIf("randomPosition")] 
-    public float radius = 30f;
-    [ShowIf("@!randomPosition")] 
-    public List<ETargetType> targetTypes;
-    [ShowIf("@targetTypes.Contains(ETargetType.Other)")] 
-    public Identifier targetIdentifier;
-    [ShowIf("@targetTypes.Contains(ETargetType.Other)")] 
-    public bool waitForTarget = false;
-    
-    public float Range;
-    
     [TitleGroup("Decision Making")]
     public List<WeightedConsideration> weightedConsiderations = new();
     [TitleGroup("Decision Making")]
@@ -33,18 +18,47 @@ public class ActionAsset : SerializedScriptableObject
     [TitleGroup("Decision Making")]
     public List<Consideration> incompatibleConsiderations = new();
 
-    public void Execute(GameEffectContext context)
+
+    [SerializeReference, HideInInspector]
+    private List<ActionGraphNode> graphNodes;
+    [SerializeField, HideInInspector]
+    private List<ActionGraphConnection> connections;
+
+    public List<ActionGraphNode> GraphNodes => graphNodes;
+    public List<ActionGraphConnection> Connections => connections;
+    public Queue<ActionGraphNode> SubactionQueue { get; private set; } = new();
+    public Queue<ActionGraphNode> ExitSubactionQueue { get; private set; } = new();
+
+    public ActionAsset()
     {
-        if (gameEffectOnStart != null)
-            gameEffectOnStart.Execute(context);
+        graphNodes = new List<ActionGraphNode>();
+        connections = new List<ActionGraphConnection>();
     }
 
-    public void End(GameEffectContext context)
+
+    private void OnEnable()
     {
-        if (gameEffectOnEnd != null)
-            gameEffectOnEnd.Execute(context);
+        Init();
+        FillSubactions();
     }
 
+    void FillSubactions()
+    {
+        ActionGraphNode currentNode = GetStartNode();
+        while (currentNode != null)
+        {
+            SubactionQueue.Enqueue(currentNode);
+            currentNode = GetNode(currentNode.NextNodeId);
+        }
+        
+        currentNode = GetExitNode();
+        while (currentNode != null)
+        {
+            ExitSubactionQueue.Enqueue(currentNode);
+            currentNode = GetNode(currentNode.NextNodeId);
+        }
+    }
+    
     public float CalculateScore(ConsiderationContext context)
     {
         if (weightedConsiderations == null || weightedConsiderations.Count == 0)
@@ -92,6 +106,41 @@ public class ActionAsset : SerializedScriptableObject
         }
 
         return true;
+    }
+
+    public ActionGraphNode GetStartNode()
+    {
+        StartNode[] startNodes = graphNodes.OfType<StartNode>().ToArray();
+        if (startNodes.Length == 0)
+        {
+            return null;
+        }
+        return startNodes[0];
+    }
+    
+    public ActionGraphNode GetExitNode()
+    {
+        ExitNode[] exitNodes = graphNodes.OfType<ExitNode>().ToArray();
+        if (exitNodes.Length == 0)
+        {
+            return null;
+        }
+        return exitNodes[0];
+    }
+
+    public ActionGraphNode GetNode(string nextNodeCurrent)
+    {
+        return nodeDictionary.GetValueOrDefault(nextNodeCurrent);
+    }
+
+    private Dictionary<string, ActionGraphNode> nodeDictionary;
+    public void Init()
+    {
+        nodeDictionary = new();
+        foreach (var node in graphNodes)
+        {
+            nodeDictionary.Add(node.Id, node);
+        }
     }
 }
 

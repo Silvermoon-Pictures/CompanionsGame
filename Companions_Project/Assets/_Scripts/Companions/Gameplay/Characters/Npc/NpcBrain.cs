@@ -12,9 +12,7 @@ public interface IAvailablity
 
 public class ActionDecisionData
 {
-    public ActionAsset action;
-    public ICoreComponent target;
-    public Vector3? randomPosition;
+    
 }
 
 public class NpcBrain
@@ -28,7 +26,7 @@ public class NpcBrain
         this.npc = npc;
     }
 
-    public ActionDecisionData Decide()
+    public ActionAsset Decide()
     {
         var context = new ConsiderationContext()
         {
@@ -39,56 +37,7 @@ public class NpcBrain
 
         var filteredActions = FilterActions(context);
         selectedAction = ScoreActions(filteredActions, context);
-        data.action = selectedAction;
-
-        if (selectedAction != null)
-        {
-            if (!selectedAction.randomPosition)
-            {
-                data.target = FindTarget(selectedAction);
-            }
-            else
-            {
-                for (int i = 0; i < 50; i++)
-                {
-                    Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * selectedAction.radius;
-                    randomDirection += npc.transform.position;
-                    if (NavMesh.SamplePosition(randomDirection, out var hit, selectedAction.radius, NavMesh.AllAreas))
-                    {
-                        data.randomPosition = hit.position;
-                        break;
-                    }
-                }
-            }
-        }
-        
-        return data;
-    }
-
-    private ICoreComponent FindTarget(ActionAsset action)
-    {
-        if (action.targetTypes.Contains(ETargetType.Self))
-            return npc;
-        
-        return ComponentSystem.GetClosestTarget(typeof(ICoreComponent), npc.transform.position, filter: FilterTargets);
-    }
-
-    private bool FilterTargets(Component component)
-    {
-        if (component.gameObject == npc.gameObject)
-            return false;
-
-        if (!component.TryGetComponent(out IdentifierComponent identifierComponent))
-            return false;
-
-        if (!identifierComponent.identifiers.Contains(selectedAction.targetIdentifier))
-            return false;
-        
-        if (component.TryGetComponent(out IAvailablity availability))
-            if (!availability.IsAvailable(npc.gameObject))
-                return false;
-
-        return true;
+        return selectedAction;
     }
 
     private IEnumerable<ActionAsset> FilterActions(ConsiderationContext context)
