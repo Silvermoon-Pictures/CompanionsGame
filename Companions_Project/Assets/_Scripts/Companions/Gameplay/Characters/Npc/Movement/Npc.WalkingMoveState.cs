@@ -29,7 +29,7 @@ public partial class Npc
             this.fsmContext = fsmContext;
         }
         
-        protected override bool CanEnter(MovementContext context) => (navMeshAgent.destination - fsmContext.targetPosition).sqrMagnitude > fsmContext.stoppingDistance * fsmContext.stoppingDistance;
+        protected override bool CanEnter(MovementContext context) => (navMeshAgent.destination - fsmContext.targetPosition).sqrMagnitude > fsmContext.stoppingDistance * fsmContext.stoppingDistance + 0.1f;
         public override bool CanExit(MovementContext context) => navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance + float.Epsilon 
                                                                  || navMeshAgent.isStopped;
 
