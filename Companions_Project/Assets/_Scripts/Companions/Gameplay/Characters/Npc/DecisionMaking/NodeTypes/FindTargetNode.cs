@@ -38,13 +38,13 @@ public class FindTargetNode : ActionGraphNode
         if (target == null)
             return null;
 
-        if (target.TryGetComponent(out AvailabilityComponent availabilityComponent))
-        {
-            if (!availabilityComponent.TryOccupySpot(out Transform spot))
-                return null;
-
-            target = spot.gameObject;
-        }
+        // if (target.TryGetComponent(out AvailabilityComponent availabilityComponent))
+        // {
+        //     if (!availabilityComponent.TryOccupySpot(out Transform spot))
+        //         return null;
+        //
+        //     target = spot.gameObject;
+        // }
         
         return target;
     }
