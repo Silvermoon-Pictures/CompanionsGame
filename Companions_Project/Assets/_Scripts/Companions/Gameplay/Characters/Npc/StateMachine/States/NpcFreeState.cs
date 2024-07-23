@@ -1,4 +1,5 @@
 using Companions.StateMachine;
+using Companions.Systems;
 using Silvermoon.Movement;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Companions.StateMachine
 {
     public class NpcFreeState : NpcState
     {
-        private const float interval = 2f;
+        private float interval;
         private float timer = 0f;
         
         protected override bool CanEnter(NpcFSMContext context) => true;
@@ -17,6 +18,7 @@ namespace Companions.StateMachine
         {
             base.OnEnter(context);
 
+            interval = ConfigurationSystem.GetConfig<NpcConfig>().DecisionMakingInterval;
             timer = interval;
         }
 
