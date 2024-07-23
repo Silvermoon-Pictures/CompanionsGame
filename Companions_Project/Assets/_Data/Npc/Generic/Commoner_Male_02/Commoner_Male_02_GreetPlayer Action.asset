@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4489f753fe2d3864fb2a29d5cfc1ac7e, type: 3}
-  m_Name: Commoner_Male_01_Walk Action
+  m_Name: Commoner_Male_02_GreetPlayer Action
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -45,10 +45,10 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 4
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -166,7 +166,16 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 6|IsPlayerNearbyConsideration, com.companions
+    - Name: radius
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -175,7 +184,7 @@ MonoBehaviour:
       Data: 
     - Name: incompatibleConsiderations
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[Consideration, com.companions]],
+      Data: 7|System.Collections.Generic.List`1[[Consideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
@@ -187,62 +196,48 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graphNodes:
-  - rid: 5859783966461526016
-  - rid: 5859783966461526017
-  - rid: 5859783966461526018
-  - rid: 5859783966461526019
-  - rid: 5859783966461526020
-  - rid: 5859783966461526021
-  - rid: 5859783966461526022
+  - rid: 5859783969389412352
+  - rid: 5859783969389412353
+  - rid: 5859783969389412354
+  - rid: 5859783969389412355
+  - rid: 5859783969389412356
   connections:
   - inputPort:
-      nodeId: 6f164cc4-e026-4f3a-b127-3ab92d5ad458
+      nodeId: 0ca3cdae-4b1d-49b8-b557-ff9c5490064c
       portIndex: 1
     outputPort:
-      nodeId: 18799671-da5a-4731-9565-9a3e701d01fd
+      nodeId: d2a83bf2-f5ce-4c7a-a10e-c28a92a9de57
       portIndex: 0
   - inputPort:
-      nodeId: 25f3e506-9029-4abd-96a8-f772e9455632
+      nodeId: 25abddaa-57df-423b-a3dd-56f849d71cd8
       portIndex: 1
     outputPort:
-      nodeId: 6f164cc4-e026-4f3a-b127-3ab92d5ad458
+      nodeId: 0ca3cdae-4b1d-49b8-b557-ff9c5490064c
       portIndex: 0
   - inputPort:
-      nodeId: 512a8ba1-66cf-4cf5-83da-3f20904bd94c
+      nodeId: 9cb2bdca-bbd3-46c9-85b8-cb332638f1db
       portIndex: 1
     outputPort:
-      nodeId: 25f3e506-9029-4abd-96a8-f772e9455632
-      portIndex: 0
-  - inputPort:
-      nodeId: 29cb76e9-a42f-439e-8fe3-67f497e30d83
-      portIndex: 1
-    outputPort:
-      nodeId: 512a8ba1-66cf-4cf5-83da-3f20904bd94c
-      portIndex: 0
-  - inputPort:
-      nodeId: 187c2a06-2847-4f01-8457-c63108478a69
-      portIndex: 1
-    outputPort:
-      nodeId: 29cb76e9-a42f-439e-8fe3-67f497e30d83
+      nodeId: 25abddaa-57df-423b-a3dd-56f849d71cd8
       portIndex: 0
   references:
     version: 2
     RefIds:
-    - rid: 5859783966461526016
+    - rid: 5859783969389412352
       type: {class: StartNode, ns: , asm: com.companions}
       data:
-        guid: 18799671-da5a-4731-9565-9a3e701d01fd
+        guid: d2a83bf2-f5ce-4c7a-a10e-c28a92a9de57
         position:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        nextNodeId: 6f164cc4-e026-4f3a-b127-3ab92d5ad458
-    - rid: 5859783966461526017
+        nextNodeId: 0ca3cdae-4b1d-49b8-b557-ff9c5490064c
+    - rid: 5859783969389412353
       type: {class: ExitNode, ns: , asm: com.companions}
       data:
-        guid: db07e71c-cb8d-4c8e-b2d2-cf2f26f0c636
+        guid: 7a809733-57bd-4ccf-bdea-8259429440b4
         position:
           serializedVersion: 2
           x: 0
@@ -250,73 +245,50 @@ MonoBehaviour:
           width: 0
           height: 0
         nextNodeId: 
-    - rid: 5859783966461526018
+    - rid: 5859783969389412354
       type: {class: FindTargetNode, ns: , asm: com.companions}
       data:
-        guid: 6f164cc4-e026-4f3a-b127-3ab92d5ad458
+        guid: 0ca3cdae-4b1d-49b8-b557-ff9c5490064c
         position:
           serializedVersion: 2
-          x: 142
+          x: 106
           y: 0
           width: 219
           height: 153
-        nextNodeId: 25f3e506-9029-4abd-96a8-f772e9455632
+        nextNodeId: 25abddaa-57df-423b-a3dd-56f849d71cd8
         findClosest: 0
         radius: 10
-        useDictionaryComponent: 1
+        useDictionaryComponent: 0
         targetIdentifier:
-          identifier: Target
-    - rid: 5859783966461526019
-      type: {class: GoToNode, ns: , asm: com.companions}
+          identifier: Player
+    - rid: 5859783969389412355
+      type: {class: LookAtNode, ns: , asm: com.companions}
       data:
-        guid: 25f3e506-9029-4abd-96a8-f772e9455632
+        guid: 25abddaa-57df-423b-a3dd-56f849d71cd8
         position:
           serializedVersion: 2
-          x: 401
-          y: 0
-          width: 281
-          height: 117
-        nextNodeId: 512a8ba1-66cf-4cf5-83da-3f20904bd94c
-        stoppingDistance: 1
-        target: {fileID: 0}
-    - rid: 5859783966461526020
-      type: {class: WaitNode, ns: , asm: com.companions}
-      data:
-        guid: 512a8ba1-66cf-4cf5-83da-3f20904bd94c
-        position:
-          serializedVersion: 2
-          x: 712
-          y: 0
-          width: 156
-          height: 97
-        nextNodeId: 29cb76e9-a42f-439e-8fe3-67f497e30d83
-        duration: 1
-    - rid: 5859783966461526021
-      type: {class: FindTargetNode, ns: , asm: com.companions}
-      data:
-        guid: 29cb76e9-a42f-439e-8fe3-67f497e30d83
-        position:
-          serializedVersion: 2
-          x: 890
+          x: 356
           y: 0
           width: 219
-          height: 153
-        nextNodeId: 187c2a06-2847-4f01-8457-c63108478a69
-        findClosest: 0
-        radius: 10
-        useDictionaryComponent: 1
-        targetIdentifier:
-          identifier: Home
-    - rid: 5859783966461526022
-      type: {class: GoToNode, ns: , asm: com.companions}
+          height: 135
+        nextNodeId: 9cb2bdca-bbd3-46c9-85b8-cb332638f1db
+        lookAtCurrentTarget: 1
+        lookAtPoint:
+          identifier: 
+        rotationSpeed: 10
+    - rid: 5859783969389412356
+      type: {class: PlayAnimationNode, ns: , asm: com.companions}
       data:
-        guid: 187c2a06-2847-4f01-8457-c63108478a69
+        guid: 9cb2bdca-bbd3-46c9-85b8-cb332638f1db
         position:
           serializedVersion: 2
-          x: 1134
+          x: 606
           y: 0
-          width: 281
-          height: 117
+          width: 288
+          height: 172
         nextNodeId: 
-        stoppingDistance: 1
-        target: {fileID: 0}
+        clip: {fileID: 0}
+        booleanName: 
+        boolean: 0
+        triggerName: TriggerGreet
+        waitForTransition: 0
