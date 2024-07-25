@@ -208,7 +208,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graphNodes:
-  - rid: 5859783948307791878
   - rid: 5859783948307791879
   - rid: 5859783948307791880
   - rid: 5859783948307791881
@@ -217,6 +216,7 @@ MonoBehaviour:
   - rid: 5859783957192376321
   - rid: 5859783957192376323
   - rid: 5859783957192376324
+  - rid: 5859784013207044117
   connections:
   - inputPort:
       nodeId: 1e4ec613-6702-405b-a1f7-caf5b9c57502
@@ -260,20 +260,15 @@ MonoBehaviour:
     outputPort:
       nodeId: 54adabec-e61a-4ea1-8ee7-bb9bb51e7b0b
       portIndex: 0
+  - inputPort:
+      nodeId: 1e4ec613-6702-405b-a1f7-caf5b9c57502
+      portIndex: 1
+    outputPort:
+      nodeId: 07964ef6-a744-442c-bc2a-c63fa092735a
+      portIndex: 0
   references:
     version: 2
     RefIds:
-    - rid: 5859783948307791878
-      type: {class: StartNode, ns: , asm: com.companions}
-      data:
-        guid: 6d64e875-26e1-4a8a-b9ef-5bf8c58c1893
-        position:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        nextNodeId: 1e4ec613-6702-405b-a1f7-caf5b9c57502
     - rid: 5859783948307791879
       type: {class: ExitNode, ns: , asm: com.companions}
       data:
@@ -385,3 +380,14 @@ MonoBehaviour:
         useDictionaryComponent: 1
         targetIdentifier:
           identifier: MerchantLookAtSpot
+    - rid: 5859784013207044117
+      type: {class: ExecuteNode, ns: , asm: com.companions}
+      data:
+        guid: 07964ef6-a744-442c-bc2a-c63fa092735a
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        nextNodeId: 1e4ec613-6702-405b-a1f7-caf5b9c57502

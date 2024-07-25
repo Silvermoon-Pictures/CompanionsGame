@@ -39,7 +39,7 @@ MonoBehaviour:
       Data: false
     - Name: Score
       Entry: 4
-      Data: 1
+      Data: 0.9
     - Name: randomScore
       Entry: 7
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
@@ -187,9 +187,9 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graphNodes:
-  - rid: 5859783965117775873
   - rid: 5859783965117775874
   - rid: 5859783965117775875
+  - rid: 5859784013207044115
   connections:
   - inputPort:
       nodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
@@ -197,20 +197,15 @@ MonoBehaviour:
     outputPort:
       nodeId: dbc36282-7336-40a6-8c00-546ec3790713
       portIndex: 0
+  - inputPort:
+      nodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
+      portIndex: 1
+    outputPort:
+      nodeId: 9e16f2aa-22a2-4a5d-b302-3a220d2178b5
+      portIndex: 0
   references:
     version: 2
     RefIds:
-    - rid: 5859783965117775873
-      type: {class: StartNode, ns: , asm: com.companions}
-      data:
-        guid: dbc36282-7336-40a6-8c00-546ec3790713
-        position:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        nextNodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
     - rid: 5859783965117775874
       type: {class: ExitNode, ns: , asm: com.companions}
       data:
@@ -238,3 +233,14 @@ MonoBehaviour:
         boolean: 0
         triggerName: TriggerIdle
         waitForTransition: 0
+    - rid: 5859784013207044115
+      type: {class: ExecuteNode, ns: , asm: com.companions}
+      data:
+        guid: 9e16f2aa-22a2-4a5d-b302-3a220d2178b5
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        nextNodeId: 22fe3aff-eaec-482e-858f-e41113be35fa

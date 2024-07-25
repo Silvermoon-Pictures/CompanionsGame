@@ -196,44 +196,41 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graphNodes:
-  - rid: 5859783969389412352
   - rid: 5859783969389412353
-  - rid: 5859783969389412354
-  - rid: 5859783969389412355
-  - rid: 5859783969389412356
+  - rid: 5859784005231575043
+  - rid: 5859784013207044104
+  - rid: 5859784013207044107
+  - rid: 5859784013207044109
+  - rid: 5859784013207044113
+  - rid: 5859784013207044114
   connections:
   - inputPort:
-      nodeId: 0ca3cdae-4b1d-49b8-b557-ff9c5490064c
+      nodeId: 6c4c99d5-b3a9-4f79-94dc-8bb32dc8ff40
+      portIndex: 1
+    outputPort:
+      nodeId: 3b5bbced-0986-4b74-8667-8541c4afff48
+      portIndex: 0
+  - inputPort:
+      nodeId: ebdcd63a-9e02-4f22-b51a-1b8461ecbdc9
       portIndex: 1
     outputPort:
       nodeId: d2a83bf2-f5ce-4c7a-a10e-c28a92a9de57
       portIndex: 0
   - inputPort:
-      nodeId: 25abddaa-57df-423b-a3dd-56f849d71cd8
+      nodeId: 2b4681fc-e74e-43c7-b956-b8659a64ce08
       portIndex: 1
     outputPort:
-      nodeId: 0ca3cdae-4b1d-49b8-b557-ff9c5490064c
+      nodeId: 2678d77b-530a-49bd-95e2-1075c9a6b7fd
       portIndex: 0
   - inputPort:
-      nodeId: 9cb2bdca-bbd3-46c9-85b8-cb332638f1db
+      nodeId: ebdcd63a-9e02-4f22-b51a-1b8461ecbdc9
       portIndex: 1
     outputPort:
-      nodeId: 25abddaa-57df-423b-a3dd-56f849d71cd8
+      nodeId: d9f98ebb-ecb0-474d-97d7-cef64c61bcf9
       portIndex: 0
   references:
     version: 2
     RefIds:
-    - rid: 5859783969389412352
-      type: {class: StartNode, ns: , asm: com.companions}
-      data:
-        guid: d2a83bf2-f5ce-4c7a-a10e-c28a92a9de57
-        position:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        nextNodeId: 0ca3cdae-4b1d-49b8-b557-ff9c5490064c
     - rid: 5859783969389412353
       type: {class: ExitNode, ns: , asm: com.companions}
       data:
@@ -241,54 +238,88 @@ MonoBehaviour:
         position:
           serializedVersion: 2
           x: 0
-          y: 250
-          width: 0
-          height: 0
+          y: 491
+          width: 76
+          height: 77
         nextNodeId: 
-    - rid: 5859783969389412354
-      type: {class: FindTargetNode, ns: , asm: com.companions}
+    - rid: 5859784005231575043
+      type: {class: PlayAnimationNode, ns: , asm: com.companions}
       data:
-        guid: 0ca3cdae-4b1d-49b8-b557-ff9c5490064c
+        guid: ebdcd63a-9e02-4f22-b51a-1b8461ecbdc9
         position:
           serializedVersion: 2
-          x: 106
-          y: 0
+          x: 140
+          y: 28
+          width: 332
+          height: 172
+        nextNodeId: 
+        clip: {fileID: -1996891588857566775, guid: 606338c9f544fb7499da5984be290e59,
+          type: 3}
+        booleanName: 
+        boolean: 0
+        triggerName: TriggerGreet
+        waitForTransition: 0
+    - rid: 5859784013207044104
+      type: {class: UpdateNode, ns: , asm: com.companions}
+      data:
+        guid: 2678d77b-530a-49bd-95e2-1075c9a6b7fd
+        position:
+          serializedVersion: 2
+          x: -12
+          y: 326
+          width: 88
+          height: 77
+        nextNodeId: 2b4681fc-e74e-43c7-b956-b8659a64ce08
+    - rid: 5859784013207044107
+      type: {class: InitializeNode, ns: , asm: com.companions}
+      data:
+        guid: 3b5bbced-0986-4b74-8667-8541c4afff48
+        position:
+          serializedVersion: 2
+          x: 0
+          y: -206
+          width: 93
+          height: 77
+        nextNodeId: 6c4c99d5-b3a9-4f79-94dc-8bb32dc8ff40
+    - rid: 5859784013207044109
+      type: {class: FindTargetNode, ns: , asm: com.companions}
+      data:
+        guid: 6c4c99d5-b3a9-4f79-94dc-8bb32dc8ff40
+        position:
+          serializedVersion: 2
+          x: 129
+          y: -206
           width: 219
           height: 153
-        nextNodeId: 25abddaa-57df-423b-a3dd-56f849d71cd8
+        nextNodeId: 
         findClosest: 0
         radius: 10
         useDictionaryComponent: 0
         targetIdentifier:
           identifier: Player
-    - rid: 5859783969389412355
+    - rid: 5859784013207044113
       type: {class: LookAtNode, ns: , asm: com.companions}
       data:
-        guid: 25abddaa-57df-423b-a3dd-56f849d71cd8
+        guid: 2b4681fc-e74e-43c7-b956-b8659a64ce08
         position:
           serializedVersion: 2
-          x: 356
-          y: 0
+          x: 107
+          y: 326
           width: 219
           height: 135
-        nextNodeId: 9cb2bdca-bbd3-46c9-85b8-cb332638f1db
+        nextNodeId: 
         lookAtCurrentTarget: 1
         lookAtPoint:
           identifier: 
-        rotationSpeed: 10
-    - rid: 5859783969389412356
-      type: {class: PlayAnimationNode, ns: , asm: com.companions}
+        rotationSpeed: 7
+    - rid: 5859784013207044114
+      type: {class: ExecuteNode, ns: , asm: com.companions}
       data:
-        guid: 9cb2bdca-bbd3-46c9-85b8-cb332638f1db
+        guid: d9f98ebb-ecb0-474d-97d7-cef64c61bcf9
         position:
           serializedVersion: 2
-          x: 606
-          y: 0
-          width: 288
-          height: 172
-        nextNodeId: 
-        clip: {fileID: 0}
-        booleanName: 
-        boolean: 0
-        triggerName: TriggerGreet
-        waitForTransition: 0
+          x: 1
+          y: 28
+          width: 92
+          height: 77
+        nextNodeId: ebdcd63a-9e02-4f22-b51a-1b8461ecbdc9
