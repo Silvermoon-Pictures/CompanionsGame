@@ -59,7 +59,7 @@ public class ActionGraphView : GraphView
 
     private void AddStartNode()
     {
-        StartNode[] startNodes = actionAsset.GraphNodes.OfType<StartNode>().ToArray();
+        ExecuteNode[] startNodes = actionAsset.GraphNodes.OfType<ExecuteNode>().ToArray();
         if (startNodes.Length > 0)
         {
             AddNodeToGraph(startNodes[0]);
@@ -75,9 +75,9 @@ public class ActionGraphView : GraphView
                 if (attribute != null)
                 {
                     NodeInfoAttribute att = (NodeInfoAttribute)attribute;
-                    if (type == typeof(StartNode))
+                    if (type == typeof(ExecuteNode))
                     {
-                        Add((StartNode)Activator.CreateInstance(type));
+                        Add((ExecuteNode)Activator.CreateInstance(type));
                     }
                 }
             }
@@ -104,7 +104,7 @@ public class ActionGraphView : GraphView
                     NodeInfoAttribute att = (NodeInfoAttribute)attribute;
                     if (type == typeof(ExitNode))
                     {
-                        StartNode[] startNodes = actionAsset.GraphNodes.OfType<StartNode>().ToArray();
+                        ExecuteNode[] startNodes = actionAsset.GraphNodes.OfType<ExecuteNode>().ToArray();
                         var exitNode = (ExitNode)Activator.CreateInstance(type);
                         exitNode.SetPosition(startNodes[0].Position.position + Vector2.up * 250);
                         Add(exitNode);
@@ -255,7 +255,7 @@ public class ActionGraphView : GraphView
 
     private bool IsStartOrExit(ActionGraphNode node)
     {
-        return node.GetType() == typeof(StartNode) || node.GetType() == typeof(ExitNode);
+        return node.GetType() == typeof(ExecuteNode) || node.GetType() == typeof(ExitNode);
     }
     
     private void DrawConnections()

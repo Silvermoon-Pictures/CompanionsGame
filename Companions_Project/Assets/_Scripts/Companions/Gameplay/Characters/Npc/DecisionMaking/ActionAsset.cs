@@ -27,7 +27,9 @@ public class ActionAsset : SerializedScriptableObject
     public List<ActionGraphNode> GraphNodes => graphNodes;
     public List<ActionGraphConnection> Connections => connections;
     public Queue<ActionGraphNode> SubactionQueue { get; private set; } = new();
+    public Queue<ActionGraphNode> UpdateSubactionQueue { get; private set; } = new();
     public Queue<ActionGraphNode> ExitSubactionQueue { get; private set; } = new();
+    public Queue<ActionGraphNode> InitializeSubactionQueue { get; private set; } = new();
 
     public ActionAsset()
     {
@@ -44,10 +46,24 @@ public class ActionAsset : SerializedScriptableObject
 
     void FillSubactions()
     {
-        ActionGraphNode currentNode = GetStartNode();
+        ActionGraphNode currentNode = GetInitializeNode();
+        while (currentNode != null)
+        {
+            InitializeSubactionQueue.Enqueue(currentNode);
+            currentNode = GetNode(currentNode.NextNodeId);
+        }
+
+        currentNode = GetStartNode();
         while (currentNode != null)
         {
             SubactionQueue.Enqueue(currentNode);
+            currentNode = GetNode(currentNode.NextNodeId);
+        }
+        
+        currentNode = GetUpdateNode();
+        while (currentNode != null)
+        {
+            UpdateSubactionQueue.Enqueue(currentNode);
             currentNode = GetNode(currentNode.NextNodeId);
         }
         
@@ -108,9 +124,9 @@ public class ActionAsset : SerializedScriptableObject
         return true;
     }
 
-    public ActionGraphNode GetStartNode()
+    private ActionGraphNode GetStartNode()
     {
-        StartNode[] startNodes = graphNodes.OfType<StartNode>().ToArray();
+        ExecuteNode[] startNodes = graphNodes.OfType<ExecuteNode>().ToArray();
         if (startNodes.Length == 0)
         {
             return null;
@@ -118,7 +134,17 @@ public class ActionAsset : SerializedScriptableObject
         return startNodes[0];
     }
     
-    public ActionGraphNode GetExitNode()
+    public ActionGraphNode GetUpdateNode()
+    {
+        UpdateNode[] updateNodes = graphNodes.OfType<UpdateNode>().ToArray();
+        if (updateNodes.Length == 0)
+        {
+            return null;
+        }
+        return updateNodes[0];
+    }
+    
+    private ActionGraphNode GetExitNode()
     {
         ExitNode[] exitNodes = graphNodes.OfType<ExitNode>().ToArray();
         if (exitNodes.Length == 0)
@@ -127,8 +153,18 @@ public class ActionAsset : SerializedScriptableObject
         }
         return exitNodes[0];
     }
+    
+    private ActionGraphNode GetInitializeNode()
+    {
+        InitializeNode[] initializeNode = graphNodes.OfType<InitializeNode>().ToArray();
+        if (initializeNode.Length == 0)
+        {
+            return null;
+        }
+        return initializeNode[0];
+    }
 
-    public ActionGraphNode GetNode(string nextNodeCurrent)
+    private ActionGraphNode GetNode(string nextNodeCurrent)
     {
         return nodeDictionary.GetValueOrDefault(nextNodeCurrent);
     }
