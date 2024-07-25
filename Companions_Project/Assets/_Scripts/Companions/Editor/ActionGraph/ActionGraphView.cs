@@ -224,6 +224,7 @@ public class ActionGraphView : GraphView
         ActionGraphConnection connection = new ActionGraphConnection(inputNode.Node.Id, inputIndex, outputNode.Node.Id, outputIndex);
         outputNode.Node.SetNextNode(inputNode.Node.Id);
         actionAsset.Connections.Add(connection);
+        connectionDictionary.Add(edge, connection);
 
     }
 
