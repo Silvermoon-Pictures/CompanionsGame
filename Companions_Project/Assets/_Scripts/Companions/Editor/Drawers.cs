@@ -52,18 +52,19 @@ public class ReadOnlyDrawer : PropertyDrawer
 public class IdentifierDrawer : PropertyDrawer
 {
     private IdentifiersAsset identifierAsset;
-    private SerializedProperty identifierProperty;
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         if (identifierAsset == null)
             identifierAsset = AssetDatabase.LoadAssetAtPath<IdentifiersAsset>(IdentifierEditorWindow.assetPath);
-        identifierProperty ??= property.FindPropertyRelative("identifier");
+        
+        SerializedProperty identifierProperty = property.FindPropertyRelative("identifier");
         
         EditorGUI.BeginProperty(position, label, property);
-        
         position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
-        if (GUI.Button(position, identifierProperty.stringValue != string.Empty ? identifierProperty.stringValue : "None", EditorStyles.popup))
+        
+        string identifierName = !string.IsNullOrEmpty(identifierProperty.stringValue) ? identifierProperty.stringValue : "None";
+        if (GUI.Button(position, identifierName, EditorStyles.popup))
         {
             ShowGenericMenu(property);
         }
