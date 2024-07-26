@@ -7,7 +7,7 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private Transform body;
     [SerializeField] private Transform head;
     [SerializeField]
-    [Range(0f, 1000f)]
+    [Range(0f, 50f)]
     private float sensitivity = 2.0f;
     [SerializeField]
     [MinMaxSlider(-90f, 90f)]
