@@ -35,7 +35,7 @@ namespace Companions.Systems
             surface = Instantiate(worldGenerationConfig.NavMeshSurfacePrefab);
             
             yield return context.game.Factory.ProcessQueue();
-            //yield return Instance.BuildNavmeshAsync(surface);
+            yield return Instance.BuildNavmeshAsync(surface);
 
             yield return new WaitForSeconds(1f);
             

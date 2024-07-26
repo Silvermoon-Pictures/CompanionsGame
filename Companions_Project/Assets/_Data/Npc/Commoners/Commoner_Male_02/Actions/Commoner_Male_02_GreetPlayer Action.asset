@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4489f753fe2d3864fb2a29d5cfc1ac7e, type: 3}
-  m_Name: Merchant_Rest Action
+  m_Name: Commoner_Male_02_GreetPlayer Action
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -33,7 +33,25 @@ MonoBehaviour:
       Data: 1|WeightedConsideration, com.companions
     - Name: Consideration
       Entry: 7
-      Data: 2|StaminaConsideration, com.companions
+      Data: 2|ScoreConsideration, com.companions
+    - Name: useRandom
+      Entry: 5
+      Data: false
+    - Name: Score
+      Entry: 4
+      Data: 1
+    - Name: randomScore
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -57,7 +75,7 @@ MonoBehaviour:
       Data: 0
     - Name: m_Value
       Entry: 4
-      Data: 1
+      Data: 0
     - Name: m_InTangent
       Entry: 4
       Data: 0
@@ -90,7 +108,7 @@ MonoBehaviour:
       Data: 1
     - Name: m_Value
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: m_InTangent
       Entry: 4
       Data: 0
@@ -151,7 +169,10 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 6|IsExhaustedConsideration, com.companions
+      Data: 6|IsPlayerNearbyConsideration, com.companions
+    - Name: radius
+      Entry: 4
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
@@ -175,184 +196,130 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graphNodes:
-  - rid: 5859783948307791872
-  - rid: 5859783948307791873
-  - rid: 5859783948307791874
-  - rid: 5859783948307791875
-  - rid: 5859783948307791876
-  - rid: 5859783957192376322
-  - rid: 5859783957192376325
-  - rid: 5859783957192376327
-  - rid: 5859783957192376329
+  - rid: 5859783969389412353
+  - rid: 5859784005231575043
+  - rid: 5859784013207044104
+  - rid: 5859784013207044107
+  - rid: 5859784013207044109
+  - rid: 5859784013207044113
+  - rid: 5859784013207044114
   connections:
   - inputPort:
-      nodeId: 18cae9fe-c205-480b-9b75-6f62a99af95b
+      nodeId: 6c4c99d5-b3a9-4f79-94dc-8bb32dc8ff40
       portIndex: 1
     outputPort:
-      nodeId: 318e93f9-d556-4d8d-9bac-63ccb9a15b72
+      nodeId: 3b5bbced-0986-4b74-8667-8541c4afff48
       portIndex: 0
   - inputPort:
-      nodeId: 9f588baf-b425-4873-b321-48ce93948c39
+      nodeId: ebdcd63a-9e02-4f22-b51a-1b8461ecbdc9
       portIndex: 1
     outputPort:
-      nodeId: 18cae9fe-c205-480b-9b75-6f62a99af95b
+      nodeId: d2a83bf2-f5ce-4c7a-a10e-c28a92a9de57
       portIndex: 0
   - inputPort:
-      nodeId: 5cd32120-c6c5-496e-bd38-75bc03c2c6d3
+      nodeId: 2b4681fc-e74e-43c7-b956-b8659a64ce08
       portIndex: 1
     outputPort:
-      nodeId: 9f588baf-b425-4873-b321-48ce93948c39
+      nodeId: 2678d77b-530a-49bd-95e2-1075c9a6b7fd
       portIndex: 0
   - inputPort:
-      nodeId: e97a3dc2-0747-4878-a169-2037058a541d
+      nodeId: ebdcd63a-9e02-4f22-b51a-1b8461ecbdc9
       portIndex: 1
     outputPort:
-      nodeId: 5cd32120-c6c5-496e-bd38-75bc03c2c6d3
-      portIndex: 0
-  - inputPort:
-      nodeId: 9b4033e7-cd1f-43a5-bd9f-5745075cd491
-      portIndex: 1
-    outputPort:
-      nodeId: e97a3dc2-0747-4878-a169-2037058a541d
-      portIndex: 0
-  - inputPort:
-      nodeId: f623d3ff-0268-4248-ba57-40af4d63b0ed
-      portIndex: 1
-    outputPort:
-      nodeId: 9b4033e7-cd1f-43a5-bd9f-5745075cd491
-      portIndex: 0
-  - inputPort:
-      nodeId: bd21d498-2602-4421-ad58-3410a8641a00
-      portIndex: 1
-    outputPort:
-      nodeId: dcbdb6a5-38d8-4b59-b77d-fe9c2b9909a1
+      nodeId: d9f98ebb-ecb0-474d-97d7-cef64c61bcf9
       portIndex: 0
   references:
     version: 2
     RefIds:
-    - rid: 5859783948307791872
-      type: {class: StartNode, ns: , asm: com.companions}
-      data:
-        guid: 318e93f9-d556-4d8d-9bac-63ccb9a15b72
-        position:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        nextNodeId: 18cae9fe-c205-480b-9b75-6f62a99af95b
-    - rid: 5859783948307791873
+    - rid: 5859783969389412353
       type: {class: ExitNode, ns: , asm: com.companions}
       data:
-        guid: dcbdb6a5-38d8-4b59-b77d-fe9c2b9909a1
+        guid: 7a809733-57bd-4ccf-bdea-8259429440b4
         position:
           serializedVersion: 2
           x: 0
-          y: 250
-          width: 0
-          height: 0
-        nextNodeId: bd21d498-2602-4421-ad58-3410a8641a00
-    - rid: 5859783948307791874
-      type: {class: FindTargetNode, ns: , asm: com.companions}
-      data:
-        guid: 18cae9fe-c205-480b-9b75-6f62a99af95b
-        position:
-          serializedVersion: 2
-          x: 87
-          y: 0
-          width: 219
-          height: 153
-        nextNodeId: 9f588baf-b425-4873-b321-48ce93948c39
-        findClosest: 0
-        radius: 10
-        useDictionaryComponent: 1
-        targetIdentifier:
-          identifier: MerchantRestingSpot
-    - rid: 5859783948307791875
-      type: {class: GoToNode, ns: , asm: com.companions}
-      data:
-        guid: 9f588baf-b425-4873-b321-48ce93948c39
-        position:
-          serializedVersion: 2
-          x: 306
-          y: 1
-          width: 281
-          height: 117
-        nextNodeId: 5cd32120-c6c5-496e-bd38-75bc03c2c6d3
-        stoppingDistance: 1
-        target: {fileID: 0}
-    - rid: 5859783948307791876
+          y: 491
+          width: 76
+          height: 77
+        nextNodeId: 
+    - rid: 5859784005231575043
       type: {class: PlayAnimationNode, ns: , asm: com.companions}
       data:
-        guid: 9b4033e7-cd1f-43a5-bd9f-5745075cd491
+        guid: ebdcd63a-9e02-4f22-b51a-1b8461ecbdc9
         position:
           serializedVersion: 2
-          x: 1079
-          y: 1
-          width: 288
+          x: 140
+          y: 28
+          width: 332
           height: 172
-        nextNodeId: f623d3ff-0268-4248-ba57-40af4d63b0ed
-        clip: {fileID: 0}
+        nextNodeId: 
+        clip: {fileID: -1996891588857566775, guid: 606338c9f544fb7499da5984be290e59,
+          type: 3}
         booleanName: 
         boolean: 0
-        triggerName: TriggerSitDown
-        waitForTransition: 1
-    - rid: 5859783957192376322
-      type: {class: AlterStaminaNode, ns: , asm: com.companions}
+        triggerName: TriggerGreet
+        waitForTransition: 0
+    - rid: 5859784013207044104
+      type: {class: UpdateNode, ns: , asm: com.companions}
       data:
-        guid: f623d3ff-0268-4248-ba57-40af4d63b0ed
+        guid: 2678d77b-530a-49bd-95e2-1075c9a6b7fd
         position:
           serializedVersion: 2
-          x: 1385
-          y: 10
-          width: 150
-          height: 96
+          x: -12
+          y: 326
+          width: 88
+          height: 77
+        nextNodeId: 2b4681fc-e74e-43c7-b956-b8659a64ce08
+    - rid: 5859784013207044107
+      type: {class: InitializeNode, ns: , asm: com.companions}
+      data:
+        guid: 3b5bbced-0986-4b74-8667-8541c4afff48
+        position:
+          serializedVersion: 2
+          x: 0
+          y: -206
+          width: 93
+          height: 77
+        nextNodeId: 6c4c99d5-b3a9-4f79-94dc-8bb32dc8ff40
+    - rid: 5859784013207044109
+      type: {class: FindTargetNode, ns: , asm: com.companions}
+      data:
+        guid: 6c4c99d5-b3a9-4f79-94dc-8bb32dc8ff40
+        position:
+          serializedVersion: 2
+          x: 129
+          y: -206
+          width: 219
+          height: 153
         nextNodeId: 
-        deplete: 0
-    - rid: 5859783957192376325
+        findClosest: 0
+        radius: 10
+        useDictionaryComponent: 0
+        targetIdentifier:
+          identifier: Player
+    - rid: 5859784013207044113
       type: {class: LookAtNode, ns: , asm: com.companions}
       data:
-        guid: e97a3dc2-0747-4878-a169-2037058a541d
+        guid: 2b4681fc-e74e-43c7-b956-b8659a64ce08
         position:
           serializedVersion: 2
-          x: 841
-          y: 1
+          x: 107
+          y: 326
           width: 219
           height: 135
-        nextNodeId: 9b4033e7-cd1f-43a5-bd9f-5745075cd491
+        nextNodeId: 
         lookAtCurrentTarget: 1
         lookAtPoint:
           identifier: 
         rotationSpeed: 7
-    - rid: 5859783957192376327
-      type: {class: PlayAnimationNode, ns: , asm: com.companions}
+    - rid: 5859784013207044114
+      type: {class: ExecuteNode, ns: , asm: com.companions}
       data:
-        guid: bd21d498-2602-4421-ad58-3410a8641a00
+        guid: d9f98ebb-ecb0-474d-97d7-cef64c61bcf9
         position:
           serializedVersion: 2
-          x: 111
-          y: 250
-          width: 288
-          height: 172
-        nextNodeId: 
-        clip: {fileID: 0}
-        booleanName: 
-        boolean: 0
-        triggerName: TriggerIdle
-        waitForTransition: 1
-    - rid: 5859783957192376329
-      type: {class: FindTargetNode, ns: , asm: com.companions}
-      data:
-        guid: 5cd32120-c6c5-496e-bd38-75bc03c2c6d3
-        position:
-          serializedVersion: 2
-          x: 613
-          y: 1
-          width: 219
-          height: 153
-        nextNodeId: e97a3dc2-0747-4878-a169-2037058a541d
-        findClosest: 0
-        radius: 10
-        useDictionaryComponent: 1
-        targetIdentifier:
-          identifier: MerchantRestingLookAtSpot
+          x: 1
+          y: 28
+          width: 92
+          height: 77
+        nextNodeId: ebdcd63a-9e02-4f22-b51a-1b8461ecbdc9

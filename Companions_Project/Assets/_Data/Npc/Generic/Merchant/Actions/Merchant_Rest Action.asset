@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4489f753fe2d3864fb2a29d5cfc1ac7e, type: 3}
-  m_Name: Merchant_Hawk Action
+  m_Name: Merchant_Rest Action
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -45,7 +45,7 @@ MonoBehaviour:
       Data: 4|UnityEngine.Keyframe[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 7
       Data: UnityEngine.Keyframe, UnityEngine.CoreModule
@@ -57,7 +57,7 @@ MonoBehaviour:
       Data: 0
     - Name: m_Value
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: m_InTangent
       Entry: 4
       Data: 0
@@ -87,43 +87,10 @@ MonoBehaviour:
       Data: 1
     - Name: m_Time
       Entry: 4
-      Data: 0.0703035
-    - Name: m_Value
-      Entry: 4
-      Data: 0.8913702
-    - Name: m_InTangent
-      Entry: 4
-      Data: 0
-    - Name: m_OutTangent
-      Entry: 4
-      Data: 0
-    - Name: m_TangentMode
-      Entry: 3
-      Data: 0
-    - Name: m_WeightedMode
-      Entry: 3
-      Data: 0
-    - Name: m_InWeight
-      Entry: 4
-      Data: 0.333333343
-    - Name: m_OutWeight
-      Entry: 4
-      Data: 0.333333343
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Keyframe, UnityEngine.CoreModule
-    - Name: ver
-      Entry: 3
-      Data: 1
-    - Name: m_Time
-      Entry: 4
       Data: 1
     - Name: m_Value
       Entry: 4
-      Data: 1
+      Data: 0
     - Name: m_InTangent
       Entry: 4
       Data: 0
@@ -184,7 +151,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 6|IsStaminaRecovered, com.companions
+      Data: 6|IsExhaustedConsideration, com.companions
     - Name: 
       Entry: 8
       Data: 
@@ -208,180 +175,190 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graphNodes:
-  - rid: 5859783948307791878
-  - rid: 5859783948307791879
-  - rid: 5859783948307791880
-  - rid: 5859783948307791881
-  - rid: 5859783948307791882
-  - rid: 5859783957192376320
-  - rid: 5859783957192376321
-  - rid: 5859783957192376323
-  - rid: 5859783957192376324
+  - rid: 5859783948307791873
+  - rid: 5859783948307791874
+  - rid: 5859783948307791875
+  - rid: 5859783948307791876
+  - rid: 5859783957192376322
+  - rid: 5859783957192376325
+  - rid: 5859783957192376327
+  - rid: 5859783957192376329
+  - rid: 5859784013207044116
   connections:
   - inputPort:
-      nodeId: 1e4ec613-6702-405b-a1f7-caf5b9c57502
+      nodeId: 18cae9fe-c205-480b-9b75-6f62a99af95b
       portIndex: 1
     outputPort:
-      nodeId: 6d64e875-26e1-4a8a-b9ef-5bf8c58c1893
+      nodeId: 318e93f9-d556-4d8d-9bac-63ccb9a15b72
       portIndex: 0
   - inputPort:
-      nodeId: ad49c101-a478-46d5-ac1e-65fa93ca1e3b
+      nodeId: 9f588baf-b425-4873-b321-48ce93948c39
       portIndex: 1
     outputPort:
-      nodeId: 1e4ec613-6702-405b-a1f7-caf5b9c57502
+      nodeId: 18cae9fe-c205-480b-9b75-6f62a99af95b
       portIndex: 0
   - inputPort:
-      nodeId: d1e23185-847e-493f-a0a7-eea1baef4e8f
+      nodeId: 5cd32120-c6c5-496e-bd38-75bc03c2c6d3
       portIndex: 1
     outputPort:
-      nodeId: ad49c101-a478-46d5-ac1e-65fa93ca1e3b
+      nodeId: 9f588baf-b425-4873-b321-48ce93948c39
       portIndex: 0
   - inputPort:
-      nodeId: 62f99a69-d1f8-4563-bea6-5bcce179bed9
+      nodeId: e97a3dc2-0747-4878-a169-2037058a541d
       portIndex: 1
     outputPort:
-      nodeId: d1e23185-847e-493f-a0a7-eea1baef4e8f
+      nodeId: 5cd32120-c6c5-496e-bd38-75bc03c2c6d3
       portIndex: 0
   - inputPort:
-      nodeId: 3ff95bca-c132-4861-a2d9-7c1c0748daf0
+      nodeId: 9b4033e7-cd1f-43a5-bd9f-5745075cd491
       portIndex: 1
     outputPort:
-      nodeId: 62f99a69-d1f8-4563-bea6-5bcce179bed9
+      nodeId: e97a3dc2-0747-4878-a169-2037058a541d
       portIndex: 0
   - inputPort:
-      nodeId: 9fa6dc37-4246-4912-bb2e-d973c675979a
+      nodeId: f623d3ff-0268-4248-ba57-40af4d63b0ed
       portIndex: 1
     outputPort:
-      nodeId: 3ff95bca-c132-4861-a2d9-7c1c0748daf0
+      nodeId: 9b4033e7-cd1f-43a5-bd9f-5745075cd491
       portIndex: 0
   - inputPort:
-      nodeId: 43ff5ede-8b0b-48e5-bc4a-cd62412482eb
+      nodeId: bd21d498-2602-4421-ad58-3410a8641a00
       portIndex: 1
     outputPort:
-      nodeId: 54adabec-e61a-4ea1-8ee7-bb9bb51e7b0b
+      nodeId: dcbdb6a5-38d8-4b59-b77d-fe9c2b9909a1
+      portIndex: 0
+  - inputPort:
+      nodeId: 18cae9fe-c205-480b-9b75-6f62a99af95b
+      portIndex: 1
+    outputPort:
+      nodeId: 0c5a240a-e516-4e6b-99e2-2724c405a534
       portIndex: 0
   references:
     version: 2
     RefIds:
-    - rid: 5859783948307791878
-      type: {class: StartNode, ns: , asm: com.companions}
-      data:
-        guid: 6d64e875-26e1-4a8a-b9ef-5bf8c58c1893
-        position:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        nextNodeId: 1e4ec613-6702-405b-a1f7-caf5b9c57502
-    - rid: 5859783948307791879
+    - rid: 5859783948307791873
       type: {class: ExitNode, ns: , asm: com.companions}
       data:
-        guid: 54adabec-e61a-4ea1-8ee7-bb9bb51e7b0b
+        guid: dcbdb6a5-38d8-4b59-b77d-fe9c2b9909a1
         position:
           serializedVersion: 2
           x: 0
           y: 250
           width: 0
           height: 0
-        nextNodeId: 43ff5ede-8b0b-48e5-bc4a-cd62412482eb
-    - rid: 5859783948307791880
+        nextNodeId: bd21d498-2602-4421-ad58-3410a8641a00
+    - rid: 5859783948307791874
       type: {class: FindTargetNode, ns: , asm: com.companions}
       data:
-        guid: 1e4ec613-6702-405b-a1f7-caf5b9c57502
+        guid: 18cae9fe-c205-480b-9b75-6f62a99af95b
         position:
           serializedVersion: 2
-          x: 117
-          y: 1
+          x: 87
+          y: 0
           width: 219
           height: 153
-        nextNodeId: ad49c101-a478-46d5-ac1e-65fa93ca1e3b
+        nextNodeId: 9f588baf-b425-4873-b321-48ce93948c39
         findClosest: 0
         radius: 10
         useDictionaryComponent: 1
         targetIdentifier:
-          identifier: MerchantGoToSpot
-    - rid: 5859783948307791881
+          identifier: MerchantRestingSpot
+    - rid: 5859783948307791875
       type: {class: GoToNode, ns: , asm: com.companions}
       data:
-        guid: ad49c101-a478-46d5-ac1e-65fa93ca1e3b
+        guid: 9f588baf-b425-4873-b321-48ce93948c39
         position:
           serializedVersion: 2
-          x: 360
+          x: 306
           y: 1
           width: 281
-          height: 141
-        nextNodeId: d1e23185-847e-493f-a0a7-eea1baef4e8f
-        stoppingDistance: 0.25
+          height: 117
+        nextNodeId: 5cd32120-c6c5-496e-bd38-75bc03c2c6d3
+        stoppingDistance: 1
         target: {fileID: 0}
-    - rid: 5859783948307791882
+    - rid: 5859783948307791876
       type: {class: PlayAnimationNode, ns: , asm: com.companions}
       data:
-        guid: 3ff95bca-c132-4861-a2d9-7c1c0748daf0
+        guid: 9b4033e7-cd1f-43a5-bd9f-5745075cd491
         position:
           serializedVersion: 2
-          x: 1227
-          y: 2
+          x: 1079
+          y: 1
           width: 288
-          height: 154
-        nextNodeId: 9fa6dc37-4246-4912-bb2e-d973c675979a
+          height: 172
+        nextNodeId: f623d3ff-0268-4248-ba57-40af4d63b0ed
         clip: {fileID: 0}
         booleanName: 
         boolean: 0
-        triggerName: TriggerHawk
-        waitForTransition: 0
-    - rid: 5859783957192376320
+        triggerName: TriggerSitDown
+        waitForTransition: 1
+    - rid: 5859783957192376322
       type: {class: AlterStaminaNode, ns: , asm: com.companions}
       data:
-        guid: 9fa6dc37-4246-4912-bb2e-d973c675979a
+        guid: f623d3ff-0268-4248-ba57-40af4d63b0ed
         position:
           serializedVersion: 2
-          x: 1550
-          y: 2
-          width: 150
-          height: 96
-        nextNodeId: 
-        deplete: 1
-    - rid: 5859783957192376321
-      type: {class: AlterStaminaNode, ns: , asm: com.companions}
-      data:
-        guid: 43ff5ede-8b0b-48e5-bc4a-cd62412482eb
-        position:
-          serializedVersion: 2
-          x: 134
-          y: 250
+          x: 1385
+          y: 10
           width: 150
           height: 96
         nextNodeId: 
         deplete: 0
-    - rid: 5859783957192376323
+    - rid: 5859783957192376325
       type: {class: LookAtNode, ns: , asm: com.companions}
       data:
-        guid: 62f99a69-d1f8-4563-bea6-5bcce179bed9
+        guid: e97a3dc2-0747-4878-a169-2037058a541d
         position:
           serializedVersion: 2
-          x: 944
-          y: 2
+          x: 841
+          y: 1
           width: 219
           height: 135
-        nextNodeId: 3ff95bca-c132-4861-a2d9-7c1c0748daf0
+        nextNodeId: 9b4033e7-cd1f-43a5-bd9f-5745075cd491
         lookAtCurrentTarget: 1
         lookAtPoint:
-          identifier: None
+          identifier: 
         rotationSpeed: 7
-    - rid: 5859783957192376324
-      type: {class: FindTargetNode, ns: , asm: com.companions}
+    - rid: 5859783957192376327
+      type: {class: PlayAnimationNode, ns: , asm: com.companions}
       data:
-        guid: d1e23185-847e-493f-a0a7-eea1baef4e8f
+        guid: bd21d498-2602-4421-ad58-3410a8641a00
         position:
           serializedVersion: 2
-          x: 673
-          y: 2
+          x: 111
+          y: 250
+          width: 288
+          height: 172
+        nextNodeId: 
+        clip: {fileID: 0}
+        booleanName: 
+        boolean: 0
+        triggerName: TriggerIdle
+        waitForTransition: 1
+    - rid: 5859783957192376329
+      type: {class: FindTargetNode, ns: , asm: com.companions}
+      data:
+        guid: 5cd32120-c6c5-496e-bd38-75bc03c2c6d3
+        position:
+          serializedVersion: 2
+          x: 613
+          y: 1
           width: 219
           height: 153
-        nextNodeId: 62f99a69-d1f8-4563-bea6-5bcce179bed9
+        nextNodeId: e97a3dc2-0747-4878-a169-2037058a541d
         findClosest: 0
         radius: 10
         useDictionaryComponent: 1
         targetIdentifier:
-          identifier: MerchantLookAtSpot
+          identifier: MerchantRestingLookAtSpot
+    - rid: 5859784013207044116
+      type: {class: ExecuteNode, ns: , asm: com.companions}
+      data:
+        guid: 0c5a240a-e516-4e6b-99e2-2724c405a534
+        position:
+          serializedVersion: 2
+          x: -30
+          y: 1
+          width: 92
+          height: 77
+        nextNodeId: 18cae9fe-c205-480b-9b75-6f62a99af95b

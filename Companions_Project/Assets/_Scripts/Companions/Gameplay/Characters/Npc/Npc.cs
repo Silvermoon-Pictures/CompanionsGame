@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Companions.Common;
 using Companions.StateMachine;
@@ -7,6 +8,7 @@ using Silvermoon.Movement;
 using Silvermoon.Utils;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 {
@@ -46,7 +48,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         brain = new NpcBrain(this);
     }
 
-    void Start()
+    void ICompanionComponent.WorldLoaded()
     {
         if (NpcData == null)
             throw new DesignException($"NpcData on {name} is not set!");

@@ -105,17 +105,11 @@ namespace Silvermoon.Movement
 
             stateMachine.Transition(context);
             stateMachine.Update(context);
-
-            collisionFlags = characterController.Move(context.velocity * Time.deltaTime);
-
+            
             if (!characterController.isGrounded)
                 context.velocity.y -= Gravity * Time.deltaTime;
-            else
-            {
-                // isGrounded check is not stable, often gives false negatives
-                // a workaround is to always have a small negative y velocity
-                context.velocity.y = -0.1f * Gravity;
-            }
+
+            collisionFlags = characterController.Move(context.velocity * Time.deltaTime);
 
             if (context.velocity.magnitude > float.Epsilon)
             {
