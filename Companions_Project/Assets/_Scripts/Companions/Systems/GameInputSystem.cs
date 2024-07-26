@@ -13,6 +13,7 @@ namespace Companions.Systems
         public static event Action onInteract;
         public static event Action onJump;
         public static event Action<bool> onSprint;
+        public static event Action onTogglePOV;
 
         public void OnMovement(InputValue value)
         {
@@ -37,6 +38,11 @@ namespace Companions.Systems
         public void OnSprint(InputValue value)
         {
             onSprint?.Invoke(value.isPressed);
+        }
+
+        public void OnTogglePOV(InputValue value)
+        {
+            onTogglePOV?.Invoke();
         }
     }
 }
