@@ -11,6 +11,7 @@ public class SpawnBehavior : GameEffectBehavior
     
     public GameObject prefab;
     public EPositionContext positionContext;
+    public Vector3 offset;
     
     public override void Execute(GameEffectContext context)
     {
@@ -19,10 +20,10 @@ public class SpawnBehavior : GameEffectBehavior
         if (prefab == null)
             return;
 
-        var gameobject = Object.Instantiate(prefab);
+        var gameobject = Instantiate(prefab);
         Vector3 position = positionContext == EPositionContext.Target
             ? context.target.transform.position
             : context.instigator.transform.position;
-        gameobject.transform.position = position + Vector3.forward * 5f;
+        gameobject.transform.position = position + offset;
     }
 }

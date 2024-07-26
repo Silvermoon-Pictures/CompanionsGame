@@ -1,24 +1,32 @@
-using System;
 using Silvermoon.Movement;
 using Silvermoon.Utils;
 using UnityEngine;
+using System;
 
 public class StaminaComponent : MonoBehaviour
 {
-    public float maxStamina;
-    public float depletionRate = 1f;
-    public float increaseRate = 1f;
-
+    public float maxStamina = 100f;
     [ReadOnly]
-    public float stamina;
-    
-    private MovementComponent movementComponent;
-    private bool IsMoving => movementComponent.Velocity.WithY(0f).magnitude > float.Epsilon;
+    public float currentStamina = 100f;
+    public float depletionRate = 5f;
+    public float regenerationRate = 10f;
+    public float exhaustionThreshold = 20f;
+    public float coolOffThreshold = 40f;
+    public bool depleteWhenMoving = false;
+    private bool IsMoving => movementComponent.Velocity.WithY(0).magnitude > 0f;
+    private bool CanDeplete => ((depleteWhenMoving && IsMoving) || depletionTriggered);
 
-    private void OnEnable()
+    private MovementComponent movementComponent;
+
+    public event Action onStaminaDepleted;
+    public event Action OnStaminaRecovered;
+
+    private bool isExhausted = false;
+    private bool depletionTriggered = false;
+
+    private void Awake()
     {
         movementComponent = GetComponent<MovementComponent>();
-        stamina = maxStamina;
     }
 
     private void Update()
@@ -28,16 +36,79 @@ public class StaminaComponent : MonoBehaviour
 
     private void UpdateStamina()
     {
-        if (IsMoving)
-            stamina -= depletionRate * Time.deltaTime;
+        if (CanDeplete)
+        {
+            DepleteStamina();
+        }
         else
-            stamina += increaseRate * Time.deltaTime;
+        {
+            RegenerateStamina();
+        }
 
-        stamina = Mathf.Clamp(stamina, 0f, maxStamina);
+        currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
+    }
+
+    private void DepleteStamina()
+    {
+        currentStamina -= depletionRate * Time.deltaTime;
+
+        if (currentStamina <= exhaustionThreshold)
+        {
+            isExhausted = true;
+        }
+
+        if (currentStamina <= 0)
+            onStaminaDepleted?.Invoke();
+    }
+
+    private void RegenerateStamina()
+    {
+        currentStamina += regenerationRate * Time.deltaTime;
+
+        if (currentStamina >= coolOffThreshold && isExhausted)
+        {
+            isExhausted = false;
+            OnStaminaRecovered?.Invoke();
+        }
+    }
+
+    private void ClampStamina()
+    {
+        
     }
 
     public float GetPercentage()
     {
-        return stamina / maxStamina;
+        return currentStamina / maxStamina;
+    }
+
+    public float GetCoolOffPercentage()
+    {
+        return coolOffThreshold / maxStamina;
+    }
+    
+    public float GetExhaustionPercentage()
+    {
+        return exhaustionThreshold / maxStamina;
+    }
+
+    public void StartDepleting()
+    {
+        depletionTriggered = true;
+    }
+
+    public void StopDepleting()
+    {
+        depletionTriggered = false;
+    }
+
+    public void ModifyDepletionRate(float newRate)
+    {
+        depletionRate = newRate;
+    }
+
+    public void ModifyRegenerationRate(float newRate)
+    {
+        regenerationRate = newRate;
     }
 }

@@ -1,0 +1,358 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4489f753fe2d3864fb2a29d5cfc1ac7e, type: 3}
+  m_Name: Merchant_Rest Action
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: weightedConsiderations
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[WeightedConsideration, com.companions]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|WeightedConsideration, com.companions
+    - Name: Consideration
+      Entry: 7
+      Data: 2|StaminaConsideration, com.companions
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Curve
+      Entry: 7
+      Data: 3|UnityEngine.AnimationCurve, UnityEngine.CoreModule
+    - Name: 
+      Entry: 7
+      Data: 4|UnityEngine.Keyframe[], UnityEngine.CoreModule
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Keyframe, UnityEngine.CoreModule
+    - Name: ver
+      Entry: 3
+      Data: 1
+    - Name: m_Time
+      Entry: 4
+      Data: 0
+    - Name: m_Value
+      Entry: 4
+      Data: 1
+    - Name: m_InTangent
+      Entry: 4
+      Data: 0
+    - Name: m_OutTangent
+      Entry: 4
+      Data: 0
+    - Name: m_TangentMode
+      Entry: 3
+      Data: 0
+    - Name: m_WeightedMode
+      Entry: 3
+      Data: 0
+    - Name: m_InWeight
+      Entry: 4
+      Data: 0
+    - Name: m_OutWeight
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Keyframe, UnityEngine.CoreModule
+    - Name: ver
+      Entry: 3
+      Data: 1
+    - Name: m_Time
+      Entry: 4
+      Data: 1
+    - Name: m_Value
+      Entry: 4
+      Data: 0
+    - Name: m_InTangent
+      Entry: 4
+      Data: 0
+    - Name: m_OutTangent
+      Entry: 4
+      Data: 0
+    - Name: m_TangentMode
+      Entry: 3
+      Data: 0
+    - Name: m_WeightedMode
+      Entry: 3
+      Data: 0
+    - Name: m_InWeight
+      Entry: 4
+      Data: 0
+    - Name: m_OutWeight
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 3
+      Data: 8
+    - Name: 
+      Entry: 3
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: MaxValue
+      Entry: 4
+      Data: 1
+    - Name: Weight
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: requiredConsiderations
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[Consideration, com.companions]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 6|IsExhaustedConsideration, com.companions
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: incompatibleConsiderations
+      Entry: 7
+      Data: 7|System.Collections.Generic.List`1[[Consideration, com.companions]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  graphNodes:
+  - rid: 5859783948307791872
+  - rid: 5859783948307791873
+  - rid: 5859783948307791874
+  - rid: 5859783948307791875
+  - rid: 5859783948307791876
+  - rid: 5859783957192376322
+  - rid: 5859783957192376325
+  - rid: 5859783957192376327
+  - rid: 5859783957192376329
+  connections:
+  - inputPort:
+      nodeId: 18cae9fe-c205-480b-9b75-6f62a99af95b
+      portIndex: 1
+    outputPort:
+      nodeId: 318e93f9-d556-4d8d-9bac-63ccb9a15b72
+      portIndex: 0
+  - inputPort:
+      nodeId: 9f588baf-b425-4873-b321-48ce93948c39
+      portIndex: 1
+    outputPort:
+      nodeId: 18cae9fe-c205-480b-9b75-6f62a99af95b
+      portIndex: 0
+  - inputPort:
+      nodeId: 5cd32120-c6c5-496e-bd38-75bc03c2c6d3
+      portIndex: 1
+    outputPort:
+      nodeId: 9f588baf-b425-4873-b321-48ce93948c39
+      portIndex: 0
+  - inputPort:
+      nodeId: e97a3dc2-0747-4878-a169-2037058a541d
+      portIndex: 1
+    outputPort:
+      nodeId: 5cd32120-c6c5-496e-bd38-75bc03c2c6d3
+      portIndex: 0
+  - inputPort:
+      nodeId: 9b4033e7-cd1f-43a5-bd9f-5745075cd491
+      portIndex: 1
+    outputPort:
+      nodeId: e97a3dc2-0747-4878-a169-2037058a541d
+      portIndex: 0
+  - inputPort:
+      nodeId: f623d3ff-0268-4248-ba57-40af4d63b0ed
+      portIndex: 1
+    outputPort:
+      nodeId: 9b4033e7-cd1f-43a5-bd9f-5745075cd491
+      portIndex: 0
+  - inputPort:
+      nodeId: bd21d498-2602-4421-ad58-3410a8641a00
+      portIndex: 1
+    outputPort:
+      nodeId: dcbdb6a5-38d8-4b59-b77d-fe9c2b9909a1
+      portIndex: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 5859783948307791872
+      type: {class: StartNode, ns: , asm: com.companions}
+      data:
+        guid: 318e93f9-d556-4d8d-9bac-63ccb9a15b72
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        nextNodeId: 18cae9fe-c205-480b-9b75-6f62a99af95b
+    - rid: 5859783948307791873
+      type: {class: ExitNode, ns: , asm: com.companions}
+      data:
+        guid: dcbdb6a5-38d8-4b59-b77d-fe9c2b9909a1
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 250
+          width: 0
+          height: 0
+        nextNodeId: bd21d498-2602-4421-ad58-3410a8641a00
+    - rid: 5859783948307791874
+      type: {class: FindTargetNode, ns: , asm: com.companions}
+      data:
+        guid: 18cae9fe-c205-480b-9b75-6f62a99af95b
+        position:
+          serializedVersion: 2
+          x: 87
+          y: 0
+          width: 219
+          height: 153
+        nextNodeId: 9f588baf-b425-4873-b321-48ce93948c39
+        findClosest: 0
+        radius: 10
+        useDictionaryComponent: 1
+        targetIdentifier:
+          identifier: MerchantRestingSpot
+    - rid: 5859783948307791875
+      type: {class: GoToNode, ns: , asm: com.companions}
+      data:
+        guid: 9f588baf-b425-4873-b321-48ce93948c39
+        position:
+          serializedVersion: 2
+          x: 306
+          y: 1
+          width: 281
+          height: 117
+        nextNodeId: 5cd32120-c6c5-496e-bd38-75bc03c2c6d3
+        stoppingDistance: 1
+        target: {fileID: 0}
+    - rid: 5859783948307791876
+      type: {class: PlayAnimationNode, ns: , asm: com.companions}
+      data:
+        guid: 9b4033e7-cd1f-43a5-bd9f-5745075cd491
+        position:
+          serializedVersion: 2
+          x: 1079
+          y: 1
+          width: 288
+          height: 172
+        nextNodeId: f623d3ff-0268-4248-ba57-40af4d63b0ed
+        clip: {fileID: 0}
+        booleanName: 
+        boolean: 0
+        triggerName: TriggerSitDown
+        waitForTransition: 1
+    - rid: 5859783957192376322
+      type: {class: AlterStaminaNode, ns: , asm: com.companions}
+      data:
+        guid: f623d3ff-0268-4248-ba57-40af4d63b0ed
+        position:
+          serializedVersion: 2
+          x: 1385
+          y: 10
+          width: 150
+          height: 96
+        nextNodeId: 
+        deplete: 0
+    - rid: 5859783957192376325
+      type: {class: LookAtNode, ns: , asm: com.companions}
+      data:
+        guid: e97a3dc2-0747-4878-a169-2037058a541d
+        position:
+          serializedVersion: 2
+          x: 841
+          y: 1
+          width: 219
+          height: 135
+        nextNodeId: 9b4033e7-cd1f-43a5-bd9f-5745075cd491
+        lookAtCurrentTarget: 1
+        lookAtPoint:
+          identifier: 
+        rotationSpeed: 7
+    - rid: 5859783957192376327
+      type: {class: PlayAnimationNode, ns: , asm: com.companions}
+      data:
+        guid: bd21d498-2602-4421-ad58-3410a8641a00
+        position:
+          serializedVersion: 2
+          x: 111
+          y: 250
+          width: 288
+          height: 172
+        nextNodeId: 
+        clip: {fileID: 0}
+        booleanName: 
+        boolean: 0
+        triggerName: TriggerIdle
+        waitForTransition: 1
+    - rid: 5859783957192376329
+      type: {class: FindTargetNode, ns: , asm: com.companions}
+      data:
+        guid: 5cd32120-c6c5-496e-bd38-75bc03c2c6d3
+        position:
+          serializedVersion: 2
+          x: 613
+          y: 1
+          width: 219
+          height: 153
+        nextNodeId: e97a3dc2-0747-4878-a169-2037058a541d
+        findClosest: 0
+        radius: 10
+        useDictionaryComponent: 1
+        targetIdentifier:
+          identifier: MerchantRestingLookAtSpot

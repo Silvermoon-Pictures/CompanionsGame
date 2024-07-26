@@ -39,6 +39,7 @@ namespace Silvermoon.Movement
         public MovementRequest request;
 
         public bool HasCollided => collisionFlags > 0;
+        public bool OnGround => (collisionFlags & CollisionFlags.Below) != 0;
 
         public MovementContext(float deltaTime) : base(deltaTime) { }
     }

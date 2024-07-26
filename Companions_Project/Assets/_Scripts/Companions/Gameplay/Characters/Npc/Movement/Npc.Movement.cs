@@ -13,7 +13,7 @@ public partial class Npc
         navMeshAgent.updatePosition = false;
         navMeshAgent.updateRotation = true;
 
-        walkingMoveState = new WalkingMoveState(MovementComponent, navMeshAgent);
+        walkingMoveState = new WalkingMoveState(MovementComponent, navMeshAgent, stateMachineContext);
 
         List<State> states = new()
         {
