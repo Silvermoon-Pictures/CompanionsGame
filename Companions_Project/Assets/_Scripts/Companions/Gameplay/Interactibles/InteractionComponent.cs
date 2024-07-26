@@ -13,6 +13,6 @@ public class InteractionComponent : MonoBehaviour, ICoreComponent, ITargetable
             instigator = instigator,
             target = gameObject,
         };
-        GameEffect.Execute(context);
+        GameEffectSystem.Execute(GameEffect, context);
     }
 }

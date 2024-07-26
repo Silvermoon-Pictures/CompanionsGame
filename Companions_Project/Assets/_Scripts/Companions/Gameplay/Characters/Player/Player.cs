@@ -6,6 +6,7 @@ using Cinemachine;
 
 public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
 {
+    private static readonly int Lifting = Animator.StringToHash("Lifting");
     public bool UseFirstPersonVCam
     {
         get => firstPersonVCam.activeInHierarchy;
@@ -22,17 +23,17 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
     private float firstToThirdPersonBlendTime = 1f;
     [SerializeField]
     private float thirdToFirstPersonBlendTime = 1f;
-
     [SerializeField]
     private float maxRayDistance = 50f;
+    [SerializeField]
+    private Transform carrySocket;
+    public Transform CarrySocket => carrySocket;
 
     private InputComponent inputComponent;
     private Camera mainCamera;
     public Vector3 interactionOffset = new Vector3(0.5f, 1, 1f);
     private Animator animator;
 
-    private static readonly int Lifting = Animator.StringToHash("Lifting");
-    public GameObject rockCarryPosition;
     private LiftableComponent currentLiftable;
 
     private void OnEnable()
@@ -73,17 +74,23 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
             animator.SetBool(Lifting, true);
             currentLiftable = liftable;
         }
-
+        else
+        {
+            interactionComponent.Interact(gameObject);
+        }
+        
     }
 
+    // Called by AnimationEventHandler.OnLiftEvent
     public void AttachLiftable()
     {
-        currentLiftable.Interact(rockCarryPosition);
+        currentLiftable.Lift(gameObject, carrySocket);
     }
 
+    // Called by AnimationEventHandler.OnLiftEvent
     public void DetachLiftable()
     {
-        currentLiftable.Interact(gameObject);
+        currentLiftable.Drop(gameObject);
         currentLiftable = null;
     }
 
