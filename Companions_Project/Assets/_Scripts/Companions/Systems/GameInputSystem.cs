@@ -14,6 +14,43 @@ namespace Companions.Systems
         public static event Action onJump;
         public static event Action<bool> onSprint;
         public static event Action onTogglePOV;
+        public static PlayerInput PlayerInput { get; set; }
+
+        protected override void Initialize(GameContext context)
+        {
+            base.Initialize(context);
+
+            CutsceneSystem.CutsceneStarted += OnCutsceneStarted;
+            CutsceneSystem.CutsceneStopped += OnCutsceneStopped;
+        }
+
+        private void OnCutsceneStarted(object director, EventArgs e)
+        {
+            SwitchToGameplayInputLayer();
+        }
+        
+        private void OnCutsceneStopped(object director, EventArgs e)
+        {
+            SwitchToCutsceneInputLayer();
+        }
+
+        protected override void Cleanup()
+        {
+            base.Cleanup();
+            
+            CutsceneSystem.CutsceneStarted -= OnCutsceneStarted;
+            CutsceneSystem.CutsceneStopped -= OnCutsceneStopped;
+        }
+
+        private static void SwitchToCutsceneInputLayer()
+        {
+            PlayerInput.SwitchCurrentActionMap("Cutscene");
+        }
+        
+        private static void SwitchToGameplayInputLayer()
+        {
+            PlayerInput.SwitchCurrentActionMap("Gameplay");
+        }
 
         public void OnMovement(InputValue value)
         {

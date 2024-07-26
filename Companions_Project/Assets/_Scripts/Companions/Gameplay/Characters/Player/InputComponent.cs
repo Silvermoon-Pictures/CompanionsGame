@@ -1,7 +1,9 @@
 using System.Collections;
 using Companions.Systems;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerInput))]
 public class InputComponent : MonoBehaviour
 {
     public Vector2 MoveInput { get; private set; }
@@ -9,12 +11,17 @@ public class InputComponent : MonoBehaviour
     public bool SprintInput { get; private set; }
     public bool JumpTriggered { get; private set; }
 
+    private PlayerInput playerInput;
+
     private void OnEnable()
     {
         GameInputSystem.onMove += OnMove;
         GameInputSystem.onLook += OnLook;
         GameInputSystem.onSprint += OnSprint;
         GameInputSystem.onJump += OnJump;
+
+        playerInput = GetComponent<PlayerInput>();
+        GameInputSystem.PlayerInput = playerInput;
     }
 
     private void OnDisable()
