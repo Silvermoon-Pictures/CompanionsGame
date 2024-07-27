@@ -32,7 +32,7 @@ namespace Silvermoon.Core
     {
         public static T Instance { get; private set; }
 
-        public void Awake()
+        protected virtual void Awake()
         {
             if (Instance != null && Instance != this)
                 Destroy(gameObject);

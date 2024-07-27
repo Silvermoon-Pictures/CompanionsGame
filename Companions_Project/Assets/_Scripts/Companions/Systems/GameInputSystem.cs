@@ -7,6 +7,11 @@ namespace Companions.Systems
 {
     public class GameInputSystem : BaseSystem<GameInputSystem>
     {
+        [SerializeField]
+        private PlayerInput playerInput;
+
+        private static PlayerInput PlayerInput => Instance.playerInput;
+        
         // TODO OK: Implement generic commands for input actions
         public static event Action<Vector2> onMove;
         public static event Action<Vector2> onLook;
@@ -14,6 +19,42 @@ namespace Companions.Systems
         public static event Action onJump;
         public static event Action<bool> onSprint;
         public static event Action onTogglePOV;
+
+        protected override void Initialize(GameContext context)
+        {
+            base.Initialize(context);
+
+            CutsceneSystem.CutsceneStarted += OnCutsceneStarted;
+            CutsceneSystem.CutsceneStopped += OnCutsceneStopped;
+        }
+
+        private void OnCutsceneStarted(object director, EventArgs e)
+        {
+            SwitchToCutsceneInputLayer();
+        }
+        
+        private void OnCutsceneStopped(object director, EventArgs e)
+        {
+            SwitchToGameplayInputLayer();
+        }
+
+        protected override void Cleanup()
+        {
+            base.Cleanup();
+            
+            CutsceneSystem.CutsceneStarted -= OnCutsceneStarted;
+            CutsceneSystem.CutsceneStopped -= OnCutsceneStopped;
+        }
+
+        private static void SwitchToCutsceneInputLayer()
+        {
+            PlayerInput.SwitchCurrentActionMap("Cutscene");
+        }
+        
+        private static void SwitchToGameplayInputLayer()
+        {
+            PlayerInput.SwitchCurrentActionMap("Gameplay");
+        }
 
         public void OnMovement(InputValue value)
         {

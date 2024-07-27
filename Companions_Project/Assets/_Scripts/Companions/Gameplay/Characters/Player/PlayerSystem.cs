@@ -9,12 +9,31 @@ public class PlayerSystem : BaseSystem<PlayerSystem>
     public static Player Player => Instance.player;
     private Player player;
     private GameContext gameContext;
+    
+    public static event EventHandler PlayerSpawned
+    {
+        add => Instance.playerSpawned += value;
+        remove => Instance.playerSpawned -= value;
+    }
+    private event EventHandler playerSpawned;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        var existingPlayer = FindObjectOfType<Player>();
+        if (existingPlayer != null)
+        {
+            player = existingPlayer;
+            player.gameObject.SetActive(false);
+        }
+    }
 
     protected override void Initialize(GameContext context)
     {
         base.Initialize(context);
 
         gameContext = context;
+        
         WorldGenerationSystem.Instance.OnWorldIsLoaded += OnWorldLoaded;
     }
 
@@ -27,6 +46,13 @@ public class PlayerSystem : BaseSystem<PlayerSystem>
 
     private void OnWorldLoaded(object sender, EventArgs e)
     {
+        if (player != null)
+        {
+            player.gameObject.SetActive(true);
+            playerSpawned?.Invoke(player, EventArgs.Empty);
+            return;
+        }
+        
         SpawnPlayer();
     }
 
@@ -34,12 +60,6 @@ public class PlayerSystem : BaseSystem<PlayerSystem>
     {
         if (gameContext.settings.simulate)
             return;
-        var existingPlayer = FindObjectOfType<Player>();
-        if (existingPlayer != null)
-        {
-            player = existingPlayer;
-            return;
-        }
 
         var spawnPositionProvider = ComponentSystem<PlayerSpawnPositionProvider>.Instance;
         Vector3 position = spawnPositionProvider.GetSpawnPosition();
@@ -51,5 +71,6 @@ public class PlayerSystem : BaseSystem<PlayerSystem>
     private void SetupPlayer(GameObject playerObj)
     {
         player = playerObj.GetComponent<Player>();
+        playerSpawned?.Invoke(player, EventArgs.Empty);
     }
 }
