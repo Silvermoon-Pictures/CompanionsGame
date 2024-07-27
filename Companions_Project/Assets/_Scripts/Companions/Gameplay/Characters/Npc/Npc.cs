@@ -79,6 +79,11 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         stateMachineContext.stoppingDistance = stoppingDistance;
     }
 
+    public void PutActionInCooldown(ActionAsset action)
+    {
+        brain.PutActionInCooldown(action);
+    }
+
     private void Update()
     {
         UpdateAnimations();

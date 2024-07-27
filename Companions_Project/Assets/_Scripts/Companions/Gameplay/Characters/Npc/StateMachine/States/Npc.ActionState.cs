@@ -96,7 +96,6 @@ namespace Companions.StateMachine
             }
 
             StartExecution(context);
-            yield break;
         }
 
         private IEnumerator ExecuteAction(NpcFSMContext context)
@@ -115,6 +114,7 @@ namespace Companions.StateMachine
             }
 
             context.executeAction = false;
+            owner.PutActionInCooldown(currentAction.actionData);
         }
     }
 }

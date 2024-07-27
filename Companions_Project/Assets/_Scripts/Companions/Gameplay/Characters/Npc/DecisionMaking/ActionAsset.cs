@@ -11,6 +11,10 @@ using UnityEngine.Serialization;
 [CreateAssetMenu(menuName = "Companions/Npc/Actions", fileName = "Action")]
 public class ActionAsset : SerializedScriptableObject
 {
+    [SerializeField]
+    private float cooldown = 0f;
+    public float Cooldown => cooldown;
+    
     [TitleGroup("Decision Making")]
     public List<WeightedConsideration> weightedConsiderations = new();
     [TitleGroup("Decision Making")]
