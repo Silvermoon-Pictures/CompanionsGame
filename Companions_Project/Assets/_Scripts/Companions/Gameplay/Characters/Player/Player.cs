@@ -65,15 +65,23 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
             return;
         }
 
-        if (!Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out RaycastHit hit, maxRayDistance))
+        if (!Physics.Raycast(
+                mainCamera.transform.position,
+                mainCamera.transform.forward,
+                out RaycastHit hit,
+                maxRayDistance,
+                ConfigurationSystem.GetConfig<PlayerConfig>().InteractionLayerMask))
             return;
         if (!hit.transform.TryGetComponent(out InteractionComponent interactionComponent))
             return;
 
         if (interactionComponent is LiftableComponent liftable)
         {
-            animator.SetBool(Lifting, true);
-            currentLiftable = liftable;
+            if (InventorySystem.CanCarryItem(gameObject, liftable, InventoryType.Hand))
+            {
+                animator.SetBool(Lifting, true);
+                currentLiftable = liftable;
+            }
         }
         else
         {
@@ -85,12 +93,17 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
     // Called by AnimationEventHandler.OnLiftEvent
     public void AttachLiftable()
     {
-        currentLiftable.Lift(gameObject, carrySocket);
+        if (!InventorySystem.GetInventoryComponent(gameObject, InventoryType.Hand, out var inventory))
+            return;
+        
+        currentLiftable.Lift(gameObject, inventory.transform);
+        InventorySystem.AddToInventory(gameObject, currentLiftable, InventoryType.Hand);
     }
 
     // Called by AnimationEventHandler.OnLiftEvent
     public void DetachLiftable()
     {
+        InventorySystem.DropItem(gameObject, currentLiftable);
         currentLiftable.Drop(gameObject);
         currentLiftable = null;
     }

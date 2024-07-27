@@ -1,10 +1,39 @@
+using Companions.Systems;
+using Sirenix.OdinInspector;
 using UnityEngine;
+
+public enum InventoryType
+{
+    None,
+    Pocket,
+    Hand,
+    Bag
+}
 
 public class LiftableComponent : InteractionComponent
 {
     public GameEffect DropGameEffect;
 
     private bool isLifted;
+    
+    [field: SerializeField, SuffixLabel("kg")]
+    public int Weight { get; private set; }
+    
+    public void OnAddedToInventory()
+    {
+        //gameObject.SetActive(false);
+    }
+
+    // TODO Omer: Figure out what happens here
+    public void OnRemovedFromInventory()
+    {
+        //gameObject.SetActive(true);
+    }
+
+    public bool IsAvailable(GameObject querier)
+    {
+        return InventorySystem.GetEmptyWeightAmount(querier, InventoryType.Hand) >= Weight;
+    }
     
     public void Drop(GameObject instigator)
     {

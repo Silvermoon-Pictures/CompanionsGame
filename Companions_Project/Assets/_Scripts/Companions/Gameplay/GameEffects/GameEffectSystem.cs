@@ -28,6 +28,9 @@ public class GameEffectSystem : MonoBehaviour, ISystem
     
     public static void Execute(GameEffect gameEffect, GameEffectContext context)
     {
+        if (gameEffect == null)
+            return;
+        
         foreach (var behavior in gameEffect.behaviors)
         {
             behavior.Execute(context);
@@ -37,6 +40,9 @@ public class GameEffectSystem : MonoBehaviour, ISystem
     
     public static IEnumerator ExecuteCoroutine(GameEffect gameEffect, GameEffectContext context)
     {
+        if (gameEffect == null)
+            yield break;
+        
         foreach (var behavior in gameEffect.behaviors)
         {
             behavior.Execute(context);
