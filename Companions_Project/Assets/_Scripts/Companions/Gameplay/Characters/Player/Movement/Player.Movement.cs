@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using Companions.Systems;
 using Silvermoon.Movement;
 using UnityEngine;
 
 public partial class Player : IDirectionProvider, ISpeedProvider
 {
-    public Vector3 Direction => mainCamera.transform.forward;
+    public Vector3 Direction => CameraSystem.Camera.transform.forward;
 
     private MovementComponent movementComponent;
 

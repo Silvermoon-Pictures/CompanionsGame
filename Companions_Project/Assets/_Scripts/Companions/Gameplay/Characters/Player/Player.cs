@@ -1,3 +1,4 @@
+using System.Collections;
 using Companions.Common;
 using Companions.Systems;
 using Silvermoon.Core;
@@ -9,16 +10,16 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
     private static readonly int Lifting = Animator.StringToHash("Lifting");
     public bool UseFirstPersonVCam
     {
-        get => firstPersonVCam.activeInHierarchy;
+        get => firstPersonVCam.gameObject.activeInHierarchy;
         set {
-            firstPersonVCam.SetActive(value);
-            thirdPersonVCam.SetActive(!value);
+            firstPersonVCam.gameObject.SetActive(value);
+            thirdPersonVCam.gameObject.SetActive(!value);
         }
     }
     [SerializeField]
-    private GameObject firstPersonVCam;
+    private CinemachineVirtualCamera firstPersonVCam;
     [SerializeField]
-    private GameObject thirdPersonVCam;
+    private CinemachineVirtualCamera thirdPersonVCam;
     [SerializeField]
     private float firstToThirdPersonBlendTime = 1f;
     [SerializeField]
@@ -36,11 +37,11 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
 
     private LiftableComponent currentLiftable;
 
-    private void OnEnable()
+    private void Start()
     {
         inputComponent = GetComponent<InputComponent>();
-        mainCamera = FindObjectOfType<Camera>();
         animator = GetComponentInChildren<Animator>();
+        mainCamera = CameraSystem.Camera;
  		SetupMovement();
     }
 
@@ -99,5 +100,16 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
         UseFirstPersonVCam = !UseFirstPersonVCam;
         CinemachineBrain cinemachineBrain = mainCamera.GetComponent<CinemachineBrain>();
         cinemachineBrain.m_DefaultBlend.m_Time = UseFirstPersonVCam ? thirdToFirstPersonBlendTime : firstToThirdPersonBlendTime;
+    }
+
+    public void DisableCamera()
+    {
+        firstPersonVCam.gameObject.SetActive(false);
+        thirdPersonVCam.gameObject.SetActive(false);
+    }
+    
+    public void EnableCamera()
+    {
+        firstPersonVCam.gameObject.SetActive(true);
     }
 }

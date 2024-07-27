@@ -27,10 +27,12 @@ public class CutsceneComponent : MonoBehaviour
     {
         CutsceneSystem.Play(director);
         onCutsceneStarted?.Invoke();
+        PlayerSystem.Player.DisableCamera();
     }
 
     private void OnCutsceneEnd(PlayableDirector _)
     {
         onCutsceneStopped?.Invoke();
+        PlayerSystem.Player.EnableCamera();
     }
 }
