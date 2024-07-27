@@ -1,26 +1,35 @@
 using System;
+using Companions.Common;
 using Companions.Systems;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
 
 [RequireComponent(typeof(PlayableDirector))]
-public class CutsceneComponent : MonoBehaviour
+public class CutsceneComponent : MonoBehaviour, ICompanionComponent
 {
+    [SerializeField]
+    private bool playOnAwake;
     public UnityEvent onCutsceneStarted;
     public UnityEvent onCutsceneStopped;
     private PlayableDirector director;
 
-    private void OnEnable()
+    void ICompanionComponent.WorldLoaded()
     {
         director = GetComponent<PlayableDirector>();
         director.stopped += OnCutsceneEnd;
+
+        if (playOnAwake)
+            Play();
     }
 
-    private void OnDisable()
+    void ICompanionComponent.Cleanup()
     {
-        director.stopped -= OnCutsceneEnd;
-        director = null;
+        if (director != null)
+        {
+            director.stopped -= OnCutsceneEnd;
+            director = null;
+        }
     }
 
     public void Play()
