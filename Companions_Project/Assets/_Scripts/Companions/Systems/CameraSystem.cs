@@ -10,6 +10,7 @@ namespace Companions.Systems
         private Camera mainCamera;
         public static Camera Camera => Instance.mainCamera;
         private CameraConfig cameraConfig;
+        public static bool HasBrain => CinemachineCore.Instance.BrainCount > 0;
 
         public static CinemachineBrain Brain => CinemachineCore.Instance.GetActiveBrain(0);
 
