@@ -249,6 +249,20 @@ public class ActionGraphView : GraphView
                 break;
             }
         }
+
+        // A node can only have 2 edges for now
+        List<Edge> edgesToRemove = new List<Edge>(2);
+        foreach (var (edge, connection) in connectionDictionary)
+        {
+            if (connection.inputPort.nodeId == editorNode.Node.Id || connection.outputPort.nodeId == editorNode.Node.Id)
+            {
+                edgesToRemove.Add(edge);
+            }
+        }
+        
+        foreach (var edge in edgesToRemove)
+            RemoveConnection(edge);
+        
         graphNodes.Remove(editorNode);
         serializedObject.Update();
     }
