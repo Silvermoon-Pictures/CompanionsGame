@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8888395630286687160}
   - component: {fileID: 2629359856296832069}
   - component: {fileID: -3473249438351347435}
-  - component: {fileID: 1892442084073129141}
+  - component: {fileID: 7531524166147048297}
   m_Layer: 0
   m_Name: GO_GameManager
   m_TagString: Untagged
@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ab5bba87e3f11449ce73325f8beb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshSurface: {fileID: 0}
   playerPrefab: {fileID: 4616208076541367003, guid: 866c971c65773d3499cb61b87dd78d76,
     type: 3}
 --- !u!114 &-3473249438351347435
@@ -61,7 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52c38c9c672f964f92b795288b04191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1892442084073129141
+  playerInput: {fileID: 7531524166147048297}
+--- !u!114 &7531524166147048297
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,27 +86,7 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 35b7385b-e503-4805-8859-cd042032304d
-    m_ActionName: Gameplay/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 24938313-3a88-4420-b052-f6cbccadce5c
-    m_ActionName: Gameplay/Look[/Mouse/delta]
+  m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
