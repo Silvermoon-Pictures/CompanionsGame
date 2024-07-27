@@ -1,4 +1,5 @@
 using System.Collections;
+using Companions.Common;
 using UnityEngine;
 
 [NodeInfo("Alter Stamina", "Gameplay/Alter Stamina")]

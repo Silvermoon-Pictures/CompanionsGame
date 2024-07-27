@@ -1,4 +1,5 @@
 using System.Collections;
+using Companions.Common;
 
 [NodeInfo("Game Effect", "Gameplay/Game Effect")]
 public class GameEffectNode : ActionGraphNode

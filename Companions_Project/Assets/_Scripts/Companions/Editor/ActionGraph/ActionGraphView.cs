@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Companions.Common;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
