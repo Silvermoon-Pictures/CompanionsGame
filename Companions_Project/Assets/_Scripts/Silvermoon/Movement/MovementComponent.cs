@@ -31,8 +31,9 @@ namespace Silvermoon.Movement
 
         public event Action onMovement;
 
-        [MinMaxSlider(0, 20f, true)] public Vector2 RandomSpeed;
-        public float Speed { get; private set; }
+        [SerializeField] 
+        private float speed = 4f;
+        public float Speed => speed;
         public float DefaultSpeed { get; private set; }
         public float Gravity = 9.81f;
         public float Drag = 1f;
@@ -60,9 +61,8 @@ namespace Silvermoon.Movement
             characterController.radius = colliderRadius;
             characterController.height = colliderHeight;
             characterController.material = physicMaterial;
-
-            Speed = Random.Range(RandomSpeed.x, RandomSpeed.y);
-            DefaultSpeed = Speed;
+            
+            DefaultSpeed = speed;
 
             directionProvider = GetComponent(typeof(IDirectionProvider)) as IDirectionProvider;
             speedProvider = GetComponent(typeof(ISpeedProvider)) as ISpeedProvider;
@@ -88,7 +88,7 @@ namespace Silvermoon.Movement
         private void Update()
         {
             Vector3 direction = directionProvider?.Direction ?? transform.forward;
-            float speed = speedProvider?.GetSpeed() ?? Speed;
+            float speed = speedProvider?.GetSpeed() ?? this.speed;
 
             var context = new MovementContext(Time.deltaTime)
             {
