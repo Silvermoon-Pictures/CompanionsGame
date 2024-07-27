@@ -1,15 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 using UnityEngine.AI;
 
 [NodeInfo("Go To", "Gameplay/AI/Go To")]
 public class GoToNode : ActionGraphNode
 {
     public float stoppingDistance = 1f;
-
-    public GameObject target;
 
     public override IEnumerator Execute(SubactionContext context)
     {

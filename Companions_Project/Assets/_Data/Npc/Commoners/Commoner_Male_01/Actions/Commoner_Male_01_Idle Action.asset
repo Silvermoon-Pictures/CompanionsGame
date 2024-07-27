@@ -186,15 +186,17 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  cooldown: 0
   graphNodes:
   - rid: 5859783965117775874
   - rid: 5859783965117775875
+  - rid: 5859784074222370822
   connections:
   - inputPort:
       nodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
       portIndex: 1
     outputPort:
-      nodeId: dbc36282-7336-40a6-8c00-546ec3790713
+      nodeId: 8c9ae1dc-6bdc-4ed5-a451-da694cdd7263
       portIndex: 0
   references:
     version: 2
@@ -226,3 +228,14 @@ MonoBehaviour:
         boolean: 0
         triggerName: TriggerIdle
         waitForTransition: 0
+    - rid: 5859784074222370822
+      type: {class: ExecuteNode, ns: , asm: com.companions}
+      data:
+        guid: 8c9ae1dc-6bdc-4ed5-a451-da694cdd7263
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        nextNodeId: 22fe3aff-eaec-482e-858f-e41113be35fa

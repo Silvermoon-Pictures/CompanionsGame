@@ -21,9 +21,15 @@ public class NpcBrain
 
     private ActionAsset selectedAction;
     
+    private Dictionary<ActionAsset, float> cooldowns = new();
+    
     public NpcBrain(Npc npc)
     {
         this.npc = npc;
+        foreach (var action in npc.NpcData.Actions)
+        {
+            cooldowns.Add(action, 0f);
+        }
     }
 
     public ActionAsset Decide()
@@ -37,7 +43,15 @@ public class NpcBrain
 
         var filteredActions = FilterActions(context);
         selectedAction = ScoreActions(filteredActions, context);
+        if (selectedAction == null)
+            return null;
+        
         return selectedAction;
+    }
+
+    internal void PutActionInCooldown(ActionAsset action)
+    {
+        cooldowns[selectedAction] = Time.timeSinceLevelLoad + selectedAction.Cooldown;
     }
 
     private IEnumerable<ActionAsset> FilterActions(ConsiderationContext context)
@@ -50,11 +64,18 @@ public class NpcBrain
         {
             if (!action.IsCompatible(context))
                 continue;
+            if (IsActionInCooldown(action))
+                continue;
 
             filteredActions.Add(action);
         }
 
         return filteredActions;
+    }
+
+    private bool IsActionInCooldown(ActionAsset action)
+    {
+        return Time.timeSinceLevelLoad < cooldowns[action];
     }
 
     private ActionAsset ScoreActions(IEnumerable<ActionAsset> actions, ConsiderationContext context)
