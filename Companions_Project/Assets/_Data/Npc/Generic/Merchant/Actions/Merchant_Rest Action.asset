@@ -174,6 +174,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  cooldown: 0
   graphNodes:
   - rid: 5859783948307791873
   - rid: 5859783948307791874
@@ -189,7 +190,7 @@ MonoBehaviour:
       nodeId: 18cae9fe-c205-480b-9b75-6f62a99af95b
       portIndex: 1
     outputPort:
-      nodeId: 318e93f9-d556-4d8d-9bac-63ccb9a15b72
+      nodeId: 0c5a240a-e516-4e6b-99e2-2724c405a534
       portIndex: 0
   - inputPort:
       nodeId: 9f588baf-b425-4873-b321-48ce93948c39
@@ -227,12 +228,6 @@ MonoBehaviour:
     outputPort:
       nodeId: dcbdb6a5-38d8-4b59-b77d-fe9c2b9909a1
       portIndex: 0
-  - inputPort:
-      nodeId: 18cae9fe-c205-480b-9b75-6f62a99af95b
-      portIndex: 1
-    outputPort:
-      nodeId: 0c5a240a-e516-4e6b-99e2-2724c405a534
-      portIndex: 0
   references:
     version: 2
     RefIds:
@@ -269,21 +264,20 @@ MonoBehaviour:
         guid: 9f588baf-b425-4873-b321-48ce93948c39
         position:
           serializedVersion: 2
-          x: 306
-          y: 1
-          width: 281
-          height: 117
+          x: 380
+          y: 9
+          width: 150
+          height: 97
         nextNodeId: 5cd32120-c6c5-496e-bd38-75bc03c2c6d3
         stoppingDistance: 1
-        target: {fileID: 0}
     - rid: 5859783948307791876
       type: {class: PlayAnimationNode, ns: , asm: com.companions}
       data:
         guid: 9b4033e7-cd1f-43a5-bd9f-5745075cd491
         position:
           serializedVersion: 2
-          x: 1079
-          y: 1
+          x: 1080
+          y: 2
           width: 288
           height: 172
         nextNodeId: f623d3ff-0268-4248-ba57-40af4d63b0ed
@@ -341,8 +335,8 @@ MonoBehaviour:
         guid: 5cd32120-c6c5-496e-bd38-75bc03c2c6d3
         position:
           serializedVersion: 2
-          x: 613
-          y: 1
+          x: 563
+          y: 2
           width: 219
           height: 153
         nextNodeId: e97a3dc2-0747-4878-a169-2037058a541d

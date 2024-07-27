@@ -39,7 +39,7 @@ MonoBehaviour:
       Data: false
     - Name: Score
       Entry: 4
-      Data: 0.9
+      Data: 0.25
     - Name: randomScore
       Entry: 7
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
@@ -48,7 +48,7 @@ MonoBehaviour:
       Data: 0
     - Name: 
       Entry: 4
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -186,22 +186,24 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  cooldown: 0
   graphNodes:
   - rid: 5859783965117775874
   - rid: 5859783965117775875
   - rid: 5859784013207044115
+  - rid: 5859784074222370818
   connections:
   - inputPort:
       nodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
       portIndex: 1
     outputPort:
-      nodeId: dbc36282-7336-40a6-8c00-546ec3790713
+      nodeId: 9e16f2aa-22a2-4a5d-b302-3a220d2178b5
       portIndex: 0
   - inputPort:
-      nodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
+      nodeId: ece5fff0-116a-4cb6-a8a3-a0de7a992f30
       portIndex: 1
     outputPort:
-      nodeId: 9e16f2aa-22a2-4a5d-b302-3a220d2178b5
+      nodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
       portIndex: 0
   references:
     version: 2
@@ -227,7 +229,7 @@ MonoBehaviour:
           y: 0
           width: 288
           height: 172
-        nextNodeId: 
+        nextNodeId: ece5fff0-116a-4cb6-a8a3-a0de7a992f30
         clip: {fileID: 0}
         booleanName: 
         boolean: 0
@@ -244,3 +246,15 @@ MonoBehaviour:
           width: 0
           height: 0
         nextNodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
+    - rid: 5859784074222370818
+      type: {class: WaitNode, ns: , asm: com.companions}
+      data:
+        guid: ece5fff0-116a-4cb6-a8a3-a0de7a992f30
+        position:
+          serializedVersion: 2
+          x: 453
+          y: 0
+          width: 151
+          height: 97
+        nextNodeId: 
+        duration: 1

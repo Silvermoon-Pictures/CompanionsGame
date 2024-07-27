@@ -207,6 +207,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  cooldown: 0
   graphNodes:
   - rid: 5859783948307791879
   - rid: 5859783948307791880
@@ -222,7 +223,13 @@ MonoBehaviour:
       nodeId: 1e4ec613-6702-405b-a1f7-caf5b9c57502
       portIndex: 1
     outputPort:
-      nodeId: 6d64e875-26e1-4a8a-b9ef-5bf8c58c1893
+      nodeId: 07964ef6-a744-442c-bc2a-c63fa092735a
+      portIndex: 0
+  - inputPort:
+      nodeId: 43ff5ede-8b0b-48e5-bc4a-cd62412482eb
+      portIndex: 1
+    outputPort:
+      nodeId: 54adabec-e61a-4ea1-8ee7-bb9bb51e7b0b
       portIndex: 0
   - inputPort:
       nodeId: ad49c101-a478-46d5-ac1e-65fa93ca1e3b
@@ -253,18 +260,6 @@ MonoBehaviour:
       portIndex: 1
     outputPort:
       nodeId: 3ff95bca-c132-4861-a2d9-7c1c0748daf0
-      portIndex: 0
-  - inputPort:
-      nodeId: 43ff5ede-8b0b-48e5-bc4a-cd62412482eb
-      portIndex: 1
-    outputPort:
-      nodeId: 54adabec-e61a-4ea1-8ee7-bb9bb51e7b0b
-      portIndex: 0
-  - inputPort:
-      nodeId: 1e4ec613-6702-405b-a1f7-caf5b9c57502
-      portIndex: 1
-    outputPort:
-      nodeId: 07964ef6-a744-442c-bc2a-c63fa092735a
       portIndex: 0
   references:
     version: 2
@@ -308,7 +303,6 @@ MonoBehaviour:
           height: 141
         nextNodeId: d1e23185-847e-493f-a0a7-eea1baef4e8f
         stoppingDistance: 0.25
-        target: {fileID: 0}
     - rid: 5859783948307791882
       type: {class: PlayAnimationNode, ns: , asm: com.companions}
       data:

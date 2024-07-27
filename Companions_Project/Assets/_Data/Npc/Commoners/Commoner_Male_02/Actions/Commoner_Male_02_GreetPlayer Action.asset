@@ -195,14 +195,16 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  cooldown: 10
   graphNodes:
   - rid: 5859783969389412353
-  - rid: 5859784005231575043
   - rid: 5859784013207044104
   - rid: 5859784013207044107
   - rid: 5859784013207044109
   - rid: 5859784013207044113
   - rid: 5859784013207044114
+  - rid: 5859784074222370820
+  - rid: 5859784074222370821
   connections:
   - inputPort:
       nodeId: 6c4c99d5-b3a9-4f79-94dc-8bb32dc8ff40
@@ -211,22 +213,22 @@ MonoBehaviour:
       nodeId: 3b5bbced-0986-4b74-8667-8541c4afff48
       portIndex: 0
   - inputPort:
-      nodeId: ebdcd63a-9e02-4f22-b51a-1b8461ecbdc9
-      portIndex: 1
-    outputPort:
-      nodeId: d2a83bf2-f5ce-4c7a-a10e-c28a92a9de57
-      portIndex: 0
-  - inputPort:
       nodeId: 2b4681fc-e74e-43c7-b956-b8659a64ce08
       portIndex: 1
     outputPort:
       nodeId: 2678d77b-530a-49bd-95e2-1075c9a6b7fd
       portIndex: 0
   - inputPort:
-      nodeId: ebdcd63a-9e02-4f22-b51a-1b8461ecbdc9
+      nodeId: bef143f6-c073-499c-9f22-999d3db821ea
       portIndex: 1
     outputPort:
       nodeId: d9f98ebb-ecb0-474d-97d7-cef64c61bcf9
+      portIndex: 0
+  - inputPort:
+      nodeId: 937fa76d-e7a7-4bc0-9bcd-ca7d806366fe
+      portIndex: 1
+    outputPort:
+      nodeId: bef143f6-c073-499c-9f22-999d3db821ea
       portIndex: 0
   references:
     version: 2
@@ -242,23 +244,6 @@ MonoBehaviour:
           width: 76
           height: 77
         nextNodeId: 
-    - rid: 5859784005231575043
-      type: {class: PlayAnimationNode, ns: , asm: com.companions}
-      data:
-        guid: ebdcd63a-9e02-4f22-b51a-1b8461ecbdc9
-        position:
-          serializedVersion: 2
-          x: 140
-          y: 28
-          width: 332
-          height: 172
-        nextNodeId: 
-        clip: {fileID: -1996891588857566775, guid: 606338c9f544fb7499da5984be290e59,
-          type: 3}
-        booleanName: 
-        boolean: 0
-        triggerName: TriggerGreet
-        waitForTransition: 0
     - rid: 5859784013207044104
       type: {class: UpdateNode, ns: , asm: com.companions}
       data:
@@ -322,4 +307,32 @@ MonoBehaviour:
           y: 28
           width: 92
           height: 77
-        nextNodeId: ebdcd63a-9e02-4f22-b51a-1b8461ecbdc9
+        nextNodeId: bef143f6-c073-499c-9f22-999d3db821ea
+    - rid: 5859784074222370820
+      type: {class: WaitNode, ns: , asm: com.companions}
+      data:
+        guid: 937fa76d-e7a7-4bc0-9bcd-ca7d806366fe
+        position:
+          serializedVersion: 2
+          x: 464
+          y: 28
+          width: 151
+          height: 97
+        nextNodeId: 
+        duration: 3
+    - rid: 5859784074222370821
+      type: {class: PlayAnimationNode, ns: , asm: com.companions}
+      data:
+        guid: bef143f6-c073-499c-9f22-999d3db821ea
+        position:
+          serializedVersion: 2
+          x: 142
+          y: 28
+          width: 288
+          height: 172
+        nextNodeId: 937fa76d-e7a7-4bc0-9bcd-ca7d806366fe
+        clip: {fileID: 0}
+        booleanName: 
+        boolean: 0
+        triggerName: TriggerGreet
+        waitForTransition: 0

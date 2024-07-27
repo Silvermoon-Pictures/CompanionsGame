@@ -186,6 +186,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  cooldown: 0
   graphNodes:
   - rid: 5859783966461526017
   - rid: 5859783966461526018
@@ -193,12 +194,13 @@ MonoBehaviour:
   - rid: 5859783966461526020
   - rid: 5859783966461526021
   - rid: 5859783966461526022
+  - rid: 5859784074222370817
   connections:
   - inputPort:
       nodeId: 6f164cc4-e026-4f3a-b127-3ab92d5ad458
       portIndex: 1
     outputPort:
-      nodeId: 18799671-da5a-4731-9565-9a3e701d01fd
+      nodeId: 3b4c835f-a5f2-422d-9c52-3bc388b2c05e
       portIndex: 0
   - inputPort:
       nodeId: 25f3e506-9029-4abd-96a8-f772e9455632
@@ -285,7 +287,7 @@ MonoBehaviour:
         guid: 29cb76e9-a42f-439e-8fe3-67f497e30d83
         position:
           serializedVersion: 2
-          x: 890
+          x: 884
           y: 0
           width: 219
           height: 153
@@ -308,3 +310,14 @@ MonoBehaviour:
         nextNodeId: 
         stoppingDistance: 1
         target: {fileID: 0}
+    - rid: 5859784074222370817
+      type: {class: ExecuteNode, ns: , asm: com.companions}
+      data:
+        guid: 3b4c835f-a5f2-422d-9c52-3bc388b2c05e
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        nextNodeId: 6f164cc4-e026-4f3a-b127-3ab92d5ad458
