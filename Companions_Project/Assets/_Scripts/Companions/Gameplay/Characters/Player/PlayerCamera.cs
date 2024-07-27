@@ -43,8 +43,8 @@ public class PlayerCamera : MonoBehaviour
         pitch -= mouseY;
         pitch = Mathf.Clamp(pitch, verticalClamp.x, verticalClamp.y);
         body.Rotate(Vector3.up * mouseX);
-        head.transform.localRotation = Quaternion.Euler(pitch, body.transform.eulerAngles.y, body.transform.eulerAngles.z);
-
+        head.transform.localRotation = Quaternion.Euler(pitch, 0, body.eulerAngles.z);
+        
         lookInput = Vector3.zero;
     }
 }
