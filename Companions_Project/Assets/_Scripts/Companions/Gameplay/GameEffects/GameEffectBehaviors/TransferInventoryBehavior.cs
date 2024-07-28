@@ -14,6 +14,6 @@ public class TransferInventoryBehavior : GameEffectBehavior
         if (!context.target.TryGetComponent(out InventoryComponent targetInventory))
             return;
 
-        instigatorInventory.TransferInventory(targetInventory, inventoryType);
+        //instigatorInventory.TransferInventory(targetInventory, inventoryType);
     }
 }

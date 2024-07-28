@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Companions.Common;
 using Silvermoon.Core;
+using UnityEditor;
 using UnityEngine;
 
 namespace Companions.Systems
@@ -8,13 +9,16 @@ namespace Companions.Systems
     [RequiredSystem]
     public class InventorySystem : BaseSystem<InventorySystem>, ICompanionComponent
     {
-        private Dictionary<GameObject, InventoryComponent> inventoryComponents = new(); 
+        private Dictionary<GameObject, List<InventoryComponent>> inventoryComponents = new(); 
         
         void ICompanionComponent.WorldLoaded()
         {
             foreach (var inventoryComponent in ComponentSystem<InventoryComponent>.Components)
             {
-                inventoryComponents.Add(inventoryComponent.gameObject, inventoryComponent);
+                if (!inventoryComponents.ContainsKey(inventoryComponent.Owner))
+                    inventoryComponents.Add(inventoryComponent.Owner, new());
+                
+                inventoryComponents[inventoryComponent.Owner].Add(inventoryComponent);
             }
         }
 
@@ -25,53 +29,85 @@ namespace Companions.Systems
             inventoryComponents.Clear();
         }
 
-        public static bool GetInventoryComponent(GameObject entity, out InventoryComponent inventoryComponent)
+        public static bool GetInventoryComponent(GameObject entity, InventoryType type, out InventoryComponent inventoryComponent)
         {
-            if (Instance.inventoryComponents.TryGetValue(entity, out inventoryComponent))
-                return true;
-
-            if (!entity.TryGetComponent(out inventoryComponent))
+            inventoryComponent = null;
+            if (!Instance.inventoryComponents.TryGetValue(entity, out List<InventoryComponent> inventories))
                 return false;
+            
+            foreach (InventoryComponent inventory in inventories)
+            {
+                if (inventory.type == type)
+                {
+                    inventoryComponent = inventory;
+                    return true;
+                }
+            }
 
-            Instance.inventoryComponents.Add(entity, inventoryComponent);
-            return true;
+            return false;
         }
 
-        public static bool IsInventoryFull(GameObject entity)
+        public static bool CanCarryItem(GameObject entity, LiftableComponent item, InventoryType type)
         {
-            if (!GetInventoryComponent(entity, out InventoryComponent inventoryComponent))
+            if (!GetInventoryComponent(entity, type, out InventoryComponent inventoryComponent))
                 return false;
-
-            return inventoryComponent.IsFull();
+            
+            return inventoryComponent.CanCarryItem(item);
         }
 
-        public static bool HasPlaceInInventory(GameObject entity)
+        public static void AddToInventory(GameObject entity, LiftableComponent item, InventoryType type)
         {
-            return !IsInventoryFull(entity);
+            if (!GetInventoryComponent(entity, type, out InventoryComponent inventoryComponent))
+                return;
+            
+            inventoryComponent.Add(item);
         }
 
         public static bool IsInventoryFull(GameObject entity, InventoryType type)
         {
-            if (!GetInventoryComponent(entity, out InventoryComponent inventoryComponent))
+            if (!GetInventoryComponent(entity, type, out InventoryComponent inventoryComponent))
                 return false;
 
-            return inventoryComponent.IsFull(type);
+            return inventoryComponent.IsFull();
         }
         
         public static bool IsInventoryEmpty(GameObject entity, InventoryType type)
         {
-            if (!GetInventoryComponent(entity, out InventoryComponent inventoryComponent))
+            if (!GetInventoryComponent(entity, type, out InventoryComponent inventoryComponent))
                 return false;
 
-            return inventoryComponent.IsEmpty(type);
+            return inventoryComponent.IsEmpty();
         }
 
-        public static int GetEmptyWeightAmount(GameObject entity, InventoryType type)
+        public static float GetEmptyWeightAmount(GameObject entity, InventoryType type)
         {
-            if (!GetInventoryComponent(entity, out InventoryComponent inventoryComponent))
+            if (!GetInventoryComponent(entity, type, out InventoryComponent inventoryComponent))
                 return 0;
 
-            return inventoryComponent.GetEmptyWeightAmount(type);
+            return inventoryComponent.GetEmptyWeightAmount();
+        }
+
+        public static void DropItem(GameObject entity, LiftableComponent itemToDrop)
+        {
+            if (!Instance.inventoryComponents.ContainsKey(entity))
+                return;
+
+            bool itemDropped = false;
+            foreach (var inventory in Instance.inventoryComponents[entity])
+            {
+                if (itemDropped)
+                    break;
+                
+                foreach (var item in inventory.items)
+                {
+                    if (item == itemToDrop)
+                    {
+                        inventory.Remove(item);
+                        itemDropped = true;
+                        break;
+                    }
+                }
+            }
         }
     }
 }

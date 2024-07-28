@@ -15,7 +15,7 @@ public class AddToInventoryBehavior : GameEffectBehavior
         if (!context.target.TryGetComponent(out Item item))
             return;
 
-        if (!inventoryComponent.TryAddToInventory(inventoryType, item))
-            inventoryComponent.TryAddToInventory(secondaryInventoryTypeIfFull, item);
+        // if (!inventoryComponent.TryAddToInventory(inventoryType, item))
+        //     inventoryComponent.TryAddToInventory(secondaryInventoryTypeIfFull, item);
     }
 }

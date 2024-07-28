@@ -2,6 +2,7 @@ using Silvermoon.Movement;
 using Silvermoon.Utils;
 using UnityEngine;
 using System;
+using Companions.Common;
 
 public class StaminaComponent : MonoBehaviour
 {

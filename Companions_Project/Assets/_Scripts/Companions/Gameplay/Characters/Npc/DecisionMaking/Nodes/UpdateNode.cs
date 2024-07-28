@@ -1,3 +1,4 @@
+using Companions.Common;
 using UnityEngine;
 
 [NodeInfo("Update", "Events/Update", hasInput: false, hasOutput: true)]
