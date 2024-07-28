@@ -18,7 +18,9 @@ namespace Companions.Systems
         {
             base.Initialize(context);
             cameraConfig = ConfigurationSystem.GetConfig<CameraConfig>();
-            mainCamera = Instantiate(cameraConfig.CameraPrefab).GetComponent<Camera>();
+            mainCamera = FindObjectOfType<Camera>();
+            if (mainCamera == null)
+                mainCamera = Instantiate(cameraConfig.CameraPrefab).GetComponent<Camera>();
         }
 
         protected override void Cleanup()
