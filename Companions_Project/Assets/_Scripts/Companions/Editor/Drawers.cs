@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silvermoon.Core;
 using UnityEditor;
+using Companions.Common;
 using UnityEngine;
 
 [CustomPropertyDrawer(typeof(TypeFilterAttribute))]
