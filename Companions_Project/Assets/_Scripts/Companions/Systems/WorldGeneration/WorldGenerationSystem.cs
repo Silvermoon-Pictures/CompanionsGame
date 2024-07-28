@@ -32,10 +32,12 @@ namespace Companions.Systems
                 context.AddInstruction(instruction);
             }
 
-            surface = Instantiate(worldGenerationConfig.NavMeshSurfacePrefab);
+            if (worldGenerationConfig.NavMeshSurfacePrefab != null)
+                surface = Instantiate(worldGenerationConfig.NavMeshSurfacePrefab);
             
             yield return context.game.Factory.ProcessQueue();
-            yield return Instance.BuildNavmeshAsync(surface);
+            if (surface != null)
+                yield return Instance.BuildNavmeshAsync(surface);
 
             yield return new WaitForSeconds(1f);
             
