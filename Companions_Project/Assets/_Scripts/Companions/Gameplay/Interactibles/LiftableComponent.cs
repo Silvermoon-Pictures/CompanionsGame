@@ -1,3 +1,4 @@
+using System;
 using Companions.Systems;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -15,10 +16,17 @@ public class LiftableComponent : InteractionComponent
     public GameEffect DropGameEffect;
 
     private bool isLifted;
-    
-    [field: SerializeField, SuffixLabel("kg")]
-    public int Weight { get; private set; }
-    
+
+    [SerializeField, SuffixLabel("kg")]
+    private float weight;
+    public float Weight => weight;
+
+    private void OnValidate()
+    {
+        if (weight < 0.005f)
+            weight = 0.005f;
+    }
+
     public void OnAddedToInventory()
     {
         //gameObject.SetActive(false);

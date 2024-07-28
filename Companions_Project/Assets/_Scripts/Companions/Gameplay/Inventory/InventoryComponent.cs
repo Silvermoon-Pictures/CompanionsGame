@@ -20,7 +20,7 @@ public class InventoryComponent : MonoBehaviour, ICoreComponent
     public List<LiftableComponent> items = new();
 
     [SerializeField, ReadOnly]
-    private int currentWeight;
+    private float currentWeight;
 
     public void Add(LiftableComponent item)
     {
@@ -63,7 +63,7 @@ public class InventoryComponent : MonoBehaviour, ICoreComponent
         items.Clear();
     }
 
-    public int GetCurrentWeight()
+    public float GetCurrentWeight()
     {
         return items.Sum(item => item.Weight);
     }
@@ -91,7 +91,7 @@ public class InventoryComponent : MonoBehaviour, ICoreComponent
         return !IsEmpty();
     }
 
-    public int GetEmptyWeightAmount()
+    public float GetEmptyWeightAmount()
     {
         return maxWeight - GetCurrentWeight();
     }

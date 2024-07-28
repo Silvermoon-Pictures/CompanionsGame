@@ -79,7 +79,7 @@ namespace Companions.Systems
             return inventoryComponent.IsEmpty();
         }
 
-        public static int GetEmptyWeightAmount(GameObject entity, InventoryType type)
+        public static float GetEmptyWeightAmount(GameObject entity, InventoryType type)
         {
             if (!GetInventoryComponent(entity, type, out InventoryComponent inventoryComponent))
                 return 0;
