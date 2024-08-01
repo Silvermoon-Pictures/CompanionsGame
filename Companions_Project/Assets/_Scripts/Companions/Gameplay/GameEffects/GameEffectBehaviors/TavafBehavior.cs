@@ -1,3 +1,4 @@
+using System.Collections;
 using Silvermoon.Movement;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,12 +8,16 @@ public class TavafBehavior : GameEffectBehavior
 {
     public float duration = 3f;
     
-    public override void Execute(GameEffectContext context)
+    public override IEnumerator ExecuteCoroutine(GameEffectContext context)
     {
         base.Execute(context);
+
+        if (context.target == null)
+            yield break;
         
         var request = new CircleMovementRequest(context.instigator.transform.position, context.target.transform, duration);
         context.instigator.GetComponent<MovementComponent>().ForceMove(request);
+        yield return new WaitForSeconds(duration);
     }
 }
 
