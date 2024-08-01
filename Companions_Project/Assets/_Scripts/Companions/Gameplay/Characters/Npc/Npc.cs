@@ -63,11 +63,8 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         if (IsFarFromPlayer())
             return null;
         
-        stateMachineContext.executeAction = false;
         var action = brain.Decide();
         if (action == null)
-            return null;
-        if (HasAction && action.name == Action.actionData.name)
             return null;
 
         stateMachineContext.previousActionData = Action;
@@ -113,7 +110,8 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 
     private void UpdateAnimations()
     {
-        
+        bool isMoving = MovementComponent.Velocity.WithY(0f).magnitude > float.Epsilon;
+        stateMachineContext.animator.SetBool(IsMoving, isMoving);
     }
 
     public void Lift(LiftableComponent liftableComponent)

@@ -44,7 +44,7 @@ public partial class Npc
             navMeshAgent.stoppingDistance = fsmContext.stoppingDistance;
             navMeshAgent.isStopped = false;
             navMeshAgent.speed = context.speed;
-            fsmContext.animator.SetBool(IsMoving, true);
+            //fsmContext.animator.SetBool(IsMoving, true);
         }
 
         protected override void OnExit(MovementContext context)
@@ -53,7 +53,7 @@ public partial class Npc
             
             navMeshAgent.ResetPath();
             navMeshAgent.isStopped = true;
-            fsmContext.animator.SetBool(IsMoving, false);
+            //fsmContext.animator.SetBool(IsMoving, false);
         }
 
 
