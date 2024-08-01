@@ -50,28 +50,28 @@ public class ActionAsset : SerializedScriptableObject
 
     void FillSubactions()
     {
-        ActionGraphNode currentNode = GetInitializeNode();
+        ActionGraphNode currentNode = GetNode(GetInitializeNode()?.NextNodeId);
         while (currentNode != null)
         {
             InitializeSubactionQueue.Enqueue(currentNode);
             currentNode = GetNode(currentNode.NextNodeId);
         }
 
-        currentNode = GetStartNode();
+        currentNode = GetNode(GetStartNode()?.NextNodeId);
         while (currentNode != null)
         {
             SubactionQueue.Enqueue(currentNode);
             currentNode = GetNode(currentNode.NextNodeId);
         }
         
-        currentNode = GetUpdateNode();
+        currentNode = GetNode(GetUpdateNode()?.NextNodeId);
         while (currentNode != null)
         {
             UpdateSubactionQueue.Enqueue(currentNode);
             currentNode = GetNode(currentNode.NextNodeId);
         }
         
-        currentNode = GetExitNode();
+        currentNode = GetNode(GetExitNode()?.NextNodeId);
         while (currentNode != null)
         {
             ExitSubactionQueue.Enqueue(currentNode);
@@ -170,6 +170,9 @@ public class ActionAsset : SerializedScriptableObject
 
     private ActionGraphNode GetNode(string nextNodeCurrent)
     {
+        if (string.IsNullOrEmpty(nextNodeCurrent))
+            return null;
+        
         return nodeDictionary.GetValueOrDefault(nextNodeCurrent);
     }
 
