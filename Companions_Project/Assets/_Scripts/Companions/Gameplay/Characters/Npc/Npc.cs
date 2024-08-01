@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Companions.Common;
 using Companions.StateMachine;
+using Companions.Systems;
 using Silvermoon.Core;
 using Silvermoon.Movement;
 using Silvermoon.Utils;
@@ -58,6 +59,10 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 
     public ActionAsset Decide()
     {
+        // TODO Omer: This might create issues in the future but for now it's good
+        if (IsFarFromPlayer())
+            return null;
+        
         stateMachineContext.executeAction = false;
         var action = brain.Decide();
         if (action == null)
@@ -71,6 +76,13 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         stateMachineContext.executeAction = true;
 
         return action;
+    }
+
+    private bool IsFarFromPlayer()
+    {
+        return PlayerSystem.Player != null &&
+               Vector3.SqrMagnitude(PlayerSystem.Player.transform.position - transform.position) >
+               ConfigurationSystem.GetConfig<NpcConfig>().DecisionMakingDistanceThresholdSqr;
     }
 
     public void GoTo(Vector3 destination, float stoppingDistance)
