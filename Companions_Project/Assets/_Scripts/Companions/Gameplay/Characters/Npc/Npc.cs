@@ -107,16 +107,10 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         stateMachine.Update(stateMachineContext);
         stateMachine.PostUpdate(stateMachineContext);
     }
-
+    
     private void UpdateAnimations()
     {
         bool isMoving = MovementComponent.Velocity.WithY(0f).magnitude > float.Epsilon;
         stateMachineContext.animator.SetBool(IsMoving, isMoving);
-    }
-
-    public void Lift(LiftableComponent liftableComponent)
-    {
-        liftableComponent.transform.position = transform.position + 5 * transform.forward;
-        liftableComponent.transform.SetParent(transform);
     }
 }

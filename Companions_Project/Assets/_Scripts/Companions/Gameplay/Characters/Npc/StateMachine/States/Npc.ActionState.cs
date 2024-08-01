@@ -31,7 +31,7 @@ namespace Companions.StateMachine
         }
 
         protected override bool CanEnter(NpcFSMContext context) => context.executeAction;
-        public override bool CanExit(NpcFSMContext context) => hasEnded;
+        public override bool CanExit(NpcFSMContext context) => !context.executeAction;
 
         protected override void OnEnter(NpcFSMContext context)
         {
@@ -124,10 +124,8 @@ namespace Companions.StateMachine
                 yield return node.Execute(actionContext);
             }
 
-            context.executeAction = false;
-            hasEnded = true;
-            owner.Decide();
             owner.PutActionInCooldown(currentAction.actionData);
+            context.executeAction = false;
         }
     }
 }
