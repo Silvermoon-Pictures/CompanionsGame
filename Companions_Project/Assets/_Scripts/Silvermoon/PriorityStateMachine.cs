@@ -28,8 +28,6 @@ namespace Silvermoon.Movement
             {
                 if (!CurrentState.CanExit(context))
                     break;
-                 
-                continue;
             }
                 
             if (!state.CanEnter(context))

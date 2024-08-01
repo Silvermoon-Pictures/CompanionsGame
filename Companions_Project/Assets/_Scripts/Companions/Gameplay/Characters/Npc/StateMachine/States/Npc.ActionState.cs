@@ -18,6 +18,8 @@ namespace Companions.StateMachine
 
         private SubactionContext actionContext;
 
+        private bool hasEnded;
+
         public NpcActionState(Npc owner) : base(owner)
         {
             actionContext = new SubactionContext
@@ -29,7 +31,7 @@ namespace Companions.StateMachine
         }
 
         protected override bool CanEnter(NpcFSMContext context) => context.executeAction;
-        public override bool CanExit(NpcFSMContext context) => !context.executeAction;
+        public override bool CanExit(NpcFSMContext context) => hasEnded;
 
         protected override void OnEnter(NpcFSMContext context)
         {
@@ -66,6 +68,8 @@ namespace Companions.StateMachine
         {
             base.OnExit(context);
 
+            hasEnded = false;
+
             if (actionCoroutine != null)
             {
                 owner.StopCoroutine(actionCoroutine);
@@ -86,6 +90,13 @@ namespace Companions.StateMachine
             }
 
             updateCoroutines.Clear();
+        }
+
+        protected override void Update(NpcFSMContext context)
+        {
+            base.Update(context);
+            
+            context.targetPosition = owner.transform.position;
         }
 
         private IEnumerator ExecuteInitializeFlow(NpcFSMContext context)
@@ -114,6 +125,8 @@ namespace Companions.StateMachine
             }
 
             context.executeAction = false;
+            hasEnded = true;
+            owner.Decide();
             owner.PutActionInCooldown(currentAction.actionData);
         }
     }
