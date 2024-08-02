@@ -1,65 +1,53 @@
 using System.Collections;
 using Companions.Common;
 using Silvermoon.Movement;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
 
 [NodeInfo("Tawaf", "Gameplay/AI/Tawaf")]
 public class TawafNode : ActionGraphNode
 {
-    [Range(0f, 1f)]
-    public float completionRatio;
-    
-    private float angle;
-    
     public override IEnumerator Execute(SubactionContext context)
     {
-        var request = new CircleMovementRequest(context.npc.transform.position, context.target.transform, context.npc.MovementComponent.Speed);
-        context.npc.MovementComponent.ForceMove(request);
-        yield return new WaitForSeconds(request.TotalDuration);
-    }
-}
-
-public class CircleMovementRequest : MovementRequest
-{
-    private Transform target;
-    private float distance;
-    public float TotalDuration { get; private set; }
-    public override bool Done => done;
-    private bool done;
-
-    private float angle;
-
-    public CircleMovementRequest(Vector3 position, Transform target, float speed)
-    {
-        this.target = target;
-        distance = Vector3.Distance(position, target.position);
-        Vector3 relativePos = position - target.position;
-        angle = Mathf.Atan2(relativePos.z, relativePos.x);
+        var pilgrimPath = context.target.GetComponent<PathComponent>();
+        float pathLength = pilgrimPath.Length;
+        float percentage = GetClosestSplinePercentage(pilgrimPath, context.npc.transform.position);
+        float moved = 0f;
+        float completionRatio = Random.Range(0.25f, 1f);
         
-        float circumference = 2 * Mathf.PI * distance;
-        TotalDuration = circumference / speed;
+        while (moved < completionRatio)
+        {
+            Vector3 nextPosition = pilgrimPath.GetPosition(percentage);
+            yield return GoTo(context.npc, nextPosition, 1f);
+            float delta = context.npc.MovementComponent.Speed * Time.deltaTime / pathLength;
+            percentage += delta;
+            moved += delta;
+            if (percentage >= 1f)
+            {
+                percentage = 0;
+            }
+        }
     }
     
-    public override Vector3 Evaluate(MovementContext context, float totalTime)
+    private float GetClosestSplinePercentage(PathComponent pathComponent, Vector3 npcPosition)
     {
-        TotalDuration -= Time.deltaTime;
-        if (TotalDuration <= 0f)
-            done = true;
-        
-        float x = Mathf.Cos(angle) * distance;
-        float z = Mathf.Sin(angle) * distance;
-        Vector3 offset = new Vector3(x, context.position.y, z);
-        Vector3 nextPosition = target.position + offset;
-        
-        angle += context.speed * context.dt / distance;
+        const int samples = 50;
+        float closestPercentage = 0f;
+        float closestDistance = float.MaxValue;
+        const float step = 1f / samples;
 
-        
-        if (NavMesh.SamplePosition(nextPosition, out var hit, distance, NavMesh.AllAreas))
+        for (float p = 0f; p <= 1f; p += step)
         {
-            nextPosition = hit.position;
+            Vector3 pointOnSpline = pathComponent.GetPosition(p);
+            float distance = Vector3.Distance(npcPosition, pointOnSpline);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestPercentage = p;
+            }
         }
-        
-        return nextPosition;
+
+        return closestPercentage;
     }
 }
