@@ -54,6 +54,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         if (NpcData == null)
             throw new DesignException($"NpcData on {name} is not set!");
         
+        
         Decide();
     }
 
@@ -95,7 +96,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 
     private void Update()
     {
-        UpdateAnimations();
         UpdateStateMachine();
     }
 
@@ -106,11 +106,5 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         stateMachine.Transition(stateMachineContext);
         stateMachine.Update(stateMachineContext);
         stateMachine.PostUpdate(stateMachineContext);
-    }
-    
-    private void UpdateAnimations()
-    {
-        bool isMoving = MovementComponent.Velocity.WithY(0f).magnitude > float.Epsilon;
-        stateMachineContext.animator.SetBool(IsMoving, isMoving);
     }
 }
