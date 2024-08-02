@@ -51,7 +51,7 @@ public class NpcBrain
 
     internal void PutActionInCooldown(ActionAsset action)
     {
-        cooldowns[selectedAction] = Time.timeSinceLevelLoad + selectedAction.Cooldown;
+        cooldowns[action] = Time.timeSinceLevelLoad + action.Cooldown;
     }
 
     private IEnumerable<ActionAsset> FilterActions(ConsiderationContext context)
