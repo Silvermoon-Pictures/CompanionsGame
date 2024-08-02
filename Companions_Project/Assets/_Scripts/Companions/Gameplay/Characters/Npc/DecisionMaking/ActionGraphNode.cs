@@ -12,7 +12,7 @@ public class SubactionContext
 }
 
 [Serializable]
-public class ActionGraphNode
+public partial class ActionGraphNode
 {
     [SerializeField] private string guid;
     [SerializeField] private Rect position;
