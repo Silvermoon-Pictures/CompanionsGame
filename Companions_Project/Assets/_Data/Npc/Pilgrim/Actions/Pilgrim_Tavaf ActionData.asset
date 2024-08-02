@@ -172,20 +172,13 @@ MonoBehaviour:
   graphNodes:
   - rid: 7132933276575989760
   - rid: 7132933276575989761
-  - rid: 7132933276575989762
   - rid: 7132933283512320000
   connections:
-  - inputPort:
-      nodeId: e0699ac7-4e47-491f-a26b-5db12cd44015
-      portIndex: 1
-    outputPort:
-      nodeId: 24a911c1-fa98-41ca-98fd-66a934731883
-      portIndex: 0
   - inputPort:
       nodeId: 3b06d61a-f599-455f-9e29-8f3a8356d479
       portIndex: 1
     outputPort:
-      nodeId: e0699ac7-4e47-491f-a26b-5db12cd44015
+      nodeId: 24a911c1-fa98-41ca-98fd-66a934731883
       portIndex: 0
   references:
     version: 2
@@ -200,7 +193,7 @@ MonoBehaviour:
           y: 0
           width: 0
           height: 0
-        nextNodeId: e0699ac7-4e47-491f-a26b-5db12cd44015
+        nextNodeId: 3b06d61a-f599-455f-9e29-8f3a8356d479
     - rid: 7132933276575989761
       type: {class: ExitNode, ns: , asm: com.companions}
       data:
@@ -212,30 +205,14 @@ MonoBehaviour:
           width: 0
           height: 0
         nextNodeId: 
-    - rid: 7132933276575989762
-      type: {class: FindTargetNode, ns: , asm: com.companions}
-      data:
-        guid: e0699ac7-4e47-491f-a26b-5db12cd44015
-        position:
-          serializedVersion: 2
-          x: 136
-          y: 0
-          width: 219
-          height: 153
-        nextNodeId: 3b06d61a-f599-455f-9e29-8f3a8356d479
-        findClosest: 0
-        radius: 10
-        useDictionaryComponent: 1
-        targetIdentifier:
-          identifier: PilgrimPath
     - rid: 7132933283512320000
       type: {class: TawafNode, ns: , asm: com.companions}
       data:
         guid: 3b06d61a-f599-455f-9e29-8f3a8356d479
         position:
           serializedVersion: 2
-          x: 390
+          x: 142
           y: 0
-          width: 151
-          height: 97
+          width: 136
+          height: 77
         nextNodeId: 
