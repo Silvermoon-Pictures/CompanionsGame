@@ -92,13 +92,6 @@ namespace Companions.StateMachine
             updateCoroutines.Clear();
         }
 
-        protected override void Update(NpcFSMContext context)
-        {
-            base.Update(context);
-            
-            context.targetPosition = owner.transform.position;
-        }
-
         private IEnumerator ExecuteInitializeFlow(NpcFSMContext context)
         {
             while (currentAction.InitializeSubactions.TryDequeue(out ActionGraphNode node))
