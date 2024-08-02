@@ -9,4 +9,7 @@ public class NpcConfig : BaseConfig
     public float DecisionMakingDistanceThreshold { get; private set; } = 50f;
     public float DecisionMakingDistanceThresholdSqr =>
         DecisionMakingDistanceThreshold * DecisionMakingDistanceThreshold;
+    
+    [field: SerializeField]
+    public Identifier PilgrimPathIdentifier { get; private set; }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using Companions.Common;
+using Companions.Systems;
 using Silvermoon.Movement;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -10,7 +11,12 @@ public class TawafNode : ActionGraphNode
 {
     public override IEnumerator Execute(SubactionContext context)
     {
-        var pilgrimPath = context.target.GetComponent<PathComponent>();
+        Identifier pilgrimPathIdentifier = ConfigurationSystem.GetConfig<NpcConfig>().PilgrimPathIdentifier;
+        GameObject pilgrimPathObj = FindTarget(context, pilgrimPathIdentifier, true);
+        if (pilgrimPathObj == null)
+            yield break;
+        
+        PathComponent pilgrimPath = pilgrimPathObj.GetComponent<PathComponent>();
         float pathLength = pilgrimPath.Length;
         float percentage = GetClosestSplinePercentage(pilgrimPath, context.npc.transform.position);
         float moved = 0f;
