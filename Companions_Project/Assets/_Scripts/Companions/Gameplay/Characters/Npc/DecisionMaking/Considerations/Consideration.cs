@@ -1,9 +1,11 @@
+using System;
 using Companions.Common;
 using UnityEngine;
 
 public class ConsiderationContext
 {
     public Npc npc;
+    public EventArgs callback;
 }
 
 public abstract class Consideration
@@ -21,5 +23,15 @@ public class WeightedConsideration : Consideration
     public override float CalculateScore(ConsiderationContext context)
     {
         return Curve.Evaluate(Consideration.CalculateScore(context) / MaxValue) * Weight;
+    }
+}
+
+public class PriorityConsideration : Consideration
+{
+    public Consideration Consideration;
+
+    public override float CalculateScore(ConsiderationContext context)
+    {
+        return Consideration.CalculateScore(context);
     }
 }

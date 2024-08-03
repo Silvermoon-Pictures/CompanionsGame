@@ -9,6 +9,7 @@ public class SubactionContext
     public Animator animator;
     public GameObject target;
     public DictionaryComponent dictionaryComponent;
+    public EventArgs actionCallback;
 }
 
 [Serializable]

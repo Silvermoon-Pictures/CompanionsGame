@@ -54,22 +54,22 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         if (NpcData == null)
             throw new DesignException($"NpcData on {name} is not set!");
         
-        
         Decide();
     }
 
-    public ActionAsset Decide()
+    public ActionAsset Decide(EventArgs callback = null)
     {
         // TODO Omer: This might create issues in the future but for now it's good
-        if (IsFarFromPlayer())
+        if (callback == null && IsFarFromPlayer())
             return null;
         
-        var action = brain.Decide();
+        var action = brain.Decide(callback);
         if (action == null)
             return null;
 
         stateMachineContext.previousActionData = Action;
         stateMachineContext.currentActionData = new NpcAction(action);
+        stateMachineContext.currentActionData.callback = callback;
         
         stateMachineContext.executeAction = true;
 

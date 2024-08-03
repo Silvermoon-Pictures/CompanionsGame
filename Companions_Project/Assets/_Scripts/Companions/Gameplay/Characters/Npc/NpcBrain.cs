@@ -32,17 +32,20 @@ public class NpcBrain
         }
     }
 
-    public ActionAsset Decide()
+    public ActionAsset Decide(EventArgs callback = null)
     {
         var context = new ConsiderationContext()
         {
-            npc = npc
+            npc = npc,
+            callback = callback
         };
 
-        ActionDecisionData data = new();
-
         var filteredActions = FilterActions(context);
-        selectedAction = ScoreActions(filteredActions, context);
+        if (filteredActions.Count == 1)
+            selectedAction = !IsActionInCooldown(filteredActions[0]) ? filteredActions[0] : null;
+        else
+            selectedAction = ScoreActions(filteredActions, context);
+        
         if (selectedAction == null)
             return null;
         
@@ -54,13 +57,28 @@ public class NpcBrain
         cooldowns[action] = Time.timeSinceLevelLoad + action.Cooldown;
     }
 
-    private IEnumerable<ActionAsset> FilterActions(ConsiderationContext context)
+    private List<ActionAsset> FilterActions(ConsiderationContext context)
     {
         var actions = npc.NpcData.Actions;
+        IEnumerable<ActionAsset> priorityActions = actions.Where(ActionIsPrioritary(context));
+        IEnumerable<ActionAsset> unpriorityActions = actions.Where(ActionIsNotPrioritary(context));
 
         List<ActionAsset> filteredActions = new();
 
-        foreach (ActionAsset action in actions)
+        foreach (ActionAsset action in priorityActions)
+        {
+            if (!action.IsCompatible(context))
+                continue;
+            if (IsActionInCooldown(action))
+                continue;
+
+            filteredActions.Add(action);
+        }
+
+        if (filteredActions.Any())
+            return filteredActions;
+        
+        foreach (ActionAsset action in unpriorityActions)
         {
             if (!action.IsCompatible(context))
                 continue;
@@ -73,6 +91,16 @@ public class NpcBrain
         return filteredActions;
     }
 
+    private Func<ActionAsset, bool> ActionIsPrioritary(ConsiderationContext context)
+    {
+        return (ability) => ability.IsPrioritary(context);
+    }
+    
+    private Func<ActionAsset, bool> ActionIsNotPrioritary(ConsiderationContext context)
+    {
+        return (ability) => !ability.IsPrioritary(context);
+    }
+    
     private bool IsActionInCooldown(ActionAsset action)
     {
         return Time.timeSinceLevelLoad < cooldowns[action];

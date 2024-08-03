@@ -22,22 +22,23 @@ namespace Companions.StateMachine
 
         public NpcActionState(Npc owner) : base(owner)
         {
-            actionContext = new SubactionContext
-            {
-                npc = owner,
-                animator = owner.GetComponentInChildren<Animator>(),
-                dictionaryComponent = owner.dictionaryComponent
-            };
         }
 
         protected override bool CanEnter(NpcFSMContext context) => context.executeAction;
-        public override bool CanExit(NpcFSMContext context) => !context.executeAction;
+        public override bool CanExit(NpcFSMContext context) => !context.executeAction || currentAction != context.currentActionData;
 
         protected override void OnEnter(NpcFSMContext context)
         {
             base.OnEnter(context);
 
             currentAction = owner.Action;
+            actionContext = new SubactionContext
+            {
+                npc = owner,
+                animator = context.animator,
+                dictionaryComponent = owner.dictionaryComponent,
+                actionCallback = currentAction.callback
+            };
 
             initializeCoroutine = owner.StartCoroutine(ExecuteInitializeFlow(context));
         }
