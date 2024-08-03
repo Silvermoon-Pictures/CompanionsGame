@@ -77,11 +77,11 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
 
         if (interactionComponent is LiftableComponent liftable)
         {
-            if (InventorySystem.CanCarryItem(gameObject, liftable, InventoryType.Hand))
-            {
-                animator.SetBool(Lifting, true);
-                currentLiftable = liftable;
-            }
+            // if (InventorySystem.CanCarryItem(gameObject, liftable, InventoryType.Hand))
+            // {
+            // }
+            animator.SetBool(Lifting, true);
+            currentLiftable = liftable;
         }
         else
         {
@@ -93,10 +93,10 @@ public partial class Player : MonoBehaviour, ICompanionComponent, ITargetable
     // Called by AnimationEventHandler.OnLiftEvent
     public void AttachLiftable()
     {
-        if (!InventorySystem.GetInventoryComponent(gameObject, InventoryType.Hand, out var inventory))
-            return;
+        // if (!InventorySystem.GetInventoryComponent(gameObject, InventoryType.Hand, out var inventory))
+        //     return;
         
-        currentLiftable.Lift(gameObject, inventory.transform);
+        currentLiftable.Lift(gameObject, carrySocket.transform);
         InventorySystem.AddToInventory(gameObject, currentLiftable, InventoryType.Hand);
     }
 

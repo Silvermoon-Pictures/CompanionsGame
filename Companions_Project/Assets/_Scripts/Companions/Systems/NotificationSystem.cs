@@ -67,6 +67,7 @@ public class Notification<TNotifiedType> : Notification where TNotifiedType : IC
     internal override void Cleanup()
     {
         Action = null;
+        ComponentGroup.OnComponentAdded -= OnComponentAdded;
         ComponentGroup = null;
     }
 }
