@@ -18,24 +18,27 @@ namespace Companions.StateMachine
 
         private SubactionContext actionContext;
 
+        private bool hasEnded;
+
         public NpcActionState(Npc owner) : base(owner)
         {
-            actionContext = new SubactionContext
-            {
-                npc = owner,
-                animator = owner.GetComponentInChildren<Animator>(),
-                dictionaryComponent = owner.dictionaryComponent
-            };
         }
 
         protected override bool CanEnter(NpcFSMContext context) => context.executeAction;
-        public override bool CanExit(NpcFSMContext context) => !context.executeAction;
+        public override bool CanExit(NpcFSMContext context) => !context.executeAction || currentAction != context.currentActionData;
 
         protected override void OnEnter(NpcFSMContext context)
         {
             base.OnEnter(context);
 
             currentAction = owner.Action;
+            actionContext = new SubactionContext
+            {
+                npc = owner,
+                animator = context.animator,
+                dictionaryComponent = owner.dictionaryComponent,
+                actionCallback = currentAction.callback
+            };
 
             initializeCoroutine = owner.StartCoroutine(ExecuteInitializeFlow(context));
         }
@@ -65,6 +68,8 @@ namespace Companions.StateMachine
         protected override void OnExit(NpcFSMContext context)
         {
             base.OnExit(context);
+
+            hasEnded = false;
 
             if (actionCoroutine != null)
             {
@@ -113,8 +118,8 @@ namespace Companions.StateMachine
                 yield return node.Execute(actionContext);
             }
 
-            context.executeAction = false;
             owner.PutActionInCooldown(currentAction.actionData);
+            context.executeAction = false;
         }
     }
 }

@@ -9,16 +9,6 @@ public class GoToNode : ActionGraphNode
 
     public override IEnumerator Execute(SubactionContext context)
     {
-        if (context.target == null)
-            yield break;
-
-        NavMesh.SamplePosition(context.target.transform.position, out var hit, 5f, NavMesh.AllAreas);
-        float stoppingDistanceSqr = stoppingDistance * stoppingDistance + 1;
-        while ((context.npc.transform.position - hit.position).sqrMagnitude > stoppingDistanceSqr)
-        {
-            context.npc.GoTo(hit.position, stoppingDistance);
-            
-            yield return null;
-        }
+        yield return GoTo(context, stoppingDistance);
     }
 }

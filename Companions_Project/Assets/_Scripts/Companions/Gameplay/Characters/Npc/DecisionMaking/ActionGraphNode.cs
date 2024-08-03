@@ -9,10 +9,11 @@ public class SubactionContext
     public Animator animator;
     public GameObject target;
     public DictionaryComponent dictionaryComponent;
+    public EventArgs actionCallback;
 }
 
 [Serializable]
-public class ActionGraphNode
+public partial class ActionGraphNode
 {
     [SerializeField] private string guid;
     [SerializeField] private Rect position;

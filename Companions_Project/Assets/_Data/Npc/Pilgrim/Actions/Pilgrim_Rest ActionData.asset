@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4489f753fe2d3864fb2a29d5cfc1ac7e, type: 3}
-  m_Name: Commoner_Male_02_Idle Action
+  m_Name: Pilgrim_Rest ActionData
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,59 +21,28 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: reactionaryConsiderations
-      Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[PriorityConsideration, com.companions]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: weightedConsiderations
       Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[WeightedConsideration, com.companions]],
+      Data: 0|System.Collections.Generic.List`1[[WeightedConsideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 2|WeightedConsideration, com.companions
+      Data: 1|WeightedConsideration, com.companions
     - Name: Consideration
       Entry: 7
-      Data: 3|ScoreConsideration, com.companions
-    - Name: useRandom
-      Entry: 5
-      Data: false
-    - Name: Score
-      Entry: 4
-      Data: 0.25
-    - Name: randomScore
-      Entry: 7
-      Data: UnityEngine.Vector2, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 2|StaminaConsideration, com.companions
     - Name: 
       Entry: 8
       Data: 
     - Name: Curve
       Entry: 7
-      Data: 4|UnityEngine.AnimationCurve, UnityEngine.CoreModule
+      Data: 3|UnityEngine.AnimationCurve, UnityEngine.CoreModule
     - Name: 
       Entry: 7
-      Data: 5|UnityEngine.Keyframe[], UnityEngine.CoreModule
+      Data: 4|UnityEngine.Keyframe[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 2
@@ -88,7 +57,7 @@ MonoBehaviour:
       Data: 0
     - Name: m_Value
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: m_InTangent
       Entry: 4
       Data: 0
@@ -121,7 +90,7 @@ MonoBehaviour:
       Data: 1
     - Name: m_Value
       Entry: 4
-      Data: 1
+      Data: 0
     - Name: m_InTangent
       Entry: 4
       Data: 0
@@ -175,11 +144,17 @@ MonoBehaviour:
       Data: 
     - Name: requiredConsiderations
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[Consideration, com.companions]],
+      Data: 5|System.Collections.Generic.List`1[[Consideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 6|IsExhaustedConsideration, com.companions
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -201,96 +176,138 @@ MonoBehaviour:
       Data: 
   cooldown: 0
   graphNodes:
-  - rid: 5859783965117775874
-  - rid: 5859783965117775875
-  - rid: 5859784013207044115
-  - rid: 5859784074222370818
-  - rid: 7132933329759240196
+  - rid: 7132933283512320001
+  - rid: 7132933283512320002
+  - rid: 7132933283512320003
+  - rid: 7132933283512320004
+  - rid: 7132933283512320005
+  - rid: 7132933283512320006
+  - rid: 7132933283512320007
   connections:
   - inputPort:
-      nodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
+      nodeId: 3fe5097a-dad5-497b-9c4b-1245036cce5e
       portIndex: 1
     outputPort:
-      nodeId: 9e16f2aa-22a2-4a5d-b302-3a220d2178b5
+      nodeId: 647bd403-94ff-4ef0-bc3a-1be1c2b27a5a
       portIndex: 0
   - inputPort:
-      nodeId: ece5fff0-116a-4cb6-a8a3-a0de7a992f30
+      nodeId: 8cd41df2-1ce9-471d-a22f-a0e9511192e9
       portIndex: 1
     outputPort:
-      nodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
+      nodeId: 7c54f6e4-ff3d-48f1-ac30-1608bd0a9a84
       portIndex: 0
   - inputPort:
-      nodeId: bda4cfa7-0735-452b-a20b-0991ed69c5f5
+      nodeId: d6864887-a430-4019-b09a-3b321cdb3dd3
       portIndex: 1
     outputPort:
-      nodeId: 30b208bf-620d-4206-94cc-a5546b3cfe90
+      nodeId: 8cd41df2-1ce9-471d-a22f-a0e9511192e9
+      portIndex: 0
+  - inputPort:
+      nodeId: 647bd403-94ff-4ef0-bc3a-1be1c2b27a5a
+      portIndex: 1
+    outputPort:
+      nodeId: d6864887-a430-4019-b09a-3b321cdb3dd3
+      portIndex: 0
+  - inputPort:
+      nodeId: b70bf412-495a-494e-8214-3fac8f6e7a10
+      portIndex: 1
+    outputPort:
+      nodeId: 3fe5097a-dad5-497b-9c4b-1245036cce5e
       portIndex: 0
   references:
     version: 2
     RefIds:
-    - rid: 5859783965117775874
+    - rid: 7132933283512320001
+      type: {class: ExecuteNode, ns: , asm: com.companions}
+      data:
+        guid: 7c54f6e4-ff3d-48f1-ac30-1608bd0a9a84
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        nextNodeId: 8cd41df2-1ce9-471d-a22f-a0e9511192e9
+    - rid: 7132933283512320002
       type: {class: ExitNode, ns: , asm: com.companions}
       data:
-        guid: 30b208bf-620d-4206-94cc-a5546b3cfe90
+        guid: ce17ec91-2c84-4ef7-94f3-c126255e3edc
         position:
           serializedVersion: 2
           x: 0
           y: 250
           width: 0
           height: 0
-        nextNodeId: bda4cfa7-0735-452b-a20b-0991ed69c5f5
-    - rid: 5859783965117775875
+        nextNodeId: 
+    - rid: 7132933283512320003
+      type: {class: FindTargetNode, ns: , asm: com.companions}
+      data:
+        guid: 647bd403-94ff-4ef0-bc3a-1be1c2b27a5a
+        position:
+          serializedVersion: 2
+          x: 658
+          y: 0
+          width: 219
+          height: 153
+        nextNodeId: 3fe5097a-dad5-497b-9c4b-1245036cce5e
+        findClosest: 0
+        radius: 10
+        useDictionaryComponent: 1
+        targetIdentifier:
+          identifier: RestingSpot
+    - rid: 7132933283512320004
+      type: {class: GoToNode, ns: , asm: com.companions}
+      data:
+        guid: 3fe5097a-dad5-497b-9c4b-1245036cce5e
+        position:
+          serializedVersion: 2
+          x: 928
+          y: 0
+          width: 150
+          height: 97
+        nextNodeId: b70bf412-495a-494e-8214-3fac8f6e7a10
+        stoppingDistance: 1
+    - rid: 7132933283512320005
       type: {class: PlayAnimationNode, ns: , asm: com.companions}
       data:
-        guid: 22fe3aff-eaec-482e-858f-e41113be35fa
+        guid: 8cd41df2-1ce9-471d-a22f-a0e9511192e9
         position:
           serializedVersion: 2
           x: 132
-          y: 0
+          y: 1
           width: 288
           height: 172
-        nextNodeId: ece5fff0-116a-4cb6-a8a3-a0de7a992f30
+        nextNodeId: d6864887-a430-4019-b09a-3b321cdb3dd3
         clip: {fileID: 0}
-        booleanName: IsIdle
-        boolean: 1
-        triggerName: 
+        booleanName: 
+        boolean: 0
+        triggerName: TriggerRest
         waitForTransition: 0
-    - rid: 5859784013207044115
-      type: {class: ExecuteNode, ns: , asm: com.companions}
-      data:
-        guid: 9e16f2aa-22a2-4a5d-b302-3a220d2178b5
-        position:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        nextNodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
-    - rid: 5859784074222370818
+    - rid: 7132933283512320006
       type: {class: WaitNode, ns: , asm: com.companions}
       data:
-        guid: ece5fff0-116a-4cb6-a8a3-a0de7a992f30
+        guid: d6864887-a430-4019-b09a-3b321cdb3dd3
         position:
           serializedVersion: 2
-          x: 453
-          y: 0
+          x: 456
+          y: 1
           width: 151
           height: 97
-        nextNodeId: 
-        duration: 1
-    - rid: 7132933329759240196
+        nextNodeId: 647bd403-94ff-4ef0-bc3a-1be1c2b27a5a
+        duration: 2
+    - rid: 7132933283512320007
       type: {class: PlayAnimationNode, ns: , asm: com.companions}
       data:
-        guid: bda4cfa7-0735-452b-a20b-0991ed69c5f5
+        guid: b70bf412-495a-494e-8214-3fac8f6e7a10
         position:
           serializedVersion: 2
-          x: 118
-          y: 250
+          x: 1118
+          y: 0
           width: 288
           height: 172
         nextNodeId: 
         clip: {fileID: 0}
-        booleanName: IsIdle
+        booleanName: 
         boolean: 0
-        triggerName: 
+        triggerName: TriggerSitDown
         waitForTransition: 0

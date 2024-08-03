@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4489f753fe2d3864fb2a29d5cfc1ac7e, type: 3}
-  m_Name: Pilgrim_Tavaf
+  m_Name: Pilgrim_Tavaf ActionData
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -33,10 +33,7 @@ MonoBehaviour:
       Data: 1|WeightedConsideration, com.companions
     - Name: Consideration
       Entry: 7
-      Data: 2|ScoreConsideration, com.companions
-    - Name: Score
-      Entry: 4
-      Data: 1
+      Data: 2|StaminaConsideration, com.companions
     - Name: 
       Entry: 8
       Data: 
@@ -171,13 +168,51 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  gameEffectOnStart: {fileID: 11400000, guid: c41b1e17e54f5784c878b79b75354e51, type: 2}
-  gameEffectOnEnd: {fileID: 0}
-  duration: 20
-  randomPosition: 0
-  radius: 50
-  targetTypes: 00000000
-  targetIdentifier:
-    identifier: Kabe
-  waitForTarget: 0
-  Range: 25
+  cooldown: 0
+  graphNodes:
+  - rid: 7132933276575989760
+  - rid: 7132933276575989761
+  - rid: 7132933283512320000
+  connections:
+  - inputPort:
+      nodeId: 3b06d61a-f599-455f-9e29-8f3a8356d479
+      portIndex: 1
+    outputPort:
+      nodeId: 24a911c1-fa98-41ca-98fd-66a934731883
+      portIndex: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 7132933276575989760
+      type: {class: ExecuteNode, ns: , asm: com.companions}
+      data:
+        guid: 24a911c1-fa98-41ca-98fd-66a934731883
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        nextNodeId: 3b06d61a-f599-455f-9e29-8f3a8356d479
+    - rid: 7132933276575989761
+      type: {class: ExitNode, ns: , asm: com.companions}
+      data:
+        guid: 214ed47e-84b2-460f-bcef-3a9ceaa2067b
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 250
+          width: 0
+          height: 0
+        nextNodeId: 
+    - rid: 7132933283512320000
+      type: {class: TawafNode, ns: , asm: com.companions}
+      data:
+        guid: 3b06d61a-f599-455f-9e29-8f3a8356d479
+        position:
+          serializedVersion: 2
+          x: 142
+          y: 0
+          width: 136
+          height: 77
+        nextNodeId: 

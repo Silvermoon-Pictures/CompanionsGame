@@ -57,21 +57,19 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         Decide();
     }
 
-    public ActionAsset Decide()
+    public ActionAsset Decide(EventArgs callback = null)
     {
         // TODO Omer: This might create issues in the future but for now it's good
-        if (IsFarFromPlayer())
+        if (callback == null && IsFarFromPlayer())
             return null;
         
-        stateMachineContext.executeAction = false;
-        var action = brain.Decide();
+        var action = brain.Decide(callback);
         if (action == null)
-            return null;
-        if (HasAction && action.name == Action.actionData.name)
             return null;
 
         stateMachineContext.previousActionData = Action;
         stateMachineContext.currentActionData = new NpcAction(action);
+        stateMachineContext.currentActionData.callback = callback;
         
         stateMachineContext.executeAction = true;
 
@@ -98,7 +96,6 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 
     private void Update()
     {
-        UpdateAnimations();
         UpdateStateMachine();
     }
 
@@ -109,16 +106,5 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         stateMachine.Transition(stateMachineContext);
         stateMachine.Update(stateMachineContext);
         stateMachine.PostUpdate(stateMachineContext);
-    }
-
-    private void UpdateAnimations()
-    {
-        
-    }
-
-    public void Lift(LiftableComponent liftableComponent)
-    {
-        liftableComponent.transform.position = transform.position + 5 * transform.forward;
-        liftableComponent.transform.SetParent(transform);
     }
 }

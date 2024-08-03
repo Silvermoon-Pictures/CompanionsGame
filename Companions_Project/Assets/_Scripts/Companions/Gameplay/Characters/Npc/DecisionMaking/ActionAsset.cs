@@ -16,6 +16,8 @@ public class ActionAsset : SerializedScriptableObject
     public float Cooldown => cooldown;
     
     [TitleGroup("Decision Making")]
+    public List<PriorityConsideration> priorityConsiderations = new();
+    [TitleGroup("Decision Making")]
     public List<WeightedConsideration> weightedConsiderations = new();
     [TitleGroup("Decision Making")]
     public List<Consideration> requiredConsiderations = new();
@@ -50,28 +52,28 @@ public class ActionAsset : SerializedScriptableObject
 
     void FillSubactions()
     {
-        ActionGraphNode currentNode = GetInitializeNode();
+        ActionGraphNode currentNode = GetNode(GetInitializeNode()?.NextNodeId);
         while (currentNode != null)
         {
             InitializeSubactionQueue.Enqueue(currentNode);
             currentNode = GetNode(currentNode.NextNodeId);
         }
 
-        currentNode = GetStartNode();
+        currentNode = GetNode(GetStartNode()?.NextNodeId);
         while (currentNode != null)
         {
             SubactionQueue.Enqueue(currentNode);
             currentNode = GetNode(currentNode.NextNodeId);
         }
         
-        currentNode = GetUpdateNode();
+        currentNode = GetNode(GetUpdateNode()?.NextNodeId);
         while (currentNode != null)
         {
             UpdateSubactionQueue.Enqueue(currentNode);
             currentNode = GetNode(currentNode.NextNodeId);
         }
         
-        currentNode = GetExitNode();
+        currentNode = GetNode(GetExitNode()?.NextNodeId);
         while (currentNode != null)
         {
             ExitSubactionQueue.Enqueue(currentNode);
@@ -108,6 +110,20 @@ public class ActionAsset : SerializedScriptableObject
         return Mathf.Clamp01(score);
     }
     
+    public bool IsPrioritary(ConsiderationContext context)
+    {
+        if (priorityConsiderations == null)
+            return false;
+
+        foreach (var priority in priorityConsiderations)
+        {
+            if (priority.CalculateScore(context) > Mathf.Epsilon)
+                return true;
+        }
+
+        return false;
+    }
+    
     public bool IsCompatible(ConsiderationContext context)
     {
         if (incompatibleConsiderations != null)
@@ -118,8 +134,14 @@ public class ActionAsset : SerializedScriptableObject
                     return false;
             }
         }
+        
+        var reactionaries = priorityConsiderations is { Count: > 0 } ? priorityConsiderations : Enumerable.Empty<Consideration>();
+        if (requiredConsiderations != null)
+        {
+            reactionaries = reactionaries.Concat(requiredConsiderations);
+        }
 
-        foreach (Consideration requiredConsideration in requiredConsiderations)
+        foreach (Consideration requiredConsideration in reactionaries)
         {
             if (requiredConsideration.CalculateScore(context) <= Mathf.Epsilon)
                 return false;
@@ -170,6 +192,9 @@ public class ActionAsset : SerializedScriptableObject
 
     private ActionGraphNode GetNode(string nextNodeCurrent)
     {
+        if (string.IsNullOrEmpty(nextNodeCurrent))
+            return null;
+        
         return nodeDictionary.GetValueOrDefault(nextNodeCurrent);
     }
 

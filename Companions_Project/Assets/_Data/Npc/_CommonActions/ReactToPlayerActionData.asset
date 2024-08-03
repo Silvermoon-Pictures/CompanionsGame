@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4489f753fe2d3864fb2a29d5cfc1ac7e, type: 3}
-  m_Name: Commoner_Male_02_Idle Action
+  m_Name: ReactToPlayerActionData
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,7 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: reactionaryConsiderations
+    - Name: priorityConsiderations
       Entry: 7
       Data: 0|System.Collections.Generic.List`1[[PriorityConsideration, com.companions]],
         mscorlib
@@ -52,7 +52,7 @@ MonoBehaviour:
       Data: false
     - Name: Score
       Entry: 4
-      Data: 0.25
+      Data: 1
     - Name: randomScore
       Entry: 7
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
@@ -179,7 +179,16 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 7|IsPlayerNearbyConsideration, com.companions
+    - Name: radius
+      Entry: 4
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -188,7 +197,7 @@ MonoBehaviour:
       Data: 
     - Name: incompatibleConsiderations
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[Consideration, com.companions]],
+      Data: 8|System.Collections.Generic.List`1[[Consideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
@@ -199,98 +208,123 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  cooldown: 0
+  cooldown: 5
   graphNodes:
-  - rid: 5859783965117775874
-  - rid: 5859783965117775875
-  - rid: 5859784013207044115
-  - rid: 5859784074222370818
-  - rid: 7132933329759240196
+  - rid: 7132933338992476160
+  - rid: 7132933338992476161
+  - rid: 7132933338992476163
+  - rid: 7132933338992476164
+  - rid: 7132933338992476165
+  - rid: 7132933338992476166
+  - rid: 7132933338992476167
   connections:
   - inputPort:
-      nodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
+      nodeId: 3b9d87f4-0b99-49f6-9527-45a5ae2e0693
       portIndex: 1
     outputPort:
-      nodeId: 9e16f2aa-22a2-4a5d-b302-3a220d2178b5
+      nodeId: 80f3068c-2894-4699-944e-769ed55f63c3
       portIndex: 0
   - inputPort:
-      nodeId: ece5fff0-116a-4cb6-a8a3-a0de7a992f30
+      nodeId: 2ccc0950-3c76-4337-abc9-549a42e51e99
       portIndex: 1
     outputPort:
-      nodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
+      nodeId: 0836b2ca-dea9-4ef0-8af2-70f4885dba57
       portIndex: 0
   - inputPort:
-      nodeId: bda4cfa7-0735-452b-a20b-0991ed69c5f5
+      nodeId: 91a40d1f-4be7-4c4a-9bc8-d3ff272db45b
       portIndex: 1
     outputPort:
-      nodeId: 30b208bf-620d-4206-94cc-a5546b3cfe90
+      nodeId: 2afd5fc8-4451-45f5-b413-1a9e794d9ce6
       portIndex: 0
   references:
     version: 2
     RefIds:
-    - rid: 5859783965117775874
-      type: {class: ExitNode, ns: , asm: com.companions}
-      data:
-        guid: 30b208bf-620d-4206-94cc-a5546b3cfe90
-        position:
-          serializedVersion: 2
-          x: 0
-          y: 250
-          width: 0
-          height: 0
-        nextNodeId: bda4cfa7-0735-452b-a20b-0991ed69c5f5
-    - rid: 5859783965117775875
-      type: {class: PlayAnimationNode, ns: , asm: com.companions}
-      data:
-        guid: 22fe3aff-eaec-482e-858f-e41113be35fa
-        position:
-          serializedVersion: 2
-          x: 132
-          y: 0
-          width: 288
-          height: 172
-        nextNodeId: ece5fff0-116a-4cb6-a8a3-a0de7a992f30
-        clip: {fileID: 0}
-        booleanName: IsIdle
-        boolean: 1
-        triggerName: 
-        waitForTransition: 0
-    - rid: 5859784013207044115
+    - rid: 7132933338992476160
       type: {class: ExecuteNode, ns: , asm: com.companions}
       data:
-        guid: 9e16f2aa-22a2-4a5d-b302-3a220d2178b5
+        guid: 80f3068c-2894-4699-944e-769ed55f63c3
         position:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        nextNodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
-    - rid: 5859784074222370818
-      type: {class: WaitNode, ns: , asm: com.companions}
+        nextNodeId: 3b9d87f4-0b99-49f6-9527-45a5ae2e0693
+    - rid: 7132933338992476161
+      type: {class: ExitNode, ns: , asm: com.companions}
       data:
-        guid: ece5fff0-116a-4cb6-a8a3-a0de7a992f30
+        guid: 986bcd63-9f6f-4cd3-bbbf-774bb03186f7
         position:
           serializedVersion: 2
-          x: 453
-          y: 0
-          width: 151
-          height: 97
+          x: -19
+          y: 509
+          width: 76
+          height: 77
         nextNodeId: 
-        duration: 1
-    - rid: 7132933329759240196
+    - rid: 7132933338992476163
       type: {class: PlayAnimationNode, ns: , asm: com.companions}
       data:
-        guid: bda4cfa7-0735-452b-a20b-0991ed69c5f5
+        guid: 3b9d87f4-0b99-49f6-9527-45a5ae2e0693
         position:
           serializedVersion: 2
-          x: 118
-          y: 250
+          x: 123
+          y: 0
           width: 288
           height: 172
         nextNodeId: 
-        clip: {fileID: 0}
-        booleanName: IsIdle
+        waitForAnimationDuration: 1
+        booleanName: 
         boolean: 0
-        triggerName: 
+        triggerName: TriggerNearPlayer
         waitForTransition: 0
+    - rid: 7132933338992476164
+      type: {class: UpdateNode, ns: , asm: com.companions}
+      data:
+        guid: 2afd5fc8-4451-45f5-b413-1a9e794d9ce6
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 300
+          width: 88
+          height: 77
+        nextNodeId: 91a40d1f-4be7-4c4a-9bc8-d3ff272db45b
+    - rid: 7132933338992476165
+      type: {class: InitializeNode, ns: , asm: com.companions}
+      data:
+        guid: 0836b2ca-dea9-4ef0-8af2-70f4885dba57
+        position:
+          serializedVersion: 2
+          x: 0
+          y: -175
+          width: 93
+          height: 77
+        nextNodeId: 2ccc0950-3c76-4337-abc9-549a42e51e99
+    - rid: 7132933338992476166
+      type: {class: FindTargetNode, ns: , asm: com.companions}
+      data:
+        guid: 2ccc0950-3c76-4337-abc9-549a42e51e99
+        position:
+          serializedVersion: 2
+          x: 144
+          y: -175
+          width: 219
+          height: 116
+        nextNodeId: 
+        useDictionaryComponent: 0
+        targetIdentifier:
+          identifier: Player
+    - rid: 7132933338992476167
+      type: {class: LookAtNode, ns: , asm: com.companions}
+      data:
+        guid: 91a40d1f-4be7-4c4a-9bc8-d3ff272db45b
+        position:
+          serializedVersion: 2
+          x: 144
+          y: 300
+          width: 219
+          height: 135
+        nextNodeId: 
+        lookAtCurrentTarget: 1
+        lookAtPoint:
+          identifier: 
+        rotationSpeed: 7

@@ -17,9 +17,7 @@ namespace Companions.StateMachine
         protected override void OnEnter(NpcFSMContext context)
         {
             base.OnEnter(context);
-
             interval = ConfigurationSystem.GetConfig<NpcConfig>().DecisionMakingInterval;
-            timer = interval;
         }
 
         protected override void Update(NpcFSMContext context)
@@ -34,6 +32,7 @@ namespace Companions.StateMachine
 
         public NpcFreeState(Npc owner) : base(owner)
         {
+            
         }
     }
 }
