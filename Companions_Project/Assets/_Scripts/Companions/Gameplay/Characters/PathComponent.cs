@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Silvermoon.Core;
 using UnityEngine;
 using UnityEngine.Splines;
 
 [RequireComponent(typeof(SplineContainer))]
-public class PathComponent : MonoBehaviour
+public class PathComponent : MonoBehaviour, ICoreComponent
 {
     private SplineContainer splinePath;
     private float length;
