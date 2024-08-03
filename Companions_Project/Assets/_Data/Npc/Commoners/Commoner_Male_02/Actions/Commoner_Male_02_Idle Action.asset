@@ -21,19 +21,32 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
+    - Name: reactionaryConsiderations
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[PriorityConsideration, com.companions]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: weightedConsiderations
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[WeightedConsideration, com.companions]],
+      Data: 1|System.Collections.Generic.List`1[[WeightedConsideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|WeightedConsideration, com.companions
+      Data: 2|WeightedConsideration, com.companions
     - Name: Consideration
       Entry: 7
-      Data: 2|ScoreConsideration, com.companions
+      Data: 3|ScoreConsideration, com.companions
     - Name: useRandom
       Entry: 5
       Data: false
@@ -57,10 +70,10 @@ MonoBehaviour:
       Data: 
     - Name: Curve
       Entry: 7
-      Data: 3|UnityEngine.AnimationCurve, UnityEngine.CoreModule
+      Data: 4|UnityEngine.AnimationCurve, UnityEngine.CoreModule
     - Name: 
       Entry: 7
-      Data: 4|UnityEngine.Keyframe[], UnityEngine.CoreModule
+      Data: 5|UnityEngine.Keyframe[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 2
@@ -162,7 +175,7 @@ MonoBehaviour:
       Data: 
     - Name: requiredConsiderations
       Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[Consideration, com.companions]],
+      Data: 6|System.Collections.Generic.List`1[[Consideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
@@ -175,7 +188,7 @@ MonoBehaviour:
       Data: 
     - Name: incompatibleConsiderations
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[Consideration, com.companions]],
+      Data: 7|System.Collections.Generic.List`1[[Consideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
@@ -192,6 +205,7 @@ MonoBehaviour:
   - rid: 5859783965117775875
   - rid: 5859784013207044115
   - rid: 5859784074222370818
+  - rid: 7132933329759240196
   connections:
   - inputPort:
       nodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
@@ -204,6 +218,12 @@ MonoBehaviour:
       portIndex: 1
     outputPort:
       nodeId: 22fe3aff-eaec-482e-858f-e41113be35fa
+      portIndex: 0
+  - inputPort:
+      nodeId: bda4cfa7-0735-452b-a20b-0991ed69c5f5
+      portIndex: 1
+    outputPort:
+      nodeId: 30b208bf-620d-4206-94cc-a5546b3cfe90
       portIndex: 0
   references:
     version: 2
@@ -218,7 +238,7 @@ MonoBehaviour:
           y: 250
           width: 0
           height: 0
-        nextNodeId: 
+        nextNodeId: bda4cfa7-0735-452b-a20b-0991ed69c5f5
     - rid: 5859783965117775875
       type: {class: PlayAnimationNode, ns: , asm: com.companions}
       data:
@@ -231,9 +251,9 @@ MonoBehaviour:
           height: 172
         nextNodeId: ece5fff0-116a-4cb6-a8a3-a0de7a992f30
         clip: {fileID: 0}
-        booleanName: 
-        boolean: 0
-        triggerName: TriggerIdle
+        booleanName: IsIdle
+        boolean: 1
+        triggerName: 
         waitForTransition: 0
     - rid: 5859784013207044115
       type: {class: ExecuteNode, ns: , asm: com.companions}
@@ -258,3 +278,19 @@ MonoBehaviour:
           height: 97
         nextNodeId: 
         duration: 1
+    - rid: 7132933329759240196
+      type: {class: PlayAnimationNode, ns: , asm: com.companions}
+      data:
+        guid: bda4cfa7-0735-452b-a20b-0991ed69c5f5
+        position:
+          serializedVersion: 2
+          x: 118
+          y: 250
+          width: 288
+          height: 172
+        nextNodeId: 
+        clip: {fileID: 0}
+        booleanName: IsIdle
+        boolean: 0
+        triggerName: 
+        waitForTransition: 0
