@@ -1,0 +1,330 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4489f753fe2d3864fb2a29d5cfc1ac7e, type: 3}
+  m_Name: ReactToPlayerActionData
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: priorityConsiderations
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[PriorityConsideration, com.companions]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: weightedConsiderations
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[WeightedConsideration, com.companions]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 2|WeightedConsideration, com.companions
+    - Name: Consideration
+      Entry: 7
+      Data: 3|ScoreConsideration, com.companions
+    - Name: useRandom
+      Entry: 5
+      Data: false
+    - Name: Score
+      Entry: 4
+      Data: 1
+    - Name: randomScore
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Curve
+      Entry: 7
+      Data: 4|UnityEngine.AnimationCurve, UnityEngine.CoreModule
+    - Name: 
+      Entry: 7
+      Data: 5|UnityEngine.Keyframe[], UnityEngine.CoreModule
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Keyframe, UnityEngine.CoreModule
+    - Name: ver
+      Entry: 3
+      Data: 1
+    - Name: m_Time
+      Entry: 4
+      Data: 0
+    - Name: m_Value
+      Entry: 4
+      Data: 0
+    - Name: m_InTangent
+      Entry: 4
+      Data: 0
+    - Name: m_OutTangent
+      Entry: 4
+      Data: 0
+    - Name: m_TangentMode
+      Entry: 3
+      Data: 0
+    - Name: m_WeightedMode
+      Entry: 3
+      Data: 0
+    - Name: m_InWeight
+      Entry: 4
+      Data: 0
+    - Name: m_OutWeight
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Keyframe, UnityEngine.CoreModule
+    - Name: ver
+      Entry: 3
+      Data: 1
+    - Name: m_Time
+      Entry: 4
+      Data: 1
+    - Name: m_Value
+      Entry: 4
+      Data: 1
+    - Name: m_InTangent
+      Entry: 4
+      Data: 0
+    - Name: m_OutTangent
+      Entry: 4
+      Data: 0
+    - Name: m_TangentMode
+      Entry: 3
+      Data: 0
+    - Name: m_WeightedMode
+      Entry: 3
+      Data: 0
+    - Name: m_InWeight
+      Entry: 4
+      Data: 0
+    - Name: m_OutWeight
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 3
+      Data: 8
+    - Name: 
+      Entry: 3
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: MaxValue
+      Entry: 4
+      Data: 1
+    - Name: Weight
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: requiredConsiderations
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[Consideration, com.companions]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 7|IsPlayerNearbyConsideration, com.companions
+    - Name: radius
+      Entry: 4
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: incompatibleConsiderations
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[Consideration, com.companions]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  cooldown: 5
+  graphNodes:
+  - rid: 7132933338992476160
+  - rid: 7132933338992476161
+  - rid: 7132933338992476163
+  - rid: 7132933338992476164
+  - rid: 7132933338992476165
+  - rid: 7132933338992476166
+  - rid: 7132933338992476167
+  connections:
+  - inputPort:
+      nodeId: 3b9d87f4-0b99-49f6-9527-45a5ae2e0693
+      portIndex: 1
+    outputPort:
+      nodeId: 80f3068c-2894-4699-944e-769ed55f63c3
+      portIndex: 0
+  - inputPort:
+      nodeId: 2ccc0950-3c76-4337-abc9-549a42e51e99
+      portIndex: 1
+    outputPort:
+      nodeId: 0836b2ca-dea9-4ef0-8af2-70f4885dba57
+      portIndex: 0
+  - inputPort:
+      nodeId: 91a40d1f-4be7-4c4a-9bc8-d3ff272db45b
+      portIndex: 1
+    outputPort:
+      nodeId: 2afd5fc8-4451-45f5-b413-1a9e794d9ce6
+      portIndex: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 7132933338992476160
+      type: {class: ExecuteNode, ns: , asm: com.companions}
+      data:
+        guid: 80f3068c-2894-4699-944e-769ed55f63c3
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        nextNodeId: 3b9d87f4-0b99-49f6-9527-45a5ae2e0693
+    - rid: 7132933338992476161
+      type: {class: ExitNode, ns: , asm: com.companions}
+      data:
+        guid: 986bcd63-9f6f-4cd3-bbbf-774bb03186f7
+        position:
+          serializedVersion: 2
+          x: -19
+          y: 509
+          width: 76
+          height: 77
+        nextNodeId: 
+    - rid: 7132933338992476163
+      type: {class: PlayAnimationNode, ns: , asm: com.companions}
+      data:
+        guid: 3b9d87f4-0b99-49f6-9527-45a5ae2e0693
+        position:
+          serializedVersion: 2
+          x: 123
+          y: 0
+          width: 288
+          height: 172
+        nextNodeId: 
+        waitForAnimationDuration: 1
+        booleanName: 
+        boolean: 0
+        triggerName: TriggerNearPlayer
+        waitForTransition: 0
+    - rid: 7132933338992476164
+      type: {class: UpdateNode, ns: , asm: com.companions}
+      data:
+        guid: 2afd5fc8-4451-45f5-b413-1a9e794d9ce6
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 300
+          width: 88
+          height: 77
+        nextNodeId: 91a40d1f-4be7-4c4a-9bc8-d3ff272db45b
+    - rid: 7132933338992476165
+      type: {class: InitializeNode, ns: , asm: com.companions}
+      data:
+        guid: 0836b2ca-dea9-4ef0-8af2-70f4885dba57
+        position:
+          serializedVersion: 2
+          x: 0
+          y: -175
+          width: 93
+          height: 77
+        nextNodeId: 2ccc0950-3c76-4337-abc9-549a42e51e99
+    - rid: 7132933338992476166
+      type: {class: FindTargetNode, ns: , asm: com.companions}
+      data:
+        guid: 2ccc0950-3c76-4337-abc9-549a42e51e99
+        position:
+          serializedVersion: 2
+          x: 144
+          y: -175
+          width: 219
+          height: 116
+        nextNodeId: 
+        useDictionaryComponent: 0
+        targetIdentifier:
+          identifier: Player
+    - rid: 7132933338992476167
+      type: {class: LookAtNode, ns: , asm: com.companions}
+      data:
+        guid: 91a40d1f-4be7-4c4a-9bc8-d3ff272db45b
+        position:
+          serializedVersion: 2
+          x: 144
+          y: 300
+          width: 219
+          height: 135
+        nextNodeId: 
+        lookAtCurrentTarget: 1
+        lookAtPoint:
+          identifier: 
+        rotationSpeed: 7
