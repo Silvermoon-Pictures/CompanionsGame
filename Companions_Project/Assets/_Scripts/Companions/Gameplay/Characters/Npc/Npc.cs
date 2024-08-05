@@ -107,4 +107,10 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         stateMachine.Update(stateMachineContext);
         stateMachine.PostUpdate(stateMachineContext);
     }
+
+    public void TriggerScriptedBehavior(ScriptedActionSequenceAsset sequence)
+    {
+        stateMachineContext.scriptedBehaviorTriggered = true;
+        stateMachineContext.scriptedActionSequenceAsset = sequence;
+    }
 }
