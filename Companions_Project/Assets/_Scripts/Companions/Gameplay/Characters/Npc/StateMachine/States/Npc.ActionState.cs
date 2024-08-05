@@ -118,7 +118,7 @@ namespace Companions.StateMachine
                 yield return node.Execute(actionContext);
             }
 
-            owner.PutActionInCooldown(currentAction.actionData);
+            owner.PutActionInCooldown((ActionAsset)currentAction.actionData);
             context.executeAction = false;
         }
     }
