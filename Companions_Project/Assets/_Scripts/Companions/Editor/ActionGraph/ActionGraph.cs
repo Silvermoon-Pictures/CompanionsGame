@@ -6,16 +6,16 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-[CustomEditor(typeof(ActionAsset))]
+[CustomEditor(typeof(BaseAction), true)]
 public class ActionAssetEditor : OdinEditor
 {
     [OnOpenAsset]
     public static bool OnOpenAsset(int instanceId, int index)
     {
         Object asset = EditorUtility.InstanceIDToObject(instanceId);
-        if (asset.GetType() == typeof(ActionAsset))
+        if (asset.GetType() == typeof(BaseAction))
         {
-            ActionGraph.Open((ActionAsset)asset);
+            ActionGraph.Open((BaseAction)asset);
             return true;
         }
 
@@ -26,7 +26,7 @@ public class ActionAssetEditor : OdinEditor
     {
         if (GUILayout.Button("Open Action Graph"))
         {
-            ActionAsset actionAsset = (ActionAsset)target;
+            BaseAction actionAsset = (BaseAction)target;
             ActionGraph.Open(actionAsset);
         }
 
@@ -36,7 +36,7 @@ public class ActionAssetEditor : OdinEditor
 
 public class ActionGraph : EditorWindow
 {
-    public static void Open(ActionAsset asset)
+    public static void Open(BaseAction asset)
     {
         ActionGraph[] windows = Resources.FindObjectsOfTypeAll<ActionGraph>();
         foreach (var w in windows)
@@ -49,12 +49,11 @@ public class ActionGraph : EditorWindow
         }
 
         ActionGraph window = CreateWindow<ActionGraph>(typeof(ActionGraph), typeof(SceneView));
-        window.titleContent = new GUIContent($"{asset.name}", EditorGUIUtility.ObjectContent(asset, typeof(ActionAsset)).image);
+        window.titleContent = new GUIContent($"{asset.name}", EditorGUIUtility.ObjectContent(asset, typeof(BaseAction)).image);
         window.Load(asset);
     }
     
-    [SerializeField] private ActionAsset actionAsset;
-    public ActionAsset ActionAsset => actionAsset;
+    [SerializeField] private BaseAction actionAsset;
     [SerializeField] private ActionGraphView currentView;
     [SerializeField] private SerializedObject serializedObject;
 
@@ -69,7 +68,7 @@ public class ActionGraph : EditorWindow
         
     }
 
-    public void Load(ActionAsset asset) 
+    public void Load(BaseAction asset) 
     {
         actionAsset = asset;
         DrawGraph();

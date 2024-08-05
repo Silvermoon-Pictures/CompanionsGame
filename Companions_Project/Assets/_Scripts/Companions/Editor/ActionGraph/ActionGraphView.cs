@@ -12,7 +12,7 @@ using UnityEngine.UIElements;
 
 public class ActionGraphView : GraphView
 {
-    private ActionAsset actionAsset;
+    private BaseAction actionAsset;
     private SerializedObject serializedObject;
     private ActionGraph window;
     public ActionGraph Window => window;
@@ -25,7 +25,7 @@ public class ActionGraphView : GraphView
     public ActionGraphView(SerializedObject serializedObject, ActionGraph window)
     {
         this.serializedObject = serializedObject;
-        actionAsset = (ActionAsset)serializedObject.targetObject;
+        actionAsset = (BaseAction)serializedObject.targetObject;
         this.window = window;
 
         graphNodes = new();
