@@ -57,7 +57,8 @@ namespace Companions.StateMachine
                 owner.StopCoroutine(initializeCoroutine);
                 initializeCoroutine = null;
             }
-
+            
+            ClearData();
         }
         
         private void StartExecution(NpcFSMContext context)
