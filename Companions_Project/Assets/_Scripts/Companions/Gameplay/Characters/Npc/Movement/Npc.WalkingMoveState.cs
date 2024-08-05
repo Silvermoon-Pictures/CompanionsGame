@@ -51,9 +51,14 @@ public partial class Npc
         {
             base.OnExit(context);
             
+            StopMovement();
+            fsmContext.animator.SetBool(IsMoving, false);
+        }
+
+        public void StopMovement()
+        {
             navMeshAgent.ResetPath();
             navMeshAgent.isStopped = true;
-            fsmContext.animator.SetBool(IsMoving, false);
         }
 
 
