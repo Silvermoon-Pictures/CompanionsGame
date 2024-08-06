@@ -12,6 +12,7 @@ namespace Companions.StateMachine
         {
             List<State> states = new()
             {
+                new NpcScriptedBehaviorState(owner),
                 new NpcActionState(owner),
                 new NpcFreeState(owner)
             };
@@ -28,6 +29,8 @@ namespace Companions.StateMachine
     public class NpcFSMContext : StateMachineContext
     {
         public bool executeAction;
+        public bool scriptedBehaviorTriggered;
+        public ScriptedActionSequenceAsset scriptedActionSequenceAsset;
         public bool HasPreviousAction => previousActionData != null;
         public Npc.NpcAction currentActionData;
         public Npc.NpcAction previousActionData;

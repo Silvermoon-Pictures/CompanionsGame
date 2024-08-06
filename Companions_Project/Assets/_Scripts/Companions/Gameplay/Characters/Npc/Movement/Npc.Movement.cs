@@ -29,4 +29,10 @@ public partial class Npc
     {
         walkingMoveState.UpdateDestination(position);
     }
+
+    public void StopMovement()
+    {
+        stateMachineContext.targetPosition = MovementComponent.transform.position;
+        walkingMoveState.StopMovement();
+    }
 }

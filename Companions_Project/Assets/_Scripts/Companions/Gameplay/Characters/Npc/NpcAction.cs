@@ -7,7 +7,7 @@ public partial class Npc
 {
     public class NpcAction
     {
-        public ActionAsset actionData;
+        public BaseAction actionData;
         public EventArgs callback;
         public bool IsValid => actionData != null;
         public Queue<ActionGraphNode> InitializeSubactions = new();
@@ -15,13 +15,22 @@ public partial class Npc
         public List<ActionGraphNode> UpdateSubactions = new();
         public Queue<ActionGraphNode> ExitSubactions = new();
 
-        public NpcAction(ActionAsset actionAsset)
+        public bool hasEnded;
+
+        public NpcAction(BaseAction actionAsset)
         {
             actionData = actionAsset;
+            hasEnded = false;
+            
             InitializeSubactions = new(actionData.InitializeSubactionQueue);
             Subactions = new(actionData.SubactionQueue);
             UpdateSubactions = new(actionData.UpdateSubactionQueue);
             ExitSubactions = new(actionData.ExitSubactionQueue);
+        }
+
+        public void OnEnded()
+        {
+            hasEnded = true;
         }
     }
 
