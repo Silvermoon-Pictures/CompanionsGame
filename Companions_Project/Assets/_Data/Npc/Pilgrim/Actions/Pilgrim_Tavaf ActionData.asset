@@ -21,28 +21,41 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
+    - Name: priorityConsiderations
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[PriorityConsideration, com.companions]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: weightedConsiderations
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[WeightedConsideration, com.companions]],
+      Data: 1|System.Collections.Generic.List`1[[WeightedConsideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|WeightedConsideration, com.companions
+      Data: 2|WeightedConsideration, com.companions
     - Name: Consideration
       Entry: 7
-      Data: 2|StaminaConsideration, com.companions
+      Data: 3|StaminaConsideration, com.companions
     - Name: 
       Entry: 8
       Data: 
     - Name: Curve
       Entry: 7
-      Data: 3|UnityEngine.AnimationCurve, UnityEngine.CoreModule
+      Data: 4|UnityEngine.AnimationCurve, UnityEngine.CoreModule
     - Name: 
       Entry: 7
-      Data: 4|UnityEngine.Keyframe[], UnityEngine.CoreModule
+      Data: 5|UnityEngine.Keyframe[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 2
@@ -57,13 +70,13 @@ MonoBehaviour:
       Data: 0
     - Name: m_Value
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: m_InTangent
       Entry: 4
-      Data: 0
+      Data: -2
     - Name: m_OutTangent
       Entry: 4
-      Data: 0
+      Data: -2
     - Name: m_TangentMode
       Entry: 3
       Data: 0
@@ -90,7 +103,7 @@ MonoBehaviour:
       Data: 1
     - Name: m_Value
       Entry: 4
-      Data: 1
+      Data: 0
     - Name: m_InTangent
       Entry: 4
       Data: 0
@@ -144,7 +157,7 @@ MonoBehaviour:
       Data: 
     - Name: requiredConsiderations
       Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[Consideration, com.companions]],
+      Data: 6|System.Collections.Generic.List`1[[Consideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
@@ -157,7 +170,7 @@ MonoBehaviour:
       Data: 
     - Name: incompatibleConsiderations
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[Consideration, com.companions]],
+      Data: 7|System.Collections.Generic.List`1[[Consideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
@@ -168,7 +181,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  cooldown: 0
   graphNodes:
   - rid: 7132933276575989760
   - rid: 7132933276575989761
@@ -180,6 +192,7 @@ MonoBehaviour:
     outputPort:
       nodeId: 24a911c1-fa98-41ca-98fd-66a934731883
       portIndex: 0
+  cooldown: 0
   references:
     version: 2
     RefIds:
