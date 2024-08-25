@@ -185,12 +185,33 @@ MonoBehaviour:
   - rid: 7132933276575989760
   - rid: 7132933276575989761
   - rid: 7132933283512320000
+  - rid: 9089436694367698944
+  - rid: 9089436694367698945
+  - rid: 9089436694367698946
   connections:
   - inputPort:
       nodeId: 3b06d61a-f599-455f-9e29-8f3a8356d479
       portIndex: 1
     outputPort:
       nodeId: 24a911c1-fa98-41ca-98fd-66a934731883
+      portIndex: 0
+  - inputPort:
+      nodeId: bd6bf59f-04f2-4b21-be78-5e9c6542587d
+      portIndex: 1
+    outputPort:
+      nodeId: 3b06d61a-f599-455f-9e29-8f3a8356d479
+      portIndex: 0
+  - inputPort:
+      nodeId: a664cf27-f7db-4f52-9220-ef37d290f564
+      portIndex: 1
+    outputPort:
+      nodeId: bd6bf59f-04f2-4b21-be78-5e9c6542587d
+      portIndex: 0
+  - inputPort:
+      nodeId: 9287265c-938d-48d1-9c6a-f8fe8e3d894d
+      portIndex: 1
+    outputPort:
+      nodeId: a664cf27-f7db-4f52-9220-ef37d290f564
       portIndex: 0
   cooldown: 0
   references:
@@ -228,4 +249,46 @@ MonoBehaviour:
           y: 0
           width: 136
           height: 77
+        nextNodeId: bd6bf59f-04f2-4b21-be78-5e9c6542587d
+    - rid: 9089436694367698944
+      type: {class: FindTargetNode, ns: , asm: com.companions}
+      data:
+        guid: bd6bf59f-04f2-4b21-be78-5e9c6542587d
+        position:
+          serializedVersion: 2
+          x: 313
+          y: 0
+          width: 219
+          height: 116
+        nextNodeId: a664cf27-f7db-4f52-9220-ef37d290f564
+        useDictionaryComponent: 1
+        targetIdentifier:
+          identifier: 
+    - rid: 9089436694367698945
+      type: {class: PlayAnimationNode, ns: , asm: com.companions}
+      data:
+        guid: 9287265c-938d-48d1-9c6a-f8fe8e3d894d
+        position:
+          serializedVersion: 2
+          x: 749
+          y: 0
+          width: 179
+          height: 170
         nextNodeId: 
+        booleanName: 
+        boolean: 0
+        triggerName: 
+        waitForAnimationDuration: 0
+        waitForTransition: 0
+    - rid: 9089436694367698946
+      type: {class: GoToNode, ns: , asm: com.companions}
+      data:
+        guid: a664cf27-f7db-4f52-9220-ef37d290f564
+        position:
+          serializedVersion: 2
+          x: 568
+          y: 0
+          width: 150
+          height: 97
+        nextNodeId: 9287265c-938d-48d1-9c6a-f8fe8e3d894d
+        stoppingDistance: 1

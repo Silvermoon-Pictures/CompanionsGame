@@ -21,28 +21,41 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
+    - Name: priorityConsiderations
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[PriorityConsideration, com.companions]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: weightedConsiderations
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[WeightedConsideration, com.companions]],
+      Data: 1|System.Collections.Generic.List`1[[WeightedConsideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|WeightedConsideration, com.companions
+      Data: 2|WeightedConsideration, com.companions
     - Name: Consideration
       Entry: 7
-      Data: 2|StaminaConsideration, com.companions
+      Data: 3|StaminaConsideration, com.companions
     - Name: 
       Entry: 8
       Data: 
     - Name: Curve
       Entry: 7
-      Data: 3|UnityEngine.AnimationCurve, UnityEngine.CoreModule
+      Data: 4|UnityEngine.AnimationCurve, UnityEngine.CoreModule
     - Name: 
       Entry: 7
-      Data: 4|UnityEngine.Keyframe[], UnityEngine.CoreModule
+      Data: 5|UnityEngine.Keyframe[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 2
@@ -144,14 +157,14 @@ MonoBehaviour:
       Data: 
     - Name: requiredConsiderations
       Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[Consideration, com.companions]],
+      Data: 6|System.Collections.Generic.List`1[[Consideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 6|IsExhaustedConsideration, com.companions
+      Data: 7|IsExhaustedConsideration, com.companions
     - Name: 
       Entry: 8
       Data: 
@@ -163,7 +176,7 @@ MonoBehaviour:
       Data: 
     - Name: incompatibleConsiderations
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[Consideration, com.companions]],
+      Data: 8|System.Collections.Generic.List`1[[Consideration, com.companions]],
         mscorlib
     - Name: 
       Entry: 12
@@ -174,7 +187,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  cooldown: 0
   graphNodes:
   - rid: 7132933283512320001
   - rid: 7132933283512320002
@@ -214,6 +226,7 @@ MonoBehaviour:
     outputPort:
       nodeId: 3fe5097a-dad5-497b-9c4b-1245036cce5e
       portIndex: 0
+  cooldown: 0
   references:
     version: 2
     RefIds:
@@ -250,8 +263,6 @@ MonoBehaviour:
           width: 219
           height: 153
         nextNodeId: 3fe5097a-dad5-497b-9c4b-1245036cce5e
-        findClosest: 0
-        radius: 10
         useDictionaryComponent: 1
         targetIdentifier:
           identifier: RestingSpot
@@ -278,10 +289,10 @@ MonoBehaviour:
           width: 288
           height: 172
         nextNodeId: d6864887-a430-4019-b09a-3b321cdb3dd3
-        clip: {fileID: 0}
         booleanName: 
         boolean: 0
         triggerName: TriggerRest
+        waitForAnimationDuration: 0
         waitForTransition: 0
     - rid: 7132933283512320006
       type: {class: WaitNode, ns: , asm: com.companions}
@@ -306,8 +317,8 @@ MonoBehaviour:
           width: 288
           height: 172
         nextNodeId: 
-        clip: {fileID: 0}
         booleanName: 
         boolean: 0
         triggerName: TriggerSitDown
+        waitForAnimationDuration: 0
         waitForTransition: 0
