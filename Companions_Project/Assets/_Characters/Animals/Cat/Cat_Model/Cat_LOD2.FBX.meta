@@ -3,7 +3,22 @@ guid: e0b0a1718ae93d14aaa4c96fe88fc77c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cat_Eye_Material
+    second: {fileID: 2100000, guid: f5b948848bda3574cb1e8a09c9d1da0c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cat_Material
+    second: {fileID: 2100000, guid: f23f16a45d3e24d4aa0bedad694c07b5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cat_Whiskers_Material
+    second: {fileID: 2100000, guid: 752e04d23cbeabb4c8174962bb684ac9, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -91,7 +106,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: 
+    rootMotionBoneName: Cat_LOD2
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
@@ -99,7 +114,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
