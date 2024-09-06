@@ -9,9 +9,12 @@ public class BaseAction : SerializedScriptableObject
     private List<ActionGraphNode> graphNodes = new();
     [SerializeField, HideInInspector]
     private List<ActionGraphConnection> connections = new();
+    [SerializeField] 
+    private List<ActionGraphExposedProperty> exposedProperties = new();
 
     public List<ActionGraphNode> GraphNodes => graphNodes;
     public List<ActionGraphConnection> Connections => connections;
+    public List<ActionGraphExposedProperty> ExposedProperties => exposedProperties;
     
     public Queue<ActionGraphNode> SubactionQueue { get; private set; } = new();
     public Queue<ActionGraphNode> UpdateSubactionQueue { get; private set; } = new();
@@ -23,7 +26,6 @@ public class BaseAction : SerializedScriptableObject
     private void OnEnable()
     {
         Init();
-        FillSubactions();
     }
     
     void FillSubactions()
@@ -106,12 +108,14 @@ public class BaseAction : SerializedScriptableObject
         return nodeDictionary.GetValueOrDefault(nextNodeCurrent);
     }
     
-    public void Init()
+    private void Init()
     {
         nodeDictionary = new();
         foreach (var node in graphNodes)
         {
             nodeDictionary.Add(node.Id, node);
         }
+        
+        FillSubactions();
     }
 }
