@@ -77,6 +77,11 @@ public class ActionGraphView : GraphView
     private void ConstructBlackboard()
     {
         blackboard = new Blackboard(this);
+        var titleElement = blackboard.Q<Label>("subTitleLabel");
+        
+        titleElement.style.fontSize = ActionGraphEditorSettings.Settings.blackboardTitleSize;
+        titleElement.style.color = new(ActionGraphEditorSettings.Settings.blackboardTitleColor);
+        titleElement.style.alignSelf = Align.Center;
         var blackboardSection = new BlackboardSection() { title = "Exposed Properties" };
         blackboard.Add(blackboardSection);
         blackboard.style.alignSelf = Align.FlexEnd;
