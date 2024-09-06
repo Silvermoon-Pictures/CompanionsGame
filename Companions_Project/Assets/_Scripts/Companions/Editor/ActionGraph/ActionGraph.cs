@@ -60,18 +60,13 @@ public class ActionGraph : EditorWindow
     private void OnEnable()
     {
         if (actionAsset != null)
-            DrawGraph();
+            Initialize();
     }
 
-    private void OnDisable()
-    {
-        
-    }
-
-    public void Load(BaseAction asset) 
+    private void Load(BaseAction asset) 
     {
         actionAsset = asset;
-        DrawGraph();
+        Initialize();
     }
 
     private void OnGUI()
@@ -82,9 +77,14 @@ public class ActionGraph : EditorWindow
         hasUnsavedChanges = EditorUtility.IsDirty(actionAsset);
     }
 
-    private void DrawGraph()
+    private void Initialize()
     {
         serializedObject = new(actionAsset);
+        ConstructGraphView();
+    }
+
+    private void ConstructGraphView()
+    {
         currentView = new ActionGraphView(serializedObject, this);
         currentView.graphViewChanged += OnChange;
         rootVisualElement.Add(currentView);

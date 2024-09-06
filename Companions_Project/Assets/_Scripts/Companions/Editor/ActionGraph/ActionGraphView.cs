@@ -22,6 +22,9 @@ public class ActionGraphView : GraphView
     public Dictionary<Edge, ActionGraphConnection> connectionDictionary;
 
     private ActionGraphSearchProvider searchProvider;
+    public Blackboard blackboard;
+    public List<ActionGraphExposedProperty> exposedProperties = new();
+    
     public ActionGraphView(SerializedObject serializedObject, ActionGraph window)
     {
         this.serializedObject = serializedObject;
@@ -43,6 +46,8 @@ public class ActionGraphView : GraphView
         background.name = "Grid";
         Add(background);
         background.SendToBack();
+
+        ConstructBlackboard();
         
         SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale); 
         this.AddManipulator(new ContentDragger());
@@ -56,6 +61,59 @@ public class ActionGraphView : GraphView
         DrawConnections();
 
         graphViewChanged += OnGraphViewChangedEvent;
+    }
+    
+    private void ConstructBlackboard()
+    {
+        blackboard = new Blackboard(this);
+        blackboard.Add(new BlackboardSection(){ title = "Exposed Properties"});
+        blackboard.addItemRequested = (t) => AddPropertyToBlackboard(new ActionGraphExposedProperty());
+        blackboard.editTextRequested = (blackboard, element, newValue) =>
+        {
+            string oldPropertyName = ((BlackboardField)element).text;
+            if (exposedProperties.Any(x => x.propertyName == newValue))
+            {
+                EditorUtility.DisplayDialog("Error", "This property name already exists!", "OK");
+                return;
+            }
+
+            int propertyIndex = exposedProperties.FindIndex(x => x.propertyName == oldPropertyName);
+            exposedProperties[propertyIndex].propertyName = newValue;
+            ((BlackboardField)element).text = newValue;
+        };
+        Add(blackboard);
+    }
+
+    private void AddPropertyToBlackboard(ActionGraphExposedProperty exposedProperty)
+    {
+        string localPropertyName = exposedProperty.propertyName;
+        string localPropertyValue = exposedProperty.propertyValue;
+        while (exposedProperties.Any(x => x.propertyName == localPropertyName))
+            localPropertyName = $"{localPropertyName}(1)";
+        
+        var property = new ActionGraphExposedProperty
+        {
+            propertyName = localPropertyName,
+            propertyValue = exposedProperty.propertyValue
+        };
+        exposedProperties.Add(property);
+        var container = new VisualElement();
+        var blackboardField = new BlackboardField { text = property.propertyName, typeText = "string property" };
+        container.Add(blackboardField);
+
+        var propertyValueTextField = new TextField("Value")
+        {
+            value = localPropertyValue
+        };
+        propertyValueTextField.RegisterValueChangedCallback(evt =>
+        {
+            var changingPropertyIndex = exposedProperties.FindIndex(x => x.propertyName == property.propertyName);
+            exposedProperties[changingPropertyIndex].propertyValue = evt.newValue;
+        });
+        var blackboardValueRow = new BlackboardRow(blackboardField, propertyValueTextField);
+        container.Add(blackboardValueRow);
+        
+        blackboard.Add(container);
     }
 
     private void AddStartNode()
