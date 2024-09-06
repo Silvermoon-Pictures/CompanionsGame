@@ -115,7 +115,7 @@ public class ActionGraphView : GraphView
         var container = new VisualElement();
         container.style.flexDirection = FlexDirection.Row;
         
-        var blackboardField = new BlackboardField { text = property.propertyName, typeText = "string" };
+        var blackboardField = new BlackboardField { text = property.propertyName };
         blackboardField.style.alignSelf = Align.FlexEnd;
         container.Add(blackboardField);
         
@@ -130,21 +130,8 @@ public class ActionGraphView : GraphView
         };
         
         container.Add(removeButton); 
-
-        var propertyValueTextField = new TextField("Value")
-        {
-            value = property.propertyValue
-        }; 
-        propertyValueTextField.RegisterValueChangedCallback(evt =>
-        {
-            var changingPropertyIndex = exposedProperties.FindIndex(x => x.propertyName == property.propertyName);
-            exposedProperties[changingPropertyIndex].propertyValue = evt.newValue;
-        });
-        var blackboardValueRow = new BlackboardRow(blackboardField, propertyValueTextField);
-        container.Add(blackboardValueRow);
         
         blackboard.Add(container);
-        
         exposedProperties.Add(property);
     }
     
