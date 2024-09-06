@@ -78,7 +78,10 @@ public class ActionGraphView : GraphView
     {
         blackboard = new Blackboard(this);
         var blackboardSection = new BlackboardSection() { title = "Exposed Properties" };
-        blackboard.Add(blackboard);
+        blackboard.Add(blackboardSection);
+        blackboard.style.alignSelf = Align.FlexEnd;
+        blackboard.style.width = 300;
+        blackboard.style.height = 400;
         blackboard.addItemRequested = (b) => CreatePropertyToBlackboardInternal(new ActionGraphExposedProperty());
         blackboard.editTextRequested = (b, element, newValue) =>
         {
