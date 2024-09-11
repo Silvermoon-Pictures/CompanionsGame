@@ -30,32 +30,19 @@ public partial class ActionGraphNode
             yield return null;
     }
     
-    internal GameObject FindTarget(SubactionContext context, Identifier targetIdentifier, bool useDictionaryComponent)
+    internal GameObject FindTarget(SubactionContext context, BlackboardProperty property, bool useDictionaryComponent)
     {
-        bool FilterTargets(Component component)
-        {
-            if (!component.TryGetComponent(out IdentifierComponent identifierComponent))
-                return false;
-            if (!identifierComponent.identifiers.Contains(targetIdentifier))
-                return false;
-
-            return true;
-        }
-        
         GameObject target = null;
         if (useDictionaryComponent)
         {
-            target = context.dictionaryComponent.Get<GameObject>(targetIdentifier);
+            target = context.blackboard.Get<GameObject>(property);
         }
-        else
-        {
-            var component = ComponentSystem.GetClosestTarget(typeof(ICoreComponent), context.npc.transform.position, filter: FilterTargets) as Component;
-            if (component != null)
-                target = component.gameObject;
-        }
-
-        if (target == null)
-            return null;
+        // else
+        // {
+        //     var component = ComponentSystem.GetClosestTarget(typeof(ICoreComponent), context.npc.transform.position, filter: FilterTargets) as Component;
+        //     if (component != null)
+        //         target = component.gameObject;
+        // }
 
         return target;
     }

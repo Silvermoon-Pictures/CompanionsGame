@@ -51,7 +51,7 @@ public class ReadOnlyDrawer : PropertyDrawer
     }
 }
 
-[CustomPropertyDrawer(typeof(ExposedProperty))]
+[CustomPropertyDrawer(typeof(BlackboardProperty))]
 public class ExposedPropertyDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

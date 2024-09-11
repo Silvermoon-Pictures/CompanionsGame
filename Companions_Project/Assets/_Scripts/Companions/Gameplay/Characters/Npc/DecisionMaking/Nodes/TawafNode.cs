@@ -9,10 +9,10 @@ using UnityEngine.AI;
 [NodeInfo("Tawaf", "Gameplay/AI/Tawaf")]
 public class TawafNode : ActionGraphNode
 {
+    public BlackboardProperty pilgrimPathProperty;
     public override IEnumerator Execute(SubactionContext context)
     {
-        Identifier pilgrimPathIdentifier = ConfigurationSystem.GetConfig<NpcConfig>().PilgrimPathIdentifier;
-        GameObject pilgrimPathObj = FindTarget(context, pilgrimPathIdentifier, true);
+        GameObject pilgrimPathObj = FindTarget(context, pilgrimPathProperty, true);
         if (pilgrimPathObj == null)
             yield break;
         
