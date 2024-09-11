@@ -5,6 +5,7 @@ using Silvermoon.Core;
 using UnityEditor;
 using Companions.Common;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [CustomPropertyDrawer(typeof(TypeFilterAttribute))]
 public class TypeDrawer : PropertyDrawer
@@ -38,6 +39,7 @@ public class TypeDrawer : PropertyDrawer
     }
 }
 
+
 [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
 public class ReadOnlyDrawer : PropertyDrawer
 {
@@ -46,6 +48,56 @@ public class ReadOnlyDrawer : PropertyDrawer
         GUI.enabled = false;
         EditorGUI.PropertyField(position, property, label, true);
         GUI.enabled = true;
+    }
+}
+
+[CustomPropertyDrawer(typeof(ExposedProperty))]
+public class ExposedPropertyDrawer : PropertyDrawer
+{
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        EditorGUI.BeginProperty(position, label, property);
+
+        var propertyNameRect = new Rect(position.x, position.y, position.width / 2, position.height);
+        SerializedProperty propertyName = property.FindPropertyRelative("propertyName");
+        EditorGUI.PropertyField(propertyNameRect, propertyName, GUIContent.none);
+        HandleDragAndDrop(propertyNameRect, propertyName);
+
+        EditorGUI.EndProperty();
+    }
+    
+    private void HandleDragAndDrop(Rect dropArea, SerializedProperty propertyValue)
+    {
+        Event evt = Event.current;
+
+        switch (evt.type)
+        {
+            case EventType.DragUpdated:
+            case EventType.DragPerform:
+                if (dropArea.Contains(evt.mousePosition))
+                {
+                    // Change mouse icon when dragging over the drop area
+                    DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+
+                    if (evt.type == EventType.DragPerform)
+                    {
+                        DragAndDrop.AcceptDrag();
+
+                        // Get dragged data (in this case, blackboard property names)
+                        if (DragAndDrop.GetGenericData("BlackboardProperty") is string droppedPropertyName)
+                        {
+                            // Set the property value to the dropped blackboard property name
+                            propertyValue.stringValue = droppedPropertyName;
+
+                            // Mark the property as dirty to reflect changes
+                            propertyValue.serializedObject.ApplyModifiedProperties();
+                        }
+
+                        evt.Use();
+                    }
+                }
+                break;
+        }
     }
 }
 

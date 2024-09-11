@@ -87,10 +87,12 @@ public class ActionGraphView : GraphView
         blackboard.style.alignSelf = Align.FlexEnd;
         blackboard.style.width = 300;
         blackboard.style.height = 400;
-        blackboard.addItemRequested = (b) => CreatePropertyToBlackboardInternal(new ActionGraphExposedProperty());
+        blackboard.addItemRequested = (b) => CreatePropertyToBlackboardInternal();
+        
         blackboard.editTextRequested = (b, element, newValue) =>
         {
             string oldPropertyName = ((BlackboardField)element).text;
+            
             if (exposedProperties.Any(x => x.propertyName == newValue))
             {
                 EditorUtility.DisplayDialog("Error", "This property name already exists!", "OK");
@@ -112,20 +114,34 @@ public class ActionGraphView : GraphView
 
         property.propertyName = localPropertyName;
         
+        
+        
         var container = new VisualElement();
         container.style.flexDirection = FlexDirection.Row;
         
         var blackboardField = new BlackboardField { text = property.propertyName };
+
+
+        blackboardField.RegisterCallback<DragUpdatedEvent>(evt =>
+        {
+            DragAndDrop.PrepareStartDrag();
+            DragAndDrop.SetGenericData("BlackboardProperty", property.propertyName);
+            DragAndDrop.StartDrag("Dragging Blackboard Property");
+            DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+        });
+        
+        
         blackboardField.style.alignSelf = Align.FlexEnd;
         container.Add(blackboardField);
         
         Button removeButton = new(() => RemoveExposedProperty(property, container))
         {
-            text = "X",
+            text = "x",
             style =
             {
-                width = 30,
-                height = 25,
+                backgroundColor = new Color(0,0,0,0.1f),
+                width = 25,
+                height = 20,
             }
         };
         
@@ -135,8 +151,12 @@ public class ActionGraphView : GraphView
         exposedProperties.Add(property);
     }
     
-    private void CreatePropertyToBlackboardInternal(ActionGraphExposedProperty exposedProperty)
+    private void CreatePropertyToBlackboardInternal()
     {
+        ActionGraphExposedProperty exposedProperty = new()
+        {
+            
+        };
         AddBlackboardProperty(exposedProperty);
         actionAsset.ExposedProperties.Add(exposedProperty);
     }
