@@ -1,4 +1,6 @@
 using System;
+using System.Reflection;
+using Silvermoon.Utils;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -13,7 +15,7 @@ public class ActionAssetEditor : OdinEditor
     public static bool OnOpenAsset(int instanceId, int index)
     {
         Object asset = EditorUtility.InstanceIDToObject(instanceId);
-        if (asset.GetType() == typeof(BaseAction))
+        if (asset.GetType().IsSubclassOf(typeof(BaseAction)))
         {
             ActionGraph.Open((BaseAction)asset);
             return true;
