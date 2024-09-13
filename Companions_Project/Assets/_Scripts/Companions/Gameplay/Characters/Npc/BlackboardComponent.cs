@@ -10,6 +10,8 @@ using UnityEditor;
 [System.Serializable]
 public struct DictionaryEntry
 {
+    [field: SerializeField]
+    public string DisplayName { get; set; }
     [ReadOnly]
     public string key;
     public UnityEngine.Object value;
@@ -18,43 +20,61 @@ public struct DictionaryEntry
 [DisallowMultipleComponent]
 public class BlackboardComponent : MonoBehaviour
 {
-    public List<DictionaryEntry> blackboardEntries = new();
+    private Npc npc;
+    internal List<DictionaryEntry> blackboardEntries = new();
+
+    private void OnEnable()
+    {
+        npc = GetComponent<Npc>();
+    }
 
     public void PopulateExposedProperties()
     {
-        var actionAssets = GetComponent<Npc>().NpcData.Actions;
+        var actionAssets = npc.NpcData.Actions;
 
-        List<string> currentExposedPropertyNames = new List<string>();
-
-        foreach (var graphAsset in actionAssets)
+        for (int i = blackboardEntries.Count - 1; i >= 0; i--)
         {
-            currentExposedPropertyNames.AddRange(
-                graphAsset.ExposedProperties.ConvertAll(prop => prop.propertyName)
-            );
+            bool keyExistsInAnyGraph = false;
+
+            foreach (var graphAsset in actionAssets)
+            {
+                if (graphAsset.ExposedProperties.Any(prop => GetDisplayName(graphAsset, prop.propertyName) == blackboardEntries[i].DisplayName))
+                {
+                    keyExistsInAnyGraph = true;
+                    break;
+                }
+            }
+
+            if (!keyExistsInAnyGraph)
+            {
+                blackboardEntries.RemoveAt(i);
+            }
         }
         
-        blackboardEntries.RemoveAll(entry => !currentExposedPropertyNames.Contains(entry.key));
 
-        
+
         foreach (var actionAsset in actionAssets)
         {
             foreach (var exposedProperty in actionAsset.ExposedProperties)
             {
-                if (blackboardEntries.Any((t) => t.key == exposedProperty.propertyName))
+                if (blackboardEntries.Any((t) => t.DisplayName == GetDisplayName(actionAsset, exposedProperty.propertyName)))
                     continue;
                 
                 DictionaryEntry newEntry = new DictionaryEntry
                 {
                     key = exposedProperty.propertyName,
+                    value = null,
+                    DisplayName = GetDisplayName(actionAsset, exposedProperty.propertyName),
                 };
 
                 blackboardEntries.Add(newEntry);
             }
         }
-        
-#if UNITY_EDITOR
-        EditorUtility.SetDirty(this);
-#endif
+    }
+
+    private string GetDisplayName(BaseAction asset, string propertyName)
+    {
+        return $"{asset.DisplayName} - {propertyName}";
     }
     
     public T Get<T>(string key)
@@ -100,7 +120,7 @@ public class BlackboardEntriesEditor : Editor
             
             // Disable editing of the key
             GUI.enabled = false;
-            EditorGUILayout.TextField("Key", entry.key);
+            EditorGUILayout.TextField("Key", entry.DisplayName);
             GUI.enabled = true;
 
             // Allow editing of the value

@@ -5,11 +5,14 @@ using UnityEngine;
 
 public class BaseAction : SerializedScriptableObject
 {
+    [field: SerializeField]
+    public string DisplayName { get; private set; }
+    
     [SerializeReference, HideInInspector]
     private List<ActionGraphNode> graphNodes = new();
     [SerializeField, HideInInspector]
     private List<ActionGraphConnection> connections = new();
-    [SerializeField] 
+    [SerializeField, HideInInspector] 
     private List<ActionGraphExposedProperty> exposedProperties = new();
 
     public List<ActionGraphNode> GraphNodes => graphNodes;
