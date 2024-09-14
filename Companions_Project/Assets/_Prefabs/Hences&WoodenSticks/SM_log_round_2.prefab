@@ -77,5 +77,56 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 5754701143461532035, guid: 3fabfbba530b4ea4a8204f8335b116fa, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4264166975182755541, guid: 3fabfbba530b4ea4a8204f8335b116fa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7699875483092033144}
+    - targetCorrespondingSourceObject: {fileID: 4264166975182755541, guid: 3fabfbba530b4ea4a8204f8335b116fa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7115680379975168309}
   m_SourcePrefab: {fileID: 100100000, guid: 3fabfbba530b4ea4a8204f8335b116fa, type: 3}
+--- !u!1 &284802109257841006 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4264166975182755541, guid: 3fabfbba530b4ea4a8204f8335b116fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 4097870246380056507}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7699875483092033144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284802109257841006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86df15996814cff45aed711a3ccf2a0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paintingData: {fileID: 11400000, guid: 5b4e5a5790c06e345b9b01714f9c4c2c, type: 2}
+  hullData: {fileID: 11400000, guid: 8912260a2d41d1c48aebc097ed4b141c, type: 2}
+--- !u!136 &7115680379975168309
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284802109257841006}
+  m_Material: {fileID: 13400000, guid: bc79df39e28ae834cab415b38df8af2e, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.13795015
+  m_Height: 3.1031013
+  m_Direction: 0
+  m_Center: {x: 0.00008416266, y: -0.0017814827, z: -0.004357072}

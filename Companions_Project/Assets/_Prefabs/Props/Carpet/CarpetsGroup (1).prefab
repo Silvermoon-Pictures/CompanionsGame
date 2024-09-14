@@ -71,5 +71,55 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ba7495f4b5e08964a9015ecb4d1d534c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4743455546234875947}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ba7495f4b5e08964a9015ecb4d1d534c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6565715709010022222}
   m_SourcePrefab: {fileID: 100100000, guid: ba7495f4b5e08964a9015ecb4d1d534c, type: 3}
+--- !u!1 &6035299200596645809 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ba7495f4b5e08964a9015ecb4d1d534c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6845710527466711776}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4743455546234875947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6035299200596645809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86df15996814cff45aed711a3ccf2a0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paintingData: {fileID: 11400000, guid: cff765c3a266b894886e63cea0775968, type: 2}
+  hullData: {fileID: 11400000, guid: 5dacb350da969c240a80cd455b3dd239, type: 2}
+--- !u!64 &6565715709010022222
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6035299200596645809}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2947932742442861734, guid: 5dacb350da969c240a80cd455b3dd239, type: 2}
