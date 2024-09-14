@@ -17,7 +17,7 @@ public struct DictionaryEntry
     public UnityEngine.Object value;
 }
 
-[DisallowMultipleComponent]
+[DisallowMultipleComponent, RequireComponent(typeof(Npc)), ExecuteInEditMode]
 public class BlackboardComponent : MonoBehaviour
 {
     private Npc npc;
