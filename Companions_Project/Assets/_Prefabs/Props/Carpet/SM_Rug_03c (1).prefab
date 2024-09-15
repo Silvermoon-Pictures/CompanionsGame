@@ -66,5 +66,56 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bc581cc37b3acde409071c598a200dda,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 450482001592629205}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bc581cc37b3acde409071c598a200dda,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 386757087257576247}
   m_SourcePrefab: {fileID: 100100000, guid: bc581cc37b3acde409071c598a200dda, type: 3}
+--- !u!1 &4522855762037372915 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bc581cc37b3acde409071c598a200dda,
+    type: 3}
+  m_PrefabInstance: {fileID: 3604287677515287202}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &450482001592629205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4522855762037372915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86df15996814cff45aed711a3ccf2a0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paintingData: {fileID: 11400000, guid: 0e26ad11fa931214eacf5dc0d7f0e577, type: 2}
+  hullData: {fileID: 11400000, guid: 4d32212785f437f49970ef914dd77e8c, type: 2}
+--- !u!136 &386757087257576247
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4522855762037372915}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.12197749
+  m_Height: 1.8978645
+  m_Direction: 2
+  m_Center: {x: -0.0000015236437, y: 0.0000015236437, z: 0.03212869}

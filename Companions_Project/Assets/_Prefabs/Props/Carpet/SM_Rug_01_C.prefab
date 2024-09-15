@@ -72,5 +72,56 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: -1745069078248480383, guid: cf5aca5cdc09ed447a59418d05776fea, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -9059144846216327560, guid: cf5aca5cdc09ed447a59418d05776fea,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2760908265869607918}
+    - targetCorrespondingSourceObject: {fileID: -9059144846216327560, guid: cf5aca5cdc09ed447a59418d05776fea,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9053948707411698977}
   m_SourcePrefab: {fileID: 100100000, guid: cf5aca5cdc09ed447a59418d05776fea, type: 3}
+--- !u!1 &8783129801902186938 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -9059144846216327560, guid: cf5aca5cdc09ed447a59418d05776fea,
+    type: 3}
+  m_PrefabInstance: {fileID: 8909388657009487810}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2760908265869607918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8783129801902186938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86df15996814cff45aed711a3ccf2a0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paintingData: {fileID: 11400000, guid: 39d499f3a69810e429ca068f55d74528, type: 2}
+  hullData: {fileID: 11400000, guid: 1d026b0cf0029814fa9c3bcbb56e54fe, type: 2}
+--- !u!136 &9053948707411698977
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8783129801902186938}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.2899108
+  m_Height: 2.6022341
+  m_Direction: 0
+  m_Center: {x: -0.00006429116, y: -0.061557677, z: 0.17452696}

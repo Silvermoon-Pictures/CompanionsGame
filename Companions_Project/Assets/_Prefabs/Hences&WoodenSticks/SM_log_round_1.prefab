@@ -81,7 +81,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 644066895947153489, guid: d62c677be0abda74585a966d645963fe,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 455715353080924480}
+      addedObject: {fileID: 6351556668122392143}
+    - targetCorrespondingSourceObject: {fileID: 644066895947153489, guid: d62c677be0abda74585a966d645963fe,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 898446990847868430}
   m_SourcePrefab: {fileID: 100100000, guid: d62c677be0abda74585a966d645963fe, type: 3}
 --- !u!1 &7160975262307518421 stripped
 GameObject:
@@ -89,14 +93,28 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7750917482901653380}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &455715353080924480
-MeshCollider:
+--- !u!114 &6351556668122392143
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7160975262307518421}
-  m_Material: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86df15996814cff45aed711a3ccf2a0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paintingData: {fileID: 11400000, guid: 1c488372e3fe06b44959f2995ba4944d, type: 2}
+  hullData: {fileID: 11400000, guid: 4f6b51fb89fadb64594f60dc27aac012, type: 2}
+--- !u!136 &898446990847868430
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7160975262307518421}
+  m_Material: {fileID: 13400000, guid: bc79df39e28ae834cab415b38df8af2e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -107,7 +125,8 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5021936057050536106, guid: d62c677be0abda74585a966d645963fe, type: 3}
+  serializedVersion: 2
+  m_Radius: 0.104042865
+  m_Height: 3.0997615
+  m_Direction: 0
+  m_Center: {x: -0.0010059973, y: 0.0013520952, z: 0.000052742515}

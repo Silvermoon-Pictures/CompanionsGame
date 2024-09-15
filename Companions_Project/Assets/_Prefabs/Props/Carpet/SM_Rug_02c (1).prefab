@@ -66,5 +66,56 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cd61939c8cd7a3342b8680a80d64f196,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3695198975968176161}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cd61939c8cd7a3342b8680a80d64f196,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2026377437669843332}
   m_SourcePrefab: {fileID: 100100000, guid: cd61939c8cd7a3342b8680a80d64f196, type: 3}
+--- !u!1 &2103573551420959575 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: cd61939c8cd7a3342b8680a80d64f196,
+    type: 3}
+  m_PrefabInstance: {fileID: 1292547584666588678}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3695198975968176161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103573551420959575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86df15996814cff45aed711a3ccf2a0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paintingData: {fileID: 11400000, guid: e4822c0f882c73a46abbf22e2abdae19, type: 2}
+  hullData: {fileID: 11400000, guid: c92c55604899b1744b7211816e6aebc2, type: 2}
+--- !u!136 &2026377437669843332
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103573551420959575}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.12197467
+  m_Height: 1.9030565
+  m_Direction: 2
+  m_Center: {x: 0, y: -0.000004414469, z: 0.03472531}
