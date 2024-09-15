@@ -276,17 +276,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c756f3eba2e432e4abeccb59a5e8c7b1,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c756f3eba2e432e4abeccb59a5e8c7b1,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c756f3eba2e432e4abeccb59a5e8c7b1,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c756f3eba2e432e4abeccb59a5e8c7b1,
         type: 3}
@@ -406,7 +406,7 @@ MonoBehaviour:
         objectsHistory:
           rid: 2870530534402162921
         objectMeshPairs:
-          rid: 2870530534402162924
+          rid: 2870530534402162982
         currentLodLevelSettings:
         - reductionStrength: 0
           transitionHeight: 0.6
@@ -493,7 +493,7 @@ MonoBehaviour:
         reductionStrength: 0
         reductionPending: 0
         prevFeasibleTarget: {fileID: 780949266279890120}
-        runOnThreads: 0
+        runOnThreads: 1
         triangleCount: 8935
         lastDrawer: {fileID: 0}
         foldoutAutoLOD: 0
@@ -656,34 +656,34 @@ MonoBehaviour:
           choiceFilteringMode: 0
           choiceCompressionQuality: 1
           choiceCompressionType: 0
-    - rid: 2870530534402162924
-      type: {class: DataContainer/ObjectMeshPair, ns: BrainFailProductions.PolyFew,
-        asm: Assembly-CSharp}
-      data:
-        _Buckets: ffffffffffffffff00000000
-        _HashCodes: 360f0b000000000000000000
-        _Next: ffffffff0000000000000000
-        _Count: 1
-        _Version: 1
-        _FreeList: -1
-        _FreeCount: 0
-        _Keys:
-        - {fileID: 780949266279890120}
-        - {fileID: 0}
-        - {fileID: 0}
-        _Values:
-        - attachedToMeshFilter: 1
-          mesh: {fileID: 5783707781615440777, guid: c756f3eba2e432e4abeccb59a5e8c7b1,
-            type: 3}
-        - attachedToMeshFilter: 0
-          mesh: {fileID: 0}
-        - attachedToMeshFilter: 0
-          mesh: {fileID: 0}
     - rid: 2870530534402162925
       type: {class: DataContainer/LODBackup, ns: BrainFailProductions.PolyFew, asm: Assembly-CSharp}
       data:
         originalRenderers: []
         lodParentObject: {fileID: 3308788001842278281}
+    - rid: 2870530534402162982
+      type: {class: DataContainer/ObjectMeshPair, ns: BrainFailProductions.PolyFew,
+        asm: Assembly-CSharp}
+      data:
+        _Buckets: 0100000002000000ffffffff
+        _HashCodes: 8ead180094ad1800a4ad1800
+        _Next: ffffffff00000000ffffffff
+        _Count: 3
+        _Version: 3
+        _FreeList: -1
+        _FreeCount: 0
+        _Keys:
+        - {fileID: 780949266279890120}
+        - {fileID: 2520129706559220102}
+        - {fileID: 4896859728293819908}
+        _Values:
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 5783707781615440777, guid: c756f3eba2e432e4abeccb59a5e8c7b1,
+            type: 3}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: 9887f0fa94a50484f937d81fd1a00eb0, type: 2}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: ad1588d5af864f64aab6f91c9b9a5f76, type: 2}
 --- !u!205 &3038251975723615505
 LODGroup:
   m_ObjectHideFlags: 0
@@ -706,7 +706,7 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3359278002337561627}
-  - screenRelativeHeight: 0.016878359
+  - screenRelativeHeight: 0.046722915
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4820018476174845283}
