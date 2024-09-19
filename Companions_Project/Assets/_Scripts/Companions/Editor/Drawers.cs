@@ -55,6 +55,7 @@ public class ReadOnlyDrawer : PropertyDrawer
 public class ExposedPropertyDrawer : PropertyDrawer
 {
     private List<string> blackboardProperties = new();
+    private const int DROPDOWN_MARGIN = 5;
     
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
@@ -79,7 +80,8 @@ public class ExposedPropertyDrawer : PropertyDrawer
         Vector2 labelSize = labelStyle.CalcSize(label);
         float labelWidth = labelSize.x;
         Rect labelRect = new Rect(position.x, position.y, labelWidth, position.height);
-        Rect dropdownRect = new Rect(position.x + labelWidth + 5f, position.y, position.width - labelWidth - 5f, position.height);
+        Rect dropdownRect = new Rect(position.x + labelWidth + DROPDOWN_MARGIN, position.y, position.width - labelWidth - DROPDOWN_MARGIN, position.height);
+        
         EditorGUI.LabelField(labelRect, label);
         selectedIndex = EditorGUI.Popup(dropdownRect, selectedIndex, blackboardProperties.ToArray());
         
