@@ -67,6 +67,7 @@ public class ExposedPropertyDrawer : PropertyDrawer
         if (blackboardProperties.Count != asset.ExposedProperties.Count)
         {
             blackboardProperties.Clear();
+            blackboardProperties.Add("None");
             foreach (var p in asset.ExposedProperties)
             {
                 blackboardProperties.Add(p.propertyName);
