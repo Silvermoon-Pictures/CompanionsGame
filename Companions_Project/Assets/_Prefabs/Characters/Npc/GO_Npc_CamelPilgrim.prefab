@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4618234446811924685}
   - component: {fileID: 5820286231700266073}
-  - component: {fileID: 7630246460827573675}
   - component: {fileID: 5228558465404988132}
   - component: {fileID: 2908185856780472645}
   - component: {fileID: 5952986752114459924}
+  - component: {fileID: 9016881965087085828}
   m_Layer: 7
   m_Name: GO_Npc_CamelPilgrim
   m_TagString: Untagged
@@ -52,22 +52,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <NpcData>k__BackingField: {fileID: 11400000, guid: d4ab3ad2c215ac2478daadd6806ba0db,
     type: 2}
---- !u!114 &7630246460827573675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7169469422410704948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a2e15744b405f841b70d9addb53b775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dictionaryEntries:
-  - key:
-      identifier: PilgrimPath
-    value: {fileID: 0}
 --- !u!114 &5228558465404988132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +120,18 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.08, z: 0.82}
+--- !u!114 &9016881965087085828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7169469422410704948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ac1e0fe776496e49bef73349c52a27b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3228420842738663780
 PrefabInstance:
   m_ObjectHideFlags: 0
