@@ -62,17 +62,13 @@ public class ExposedPropertyDrawer : PropertyDrawer
 
         BaseAction asset = (BaseAction)property.serializedObject.targetObject;
         if (asset == null)
+        {
+            Debug.LogError("Exposed Property is only supported in an Action asset!");
             return;
+        }
 
         if (blackboardProperties.Count != asset.ExposedProperties.Count)
-        {
-            blackboardProperties.Clear();
-            blackboardProperties.Add("None");
-            foreach (var p in asset.ExposedProperties)
-            {
-                blackboardProperties.Add(p.propertyName);
-            }
-        }
+            FillBlackboardProperties(asset);
         
         SerializedProperty prop = property.FindPropertyRelative(nameof(BlackboardProperty.propertyName));
         int selectedIndex = 0;
@@ -91,6 +87,16 @@ public class ExposedPropertyDrawer : PropertyDrawer
         prop.serializedObject.ApplyModifiedProperties();
         
         EditorGUI.EndProperty();
+    }
+
+    private void FillBlackboardProperties(BaseAction asset)
+    {
+        blackboardProperties.Clear();
+        blackboardProperties.Add("None");
+        foreach (var p in asset.ExposedProperties)
+        {
+            blackboardProperties.Add(p.propertyName);
+        }
     }
 }
 
