@@ -54,50 +54,42 @@ public class ReadOnlyDrawer : PropertyDrawer
 [CustomPropertyDrawer(typeof(BlackboardProperty))]
 public class ExposedPropertyDrawer : PropertyDrawer
 {
+    private List<string> blackboardProperties = new();
+    
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         EditorGUI.BeginProperty(position, label, property);
 
-        var propertyNameRect = new Rect(position.x, position.y, position.width / 2, position.height);
-        SerializedProperty propertyName = property.FindPropertyRelative("propertyName");
-        EditorGUI.PropertyField(propertyNameRect, propertyName, GUIContent.none);
-        HandleDragAndDrop(propertyNameRect, propertyName);
+        BaseAction asset = (BaseAction)property.serializedObject.targetObject;
+        if (asset == null)
+            return;
 
-        EditorGUI.EndProperty();
-    }
-    
-    private void HandleDragAndDrop(Rect dropArea, SerializedProperty propertyValue)
-    {
-        Event evt = Event.current;
-
-        switch (evt.type)
+        if (blackboardProperties.Count != asset.ExposedProperties.Count)
         {
-            case EventType.DragUpdated:
-            case EventType.DragPerform:
-                if (dropArea.Contains(evt.mousePosition))
-                {
-                    // Change mouse icon when dragging over the drop area
-                    DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
-
-                    if (evt.type == EventType.DragPerform)
-                    {
-                        DragAndDrop.AcceptDrag();
-
-                        // Get dragged data (in this case, blackboard property names)
-                        if (DragAndDrop.GetGenericData("BlackboardProperty") is string droppedPropertyName)
-                        {
-                            // Set the property value to the dropped blackboard property name
-                            propertyValue.stringValue = droppedPropertyName;
-
-                            // Mark the property as dirty to reflect changes
-                            propertyValue.serializedObject.ApplyModifiedProperties();
-                        }
-
-                        evt.Use();
-                    }
-                }
-                break;
+            blackboardProperties.Clear();
+            foreach (var p in asset.ExposedProperties)
+            {
+                blackboardProperties.Add(p.propertyName);
+            }
         }
+        
+        SerializedProperty prop = property.FindPropertyRelative(nameof(BlackboardProperty.propertyName));
+        int selectedIndex = 0;
+        if (blackboardProperties.Contains(prop.stringValue))
+            selectedIndex = blackboardProperties.IndexOf(prop.stringValue);
+        
+        GUIStyle labelStyle = GUI.skin.label;
+        Vector2 labelSize = labelStyle.CalcSize(label);
+        float labelWidth = labelSize.x;
+        Rect labelRect = new Rect(position.x, position.y, labelWidth, position.height);
+        Rect dropdownRect = new Rect(position.x + labelWidth + 5f, position.y, position.width - labelWidth - 5f, position.height);
+        EditorGUI.LabelField(labelRect, label);
+        selectedIndex = EditorGUI.Popup(dropdownRect, selectedIndex, blackboardProperties.ToArray());
+        
+        prop.stringValue = blackboardProperties[selectedIndex];
+        prop.serializedObject.ApplyModifiedProperties();
+        
+        EditorGUI.EndProperty();
     }
 }
 

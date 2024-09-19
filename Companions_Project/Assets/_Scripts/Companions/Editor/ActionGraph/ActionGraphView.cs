@@ -114,24 +114,23 @@ public class ActionGraphView : GraphView
 
         property.propertyName = localPropertyName;
         
-        
-        
-        var container = new VisualElement();
-        container.style.flexDirection = FlexDirection.Row;
-        
-        var blackboardField = new BlackboardField { text = property.propertyName };
-
-
-        blackboardField.RegisterCallback<DragUpdatedEvent>(evt =>
+        var container = new VisualElement
         {
-            DragAndDrop.PrepareStartDrag();
-            DragAndDrop.SetGenericData("BlackboardProperty", property.propertyName);
-            DragAndDrop.StartDrag("Dragging Blackboard Property");
-            DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
-        });
-        
-        
-        blackboardField.style.alignSelf = Align.FlexEnd;
+            style =
+            {
+                flexDirection = FlexDirection.Row
+            }
+        };
+
+        var blackboardField = new BlackboardField
+        {
+            text = property.propertyName,
+            style =
+            {
+                alignSelf = Align.FlexEnd
+            }
+        };
+
         container.Add(blackboardField);
         
         Button removeButton = new(() => RemoveExposedProperty(property, container))
