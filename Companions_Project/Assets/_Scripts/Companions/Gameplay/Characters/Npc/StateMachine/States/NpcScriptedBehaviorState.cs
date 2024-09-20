@@ -32,7 +32,7 @@ namespace Companions.StateMachine
             {
                 npc = owner,
                 animator = context.animator,
-                dictionaryComponent = owner.dictionaryComponent,
+                blackboard = owner.blackboardComponent,
             };
 
 

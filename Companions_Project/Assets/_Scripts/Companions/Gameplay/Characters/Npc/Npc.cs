@@ -1,16 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Companions.Common;
 using Companions.StateMachine;
 using Companions.Systems;
-using Silvermoon.Core;
 using Silvermoon.Movement;
 using Silvermoon.Utils;
 using UnityEngine;
-using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(BlackboardComponent))]
 public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
 {
     [field: SerializeField]
@@ -26,7 +22,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
     public bool HasAction => stateMachineContext.currentActionData != null;
 
     internal NpcFSMContext stateMachineContext;
-    internal DictionaryComponent dictionaryComponent;
+    internal BlackboardComponent blackboardComponent;
 
     private void Awake()
     {
@@ -34,7 +30,7 @@ public partial class Npc : MonoBehaviour, ITargetable, ICompanionComponent
         // Instantiate(visual, transform);
         
         MovementComponent = GetComponent<MovementComponent>();
-        dictionaryComponent = GetComponent<DictionaryComponent>();
+        blackboardComponent = GetComponent<BlackboardComponent>();
         stateMachineContext = new(0f)
         {
             animator = GetComponentInChildren<Animator>(),

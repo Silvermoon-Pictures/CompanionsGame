@@ -7,11 +7,11 @@ using UnityEngine;
 public class FindTargetNode : ActionGraphNode
 {
     public bool useDictionaryComponent;
-    public Identifier targetIdentifier;
+    public BlackboardProperty property = null;
     
     public override IEnumerator Execute(SubactionContext context)
     {
-        context.target = FindTarget(context, targetIdentifier, useDictionaryComponent);
+        context.target = FindTarget(context, property, useDictionaryComponent);
         yield break;
     }
 }

@@ -8,7 +8,7 @@ public class SubactionContext
     public Npc npc;
     public Animator animator;
     public GameObject target;
-    public DictionaryComponent dictionaryComponent;
+    public BlackboardComponent blackboard;
     public EventArgs actionCallback;
 }
 

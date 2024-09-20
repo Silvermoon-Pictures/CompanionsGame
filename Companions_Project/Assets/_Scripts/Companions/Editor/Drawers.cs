@@ -5,6 +5,7 @@ using Silvermoon.Core;
 using UnityEditor;
 using Companions.Common;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [CustomPropertyDrawer(typeof(TypeFilterAttribute))]
 public class TypeDrawer : PropertyDrawer
@@ -38,6 +39,7 @@ public class TypeDrawer : PropertyDrawer
     }
 }
 
+
 [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
 public class ReadOnlyDrawer : PropertyDrawer
 {
@@ -46,6 +48,57 @@ public class ReadOnlyDrawer : PropertyDrawer
         GUI.enabled = false;
         EditorGUI.PropertyField(position, property, label, true);
         GUI.enabled = true;
+    }
+}
+
+[CustomPropertyDrawer(typeof(BlackboardProperty))]
+public class ExposedPropertyDrawer : PropertyDrawer
+{
+    private List<string> blackboardProperties = new();
+    private const int DROPDOWN_MARGIN = 5;
+    
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        EditorGUI.BeginProperty(position, label, property);
+
+        BaseAction asset = (BaseAction)property.serializedObject.targetObject;
+        if (asset == null)
+        {
+            Debug.LogError("Exposed Property is only supported in an Action asset!");
+            return;
+        }
+
+        if (blackboardProperties.Count != asset.ExposedProperties.Count)
+            FillBlackboardProperties(asset);
+        
+        SerializedProperty prop = property.FindPropertyRelative(nameof(BlackboardProperty.propertyName));
+        int selectedIndex = 0;
+        if (blackboardProperties.Contains(prop.stringValue))
+            selectedIndex = blackboardProperties.IndexOf(prop.stringValue);
+        
+        GUIStyle labelStyle = GUI.skin.label;
+        Vector2 labelSize = labelStyle.CalcSize(label);
+        float labelWidth = labelSize.x;
+        Rect labelRect = new Rect(position.x, position.y, labelWidth, position.height);
+        Rect dropdownRect = new Rect(position.x + labelWidth + DROPDOWN_MARGIN, position.y, position.width - labelWidth - DROPDOWN_MARGIN, position.height);
+        
+        EditorGUI.LabelField(labelRect, label);
+        selectedIndex = EditorGUI.Popup(dropdownRect, selectedIndex, blackboardProperties.ToArray());
+        
+        prop.stringValue = blackboardProperties[selectedIndex];
+        prop.serializedObject.ApplyModifiedProperties();
+        
+        EditorGUI.EndProperty();
+    }
+
+    private void FillBlackboardProperties(BaseAction asset)
+    {
+        blackboardProperties.Clear();
+        blackboardProperties.Add("None");
+        foreach (var p in asset.ExposedProperties)
+        {
+            blackboardProperties.Add(p.propertyName);
+        }
     }
 }
 

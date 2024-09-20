@@ -22,6 +22,9 @@ public class ActionGraphView : GraphView
     public Dictionary<Edge, ActionGraphConnection> connectionDictionary;
 
     private ActionGraphSearchProvider searchProvider;
+    public Blackboard blackboard;
+    public List<ActionGraphExposedProperty> exposedProperties = new();
+    
     public ActionGraphView(SerializedObject serializedObject, ActionGraph window)
     {
         this.serializedObject = serializedObject;
@@ -43,6 +46,8 @@ public class ActionGraphView : GraphView
         background.name = "Grid";
         Add(background);
         background.SendToBack();
+
+        ConstructBlackboard();
         
         SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale); 
         this.AddManipulator(new ContentDragger());
@@ -53,10 +58,114 @@ public class ActionGraphView : GraphView
         AddStartNode();
         AddExitNode();
         DrawNodes();
+        LoadExposedProperties();
         DrawConnections();
 
         graphViewChanged += OnGraphViewChangedEvent;
     }
+
+    private void LoadExposedProperties()
+    {
+        foreach (var exposedProperty in actionAsset.ExposedProperties)
+        {
+            AddBlackboardProperty(exposedProperty);
+        }
+        
+        serializedObject.Update();
+    }
+
+    private void ConstructBlackboard()
+    {
+        blackboard = new Blackboard(this);
+        var titleElement = blackboard.Q<Label>("subTitleLabel");
+        
+        titleElement.style.fontSize = ActionGraphEditorSettings.Settings.blackboardTitleSize;
+        titleElement.style.color = new(ActionGraphEditorSettings.Settings.blackboardTitleColor);
+        titleElement.style.alignSelf = Align.Center;
+        var blackboardSection = new BlackboardSection() { title = "Exposed Properties" };
+        blackboard.Add(blackboardSection);
+        blackboard.style.alignSelf = Align.FlexEnd;
+        blackboard.style.width = 300;
+        blackboard.style.height = 400;
+        blackboard.addItemRequested = (b) => CreatePropertyToBlackboardInternal();
+        
+        blackboard.editTextRequested = (b, element, newValue) =>
+        {
+            string oldPropertyName = ((BlackboardField)element).text;
+            
+            if (exposedProperties.Any(x => x.propertyName == newValue))
+            {
+                EditorUtility.DisplayDialog("Error", "This property name already exists!", "OK");
+                return;
+            }
+
+            int propertyIndex = exposedProperties.FindIndex(x => x.propertyName == oldPropertyName);
+            exposedProperties[propertyIndex].propertyName = newValue;
+            ((BlackboardField)element).text = newValue;
+        };
+        Add(blackboard);
+    }
+
+    private void AddBlackboardProperty(ActionGraphExposedProperty property)
+    {
+        string localPropertyName = property.propertyName;
+        while (exposedProperties.Any(x => x.propertyName == localPropertyName))
+            localPropertyName = $"{localPropertyName}(1)";
+
+        property.propertyName = localPropertyName;
+        
+        var container = new VisualElement
+        {
+            style =
+            {
+                flexDirection = FlexDirection.Row
+            }
+        };
+
+        var blackboardField = new BlackboardField
+        {
+            text = property.propertyName,
+            style =
+            {
+                alignSelf = Align.FlexEnd
+            }
+        };
+
+        container.Add(blackboardField);
+        
+        Button removeButton = new(() => RemoveExposedProperty(property, container))
+        {
+            text = "x",
+            style =
+            {
+                backgroundColor = new Color(0,0,0,0.1f),
+                width = 25,
+                height = 20,
+            }
+        };
+        
+        container.Add(removeButton); 
+        
+        blackboard.Add(container);
+        exposedProperties.Add(property);
+    }
+    
+    private void CreatePropertyToBlackboardInternal()
+    {
+        ActionGraphExposedProperty exposedProperty = new()
+        {
+            
+        };
+        AddBlackboardProperty(exposedProperty);
+        actionAsset.ExposedProperties.Add(exposedProperty);
+    }
+
+    private void RemoveExposedProperty(ActionGraphExposedProperty property, VisualElement container)
+    {
+        blackboard.Remove(container);
+        exposedProperties.Remove(property);
+        actionAsset.ExposedProperties.Remove(property);
+    } 
 
     private void AddStartNode()
     {
