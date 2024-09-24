@@ -6,6 +6,25 @@ using System.Reflection;
 
 namespace Silvermoon.Utils
 {
+    public static class UnityUtils
+    {
+        public static GameObject GetRootGameObject(this GameObject target)
+        {
+            Transform parent = target.transform;
+            while (parent != null)
+            {
+                Transform root = parent;
+                parent = parent.parent;
+                if (parent == null)
+                    return root.gameObject;
+            }
+
+            return null;
+        }
+        
+        public static GameObject GetRootGameObject(this Transform target) => GetRootGameObject(target.gameObject);
+    }
+    
     public static class ReflectionHelper
     {
         private static Dictionary<Assembly, List<string>> assemblyReferences = new();
