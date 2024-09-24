@@ -8,14 +8,14 @@ namespace Silvermoon.Utils
 {
     public static class UnityUtils
     {
-        public static GameObject GetRootGameObject(this GameObject target)
+        public static GameObject GetRootGameObject(this GameObject target, Func<GameObject, bool> filter = null)
         {
             Transform parent = target.transform;
             while (parent != null)
             {
                 Transform root = parent;
                 parent = parent.parent;
-                if (parent == null)
+                if (parent == null || (filter?.Invoke(root.gameObject) ?? true))
                     return root.gameObject;
             }
 
