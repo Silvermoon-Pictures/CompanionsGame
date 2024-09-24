@@ -45,13 +45,13 @@ public class WorldPartitionerWindow : EditorWindow
     
     private static IEnumerable<GameObject> GetObjects()
     {
-        foreach (LevelDesignComponent comp in FindObjectsOfType<LevelDesignComponent>(true))
+        foreach (MeshRenderer comp in FindObjectsOfType<MeshRenderer>(true))
         {
-            GameObject root = comp.gameObject.GetRootGameObject();
-            yield return root;
+            GameObject obj = comp.gameObject;
+            yield return obj;
         }
     }
-    
+
     private void ActivateNearbyObjects()
     {
         Vector3 cameraPosition = SceneView.lastActiveSceneView.camera.transform.position;
