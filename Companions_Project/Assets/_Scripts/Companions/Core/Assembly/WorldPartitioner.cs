@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
+using Silvermoon.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -44,12 +45,10 @@ public class WorldPartitionerWindow : EditorWindow
     
     private static IEnumerable<GameObject> GetObjects()
     {
-        foreach (GameObject obj in FindObjectsOfType<GameObject>(true))
+        foreach (LevelDesignComponent comp in FindObjectsOfType<LevelDesignComponent>(true))
         {
-            if (!obj.TryGetComponent(out LevelDesignComponent _))
-                continue;
-
-            yield return obj;
+            GameObject root = comp.gameObject.GetRootGameObject();
+            yield return root;
         }
     }
     
