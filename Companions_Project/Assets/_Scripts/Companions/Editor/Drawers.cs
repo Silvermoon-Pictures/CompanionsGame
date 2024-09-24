@@ -68,7 +68,7 @@ public class ExposedPropertyDrawer : PropertyDrawer
             return;
         }
 
-        if (blackboardProperties.Count != asset.ExposedProperties.Count)
+        if (asset.ExposedProperties.Count == 0 || blackboardProperties.Count -1 != asset.ExposedProperties.Count)
             FillBlackboardProperties(asset);
         
         SerializedProperty prop = property.FindPropertyRelative(nameof(BlackboardProperty.propertyName));
