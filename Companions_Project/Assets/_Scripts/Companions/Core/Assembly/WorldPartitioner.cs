@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+[InitializeOnLoad]
 public class WorldPartitionerWindow : EditorWindow
 {
     private float activateDistance = 100f;
@@ -12,22 +13,30 @@ public class WorldPartitionerWindow : EditorWindow
     {
         GetWindow<WorldPartitionerWindow>("World Partitioner");
     }
+    
+    static WorldPartitionerWindow()
+    {
+        EditorApplication.playModeStateChanged += OnPlayModeChanged;
+    }
 
+    private static void OnPlayModeChanged(PlayModeStateChange state)
+    {
+        if (state == PlayModeStateChange.ExitingEditMode)
+            SetActivateAllObjects(true);
+    }
     private void OnGUI()
     {
         activateDistance = EditorGUILayout.FloatField("Activate Distance", activateDistance);
 
         if (GUILayout.Button("Activate Nearby Objects"))
         {
-            ActivateNearbyObjects(activateDistance);
+            ActivateNearbyObjects();
         }
-
-        if (GUILayout.Button("Activate All Objects"))
+        else if (GUILayout.Button("Activate All Objects"))
         {
             SetActivateAllObjects(true);
         }
-
-        if (GUILayout.Button("Disable All Objects"))
+        else if (GUILayout.Button("Disable All Objects"))
         {
             SetActivateAllObjects(false);
         }
@@ -44,7 +53,7 @@ public class WorldPartitionerWindow : EditorWindow
         }
     }
     
-    private void ActivateNearbyObjects(float distance)
+    private void ActivateNearbyObjects()
     {
         Vector3 cameraPosition = SceneView.lastActiveSceneView.camera.transform.position;
         Vector2 cameraGridPosition = new Vector2(cameraPosition.x, cameraPosition.z);
@@ -53,12 +62,12 @@ public class WorldPartitionerWindow : EditorWindow
         {
             Vector3 objPosition = obj.transform.position;
             Vector2 objGridPosition = new(objPosition.x, objPosition.z);
-            bool activate = Vector2.Distance(cameraGridPosition, objGridPosition) < distance;
+            bool activate = Vector2.Distance(cameraGridPosition, objGridPosition) < activateDistance;
             obj.SetActive(activate);
         }
     }
 
-    public static void SetActivateAllObjects(bool activate)
+    private static void SetActivateAllObjects(bool activate)
     {
         foreach (var obj in GetObjects())
         {
