@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0de965f2e710c1c489ead8e62cd25da0, type: 3}
+  m_Name: RockPillarBase_3 Painting Data
+  m_EditorClassIdentifier: 
+  hullData: {fileID: 11400000, guid: 2e360206d38536a418479edb466b8bf0, type: 2}
+  sourceMesh: {fileID: 1881770153570232460, guid: ca9a21f6fe931bd4391570384496b9e2,
+    type: 3}
+  sourceMeshHash:
+    data: 1eda5f8b032f441a7c5967ccbd55a62f7d846ba3
+  activeHull: 0
+  faceThickness: 0.1
+  hulls:
+  - name: Hull 1
+    isVisible: 1
+    type: 5
+    colour: {r: 0, g: 1, b: 1, a: 0.7}
+    material: {fileID: 0}
+    enableInflation: 0
+    inflationAmount: 0.01
+    boxFitMethod: 1
+    maxPlanes: 255
+    isTrigger: 0
+    isChildCollider: 0
+    selectedFaces: 
+    cachedTriangleVertices: []
+    collisionMesh: {fileID: -4490789680881800832, guid: 2e360206d38536a418479edb466b8bf0,
+      type: 2}
+    faceCollisionMesh: {fileID: 0}
+    faceBoxCenter: {x: 0, y: 0, z: 0}
+    faceBoxSize: {x: 0, y: 0, z: 0}
+    faceAsBoxRotation: {x: 0, y: 0, z: 0, w: 0}
+    autoMeshes:
+    - {fileID: 8149351500142977652, guid: 2e360206d38536a418479edb466b8bf0, type: 2}
+    hasColliderError: 0
+    numColliderFaces: 528
+    noInputError: 0
+  autoHullPreset: 4
+  vhacdParams:
+    concavity: 0.0009999848
+    alpha: 0.05
+    beta: 0.05
+    minVolumePerCH: 0.0000999999
+    resolution: 100065
+    maxNumVerticesPerCH: 64
+    planeDownsampling: 4
+    convexhullDownsampling: 4
+    pca: 0
+    mode: 0
+    convexhullApproximation: 1
+    oclAcceleration: 0
+    maxConvexHulls: 1
+    projectHullVertices: 1
+  hasLastVhacdTimings: 0
+  lastVhacdPreset: 1
+  lastVhacdDurationSecs: 0
+  suppressMeshModificationWarning: 0
