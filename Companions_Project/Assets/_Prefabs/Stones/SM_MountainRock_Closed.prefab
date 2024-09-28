@@ -72,5 +72,55 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: -5920423914768835010, guid: 174e68e6d5c660246ae8dd2452f059ca, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8261252895353892600, guid: 174e68e6d5c660246ae8dd2452f059ca,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4005983457775999441}
+    - targetCorrespondingSourceObject: {fileID: 8261252895353892600, guid: 174e68e6d5c660246ae8dd2452f059ca,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6123173669087049952}
   m_SourcePrefab: {fileID: 100100000, guid: 174e68e6d5c660246ae8dd2452f059ca, type: 3}
+--- !u!1 &8652236987680859097 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8261252895353892600, guid: 174e68e6d5c660246ae8dd2452f059ca,
+    type: 3}
+  m_PrefabInstance: {fileID: 772145302928543009}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4005983457775999441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652236987680859097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86df15996814cff45aed711a3ccf2a0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paintingData: {fileID: 11400000, guid: 2d435c4bf6983ad48b50373494de17b4, type: 2}
+  hullData: {fileID: 11400000, guid: f7951f41e313f5a49ba04ae4deb210da, type: 2}
+--- !u!64 &6123173669087049952
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652236987680859097}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5491697110600643010, guid: f7951f41e313f5a49ba04ae4deb210da, type: 2}
