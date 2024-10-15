@@ -15,21 +15,21 @@ MonoBehaviour:
   projectName: Companions
   windowPosition:
     serializedVersion: 2
-    x: 650
-    y: 205
+    x: 1032
+    y: 69
     width: 620
     height: 670
-  representLogsInScene: 1
+  representLogsInScene: 0
   afterMerge: 0
   mergeMethod: 0
   oneMeshPerMaterialParams:
     addMeshCollider: 0
   allInOneParams:
-    materialToUse: {fileID: 0}
-    maxTexturesPerAtlas: 12
-    atlasResolution: 5
+    materialToUse: {fileID: 2100000, guid: a16d95cc533850047a055de2316027ff, type: 2}
+    maxTexturesPerAtlas: 10
+    atlasResolution: 6
     mipMapEdgesSize: 3
-    atlasPadding: 0
+    atlasPadding: 2
     mergeTiledTextures: 1
     useDefaultMainTextureProperty: 1
     mainTexturePropertyToFind: _MainTex
@@ -40,7 +40,7 @@ MonoBehaviour:
     specularMapSupport: 0
     specularMapPropertyToFind: _SpecGlossMap
     specularMapPropertyToInsert: _SpecGlossMap
-    normalMapSupport: 0
+    normalMapSupport: 1
     normalMapPropertyToFind: _BumpMap
     normalMapPropertyToInsert: _BumpMap
     normalMap2Support: 0
@@ -49,17 +49,17 @@ MonoBehaviour:
     heightMapSupport: 0
     heightMapPropertyToFind: _ParallaxMap
     heightMapPropertyToInsert: _ParallaxMap
-    occlusionMapSupport: 0
+    occlusionMapSupport: 1
     occlusionMapPropertyToFind: _OcclusionMap
     occlusionMapPropertyToInsert: _OcclusionMap
-    detailAlbedoMapSupport: 0
+    detailAlbedoMapSupport: 1
     detailMapPropertyToFind: _DetailAlbedoMap
     detailMapPropertyToInsert: _DetailAlbedoMap
-    detailMaskSupport: 0
+    detailMaskSupport: 1
     detailMaskPropertyToFind: _DetailMask
     detailMaskPropertyToInsert: _DetailMask
-    pinkNormalMapsFix: 1
-    addMeshCollider: 0
+    pinkNormalMapsFix: 0
+    addMeshCollider: 1
     highlightUvVertices: 0
   justMaterialColorsParams:
     materialToUse: {fileID: 0}
@@ -73,4 +73,4 @@ MonoBehaviour:
   saveMeshInAssets: 1
   savePrefabOfThis: 0
   prefabName: prefab
-  nameOfThisMerge: Combined Meshes
+  nameOfThisMerge: Tent_Combiner
