@@ -1,5 +1,122 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4841255755494285778
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5795005510655178179}
+  - component: {fileID: 4133083207456672847}
+  - component: {fileID: 8648136090003676506}
+  - component: {fileID: 6454250012064076153}
+  m_Layer: 0
+  m_Name: Metalware_Combiner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 12
+  m_IsActive: 1
+--- !u!4 &5795005510655178179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4841255755494285778}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -39.398407, y: -140.41034, z: 186.27737}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2899195084021014518}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4133083207456672847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4841255755494285778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41659897ac0c84f49977383a29dd0100, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mergeMethodUsed: 0
+  undoMethod: 0
+  originalsGameObjectsWithMesh:
+  - gameObject: {fileID: 5611962957354371023}
+    originalGoState: 1
+    meshRenderer: {fileID: 6260371696896550426}
+    originalMrState: 1
+  - gameObject: {fileID: 105684119830006355}
+    originalGoState: 1
+    meshRenderer: {fileID: 1907146166860098438}
+    originalMrState: 1
+  - gameObject: {fileID: 8665024473225846126}
+    originalGoState: 1
+    meshRenderer: {fileID: 7151898354977275067}
+    originalMrState: 1
+  pathsAndTypesOfAssetsOfThisMerge:
+  - type: 1
+    path: Assets/MT Assets/_AssetsData/Meshes/Metalware_Combiner (20241026204359963).asset
+  thisIsPrefab: 0
+  exportToObjStartIndexOffSet: 0
+  hideWarningsForThisMerge: 0
+--- !u!33 &8648136090003676506
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4841255755494285778}
+  m_Mesh: {fileID: 4300000, guid: 1ed6e7dce8c0dfe42a4f5adf1ac59e84, type: 2}
+--- !u!23 &6454250012064076153
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4841255755494285778}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 257
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: f02615386909984408b6336aeca68ca4, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8392935521753181599
 GameObject:
   m_ObjectHideFlags: 0
@@ -29,6 +146,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5795005510655178179}
   - {fileID: 5091990351945817461}
   - {fileID: 737648646881693929}
   - {fileID: 8289870678904080340}
@@ -42,6 +160,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2899195084021014518}
     m_Modifications:
+    - target: {fileID: 4796958129816135104, guid: d559d70dbd2293d4baa0210b6a6c7d7d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5969825717758926511, guid: d559d70dbd2293d4baa0210b6a6c7d7d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -108,6 +231,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1473652221507879898}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5611962957354371023 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6454437204590806037, guid: d559d70dbd2293d4baa0210b6a6c7d7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1473652221507879898}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6260371696896550426 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4796958129816135104, guid: d559d70dbd2293d4baa0210b6a6c7d7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1473652221507879898}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3898666757287457352
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -171,14 +306,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Metalware_04b_Bronz (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 6150366140374765299, guid: 38abff29b8f930f4f89b67795a652c5e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38abff29b8f930f4f89b67795a652c5e, type: 3}
+--- !u!23 &7151898354977275067 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6150366140374765299, guid: 38abff29b8f930f4f89b67795a652c5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 3898666757287457352}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8289870678904080340 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4976848911919429020, guid: 38abff29b8f930f4f89b67795a652c5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 3898666757287457352}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8665024473225846126 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5645967036313988902, guid: 38abff29b8f930f4f89b67795a652c5e,
     type: 3}
   m_PrefabInstance: {fileID: 3898666757287457352}
   m_PrefabAsset: {fileID: 0}
@@ -245,14 +397,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Metalware_04b_Bronz (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 6150366140374765299, guid: 38abff29b8f930f4f89b67795a652c5e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38abff29b8f930f4f89b67795a652c5e, type: 3}
+--- !u!1 &105684119830006355 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5645967036313988902, guid: 38abff29b8f930f4f89b67795a652c5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5705487052214199669}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &737648646881693929 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4976848911919429020, guid: 38abff29b8f930f4f89b67795a652c5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5705487052214199669}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1907146166860098438 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6150366140374765299, guid: 38abff29b8f930f4f89b67795a652c5e,
     type: 3}
   m_PrefabInstance: {fileID: 5705487052214199669}
   m_PrefabAsset: {fileID: 0}
