@@ -521,7 +521,7 @@ MonoBehaviour:
         objectsHistory:
           rid: 6497500574251745285
         objectMeshPairs:
-          rid: 6497500574251745288
+          rid: 6497500574251745398
         currentLodLevelSettings:
         - reductionStrength: 0
           transitionHeight: 0.6
@@ -625,14 +625,14 @@ MonoBehaviour:
         reductionStrength: 0
         reductionPending: 0
         prevFeasibleTarget: {fileID: 0}
-        runOnThreads: 0
+        runOnThreads: 1
         triangleCount: 5249
         lastDrawer: {fileID: 0}
         foldoutAutoLOD: 0
         foldoutBatchFew: 0
         foldoutAutoLODMultiple: 0
-        objPositionPrevFrame: {x: 0, y: -0.1, z: 0}
-        objScalePrevFrame: {x: 0.7, y: 0.7, z: 0.7}
+        objPositionPrevFrame: {x: 0, y: 0, z: 0}
+        objScalePrevFrame: {x: 0.39999998, y: 0.39999998, z: 0.4}
         considerChildrenBatchFew: 1
         autoLODSavePath: Assets/POLYFEW_LODs
         foldoutAdditionalOpts: 0
@@ -788,34 +788,46 @@ MonoBehaviour:
           choiceFilteringMode: 0
           choiceCompressionQuality: 1
           choiceCompressionType: 0
-    - rid: 6497500574251745288
+    - rid: 6497500574251745289
+      type: {class: DataContainer/LODBackup, ns: BrainFailProductions.PolyFew, asm: Assembly-CSharp}
+      data:
+        originalRenderers: []
+        lodParentObject: {fileID: 6846471909415172049}
+    - rid: 6497500574251745398
       type: {class: DataContainer/ObjectMeshPair, ns: BrainFailProductions.PolyFew,
         asm: Assembly-CSharp}
       data:
-        _Buckets: ffffffff00000000ffffffff
-        _HashCodes: 28c5ff7f0000000000000000
-        _Next: ffffffff0000000000000000
-        _Count: 1
-        _Version: 1
+        _Buckets: 00000000ffffffff01000000ffffffff02000000ffffffff03000000
+        _HashCodes: ba8bff7f2801ff7f1c01ff7f1001ff7f000000000000000000000000
+        _Next: ffffffffffffffffffffffffffffffff000000000000000000000000
+        _Count: 4
+        _Version: 4
         _FreeList: -1
         _FreeCount: 0
         _Keys:
         - {fileID: 7719656684172408232}
+        - {fileID: 2926922968615536126}
+        - {fileID: 7644149602503125848}
+        - {fileID: 2154931108076466535}
+        - {fileID: 0}
         - {fileID: 0}
         - {fileID: 0}
         _Values:
         - attachedToMeshFilter: 1
           mesh: {fileID: -7584044472665248771, guid: 46a486cee91ee9d45b4a5f79e195c69d,
             type: 3}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: 3988ee3cc5a89b84f94a679fcfe6d2bd, type: 2}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: 261ad0b13c7be1546b1da39ecb3584eb, type: 2}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: 991cf61311ac3dc4aac6f93e51a0bf38, type: 2}
         - attachedToMeshFilter: 0
           mesh: {fileID: 0}
         - attachedToMeshFilter: 0
           mesh: {fileID: 0}
-    - rid: 6497500574251745289
-      type: {class: DataContainer/LODBackup, ns: BrainFailProductions.PolyFew, asm: Assembly-CSharp}
-      data:
-        originalRenderers: []
-        lodParentObject: {fileID: 6846471909415172049}
+        - attachedToMeshFilter: 0
+          mesh: {fileID: 0}
 --- !u!205 &7919189175410215593
 LODGroup:
   m_ObjectHideFlags: 0
@@ -825,24 +837,24 @@ LODGroup:
   m_GameObject: {fileID: 7719656684172408232}
   serializedVersion: 2
   m_LocalReferencePoint: {x: -1.6074295, y: 1.2786636, z: 10.654694}
-  m_Size: 38.378563
+  m_Size: 40
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.6
+  - screenRelativeHeight: 0.2
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5861954448810258795}
-  - screenRelativeHeight: 0.4
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 4259656143456646604}
   - screenRelativeHeight: 0.15
     fadeTransitionWidth: 0
     renderers:
+    - renderer: {fileID: 4259656143456646604}
+  - screenRelativeHeight: 0.05
+    fadeTransitionWidth: 0
+    renderers:
     - renderer: {fileID: 3033551683471504009}
-  - screenRelativeHeight: 0.1
+  - screenRelativeHeight: 0.02
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 8862460611735716780}
