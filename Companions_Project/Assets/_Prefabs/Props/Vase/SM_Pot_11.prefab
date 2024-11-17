@@ -390,22 +390,22 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 522fc395be918044d9340cbeb9694654,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.79097
+      value: -2.3619862
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 522fc395be918044d9340cbeb9694654,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.0529969
+      value: 4.65
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 522fc395be918044d9340cbeb9694654,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.77163696
+      value: 2.9287615
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 522fc395be918044d9340cbeb9694654,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.3892891
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 522fc395be918044d9340cbeb9694654,
         type: 3}
@@ -415,7 +415,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 522fc395be918044d9340cbeb9694654,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.92111564
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 522fc395be918044d9340cbeb9694654,
         type: 3}
@@ -430,7 +430,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 522fc395be918044d9340cbeb9694654,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -134.179
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 522fc395be918044d9340cbeb9694654,
         type: 3}
@@ -491,7 +491,7 @@ MonoBehaviour:
         objectsHistory:
           rid: 6497500471834968090
         objectMeshPairs:
-          rid: -2
+          rid: 6497500574251745422
         currentLodLevelSettings:
         - reductionStrength: 0
           transitionHeight: 0.6
@@ -548,14 +548,14 @@ MonoBehaviour:
         lodBackup:
           rid: 6497500471834968097
         textureArraysSettings:
-          rid: -2
+          rid: 6497500574251745423
         materialsToRestore: []
         lastObjMaterialLinks: {fileID: 0}
         relocateMaterialLinks: 0
         reInitializeTempMatProps: 0
         choiceTextureMap: 0
         choiceDiffuseColorSpace: 0
-        batchFewSavePath: 
+        batchFewSavePath: Assets/POLYFEW_LODs
         existingTextureArrays: []
         existingTextureArraysFoldout: 0
         existingTextureArraysSize: 0
@@ -579,15 +579,15 @@ MonoBehaviour:
         reductionPending: 0
         prevFeasibleTarget: {fileID: 0}
         runOnThreads: 0
-        triangleCount: 0
+        triangleCount: 294
         lastDrawer: {fileID: 0}
         foldoutAutoLOD: 0
         foldoutBatchFew: 0
         foldoutAutoLODMultiple: 0
-        objPositionPrevFrame: {x: 0, y: 0, z: 0}
-        objScalePrevFrame: {x: 0, y: 0, z: 0}
+        objPositionPrevFrame: {x: -2.3619862, y: 4.65, z: 2.9287615}
+        objScalePrevFrame: {x: 1.0000002, y: 1.0000002, z: 1.0000002}
         considerChildrenBatchFew: 1
-        autoLODSavePath: 
+        autoLODSavePath: Assets/POLYFEW_LODs
         foldoutAdditionalOpts: 0
         generateUV2: 0
         copyParentStaticFlags: 0
@@ -612,6 +612,175 @@ MonoBehaviour:
       data:
         originalRenderers: []
         lodParentObject: {fileID: 3203228056491573584}
+    - rid: 6497500574251745422
+      type: {class: DataContainer/ObjectMeshPair, ns: BrainFailProductions.PolyFew,
+        asm: Assembly-CSharp}
+      data:
+        _Buckets: 0000000001000000ffffffff02000000ffffffff03000000ffffffff
+        _HashCodes: f0ebef7fdcebef7fd0ebef7fc4ebef7f000000000000000000000000
+        _Next: ffffffffffffffffffffffffffffffff000000000000000000000000
+        _Count: 4
+        _Version: 4
+        _FreeList: -1
+        _FreeCount: 0
+        _Keys:
+        - {fileID: 334114095066393200}
+        - {fileID: 5812581309347576167}
+        - {fileID: 434894929211269889}
+        - {fileID: 4957115520480768685}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        _Values:
+        - attachedToMeshFilter: 1
+          mesh: {fileID: -1743371768489485799, guid: 522fc395be918044d9340cbeb9694654,
+            type: 3}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: d0dd10dd6a09d0e488359337b4872bb9, type: 2}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: 79e1ca94d5ed6bf48a9f2c8f202a8b2d, type: 2}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: ed587353651a16845b40a4d6754893e8, type: 2}
+        - attachedToMeshFilter: 0
+          mesh: {fileID: 0}
+        - attachedToMeshFilter: 0
+          mesh: {fileID: 0}
+        - attachedToMeshFilter: 0
+          mesh: {fileID: 0}
+    - rid: 6497500574251745423
+      type: {class: CombiningInformation/TextureArrayGroup, ns: BrainFailProductions.PolyFew,
+        asm: Assembly-CSharp}
+      data:
+        diffuseArraySettings:
+          resolution:
+            width: 512
+            height: 512
+          filteringMode: 0
+          compressionType: 0
+          compressionQuality: 1
+          anisotropicFilteringLevel: 1
+          choiceResolutionW: 4
+          choiceResolutionH: 4
+          choiceFilteringMode: 0
+          choiceCompressionQuality: 1
+          choiceCompressionType: 0
+        metallicArraySettings:
+          resolution:
+            width: 512
+            height: 512
+          filteringMode: 0
+          compressionType: 0
+          compressionQuality: 1
+          anisotropicFilteringLevel: 1
+          choiceResolutionW: 4
+          choiceResolutionH: 4
+          choiceFilteringMode: 0
+          choiceCompressionQuality: 1
+          choiceCompressionType: 0
+        specularArraySettings:
+          resolution:
+            width: 512
+            height: 512
+          filteringMode: 0
+          compressionType: 0
+          compressionQuality: 1
+          anisotropicFilteringLevel: 1
+          choiceResolutionW: 4
+          choiceResolutionH: 4
+          choiceFilteringMode: 0
+          choiceCompressionQuality: 1
+          choiceCompressionType: 0
+        normalArraySettings:
+          resolution:
+            width: 512
+            height: 512
+          filteringMode: 0
+          compressionType: 0
+          compressionQuality: 1
+          anisotropicFilteringLevel: 1
+          choiceResolutionW: 4
+          choiceResolutionH: 4
+          choiceFilteringMode: 0
+          choiceCompressionQuality: 1
+          choiceCompressionType: 0
+        heightArraySettings:
+          resolution:
+            width: 512
+            height: 512
+          filteringMode: 0
+          compressionType: 0
+          compressionQuality: 1
+          anisotropicFilteringLevel: 1
+          choiceResolutionW: 4
+          choiceResolutionH: 4
+          choiceFilteringMode: 0
+          choiceCompressionQuality: 1
+          choiceCompressionType: 0
+        occlusionArraySettings:
+          resolution:
+            width: 512
+            height: 512
+          filteringMode: 0
+          compressionType: 0
+          compressionQuality: 1
+          anisotropicFilteringLevel: 1
+          choiceResolutionW: 4
+          choiceResolutionH: 4
+          choiceFilteringMode: 0
+          choiceCompressionQuality: 1
+          choiceCompressionType: 0
+        emissiveArraySettings:
+          resolution:
+            width: 512
+            height: 512
+          filteringMode: 0
+          compressionType: 0
+          compressionQuality: 1
+          anisotropicFilteringLevel: 1
+          choiceResolutionW: 4
+          choiceResolutionH: 4
+          choiceFilteringMode: 0
+          choiceCompressionQuality: 1
+          choiceCompressionType: 0
+        detailMaskArraySettings:
+          resolution:
+            width: 512
+            height: 512
+          filteringMode: 0
+          compressionType: 0
+          compressionQuality: 1
+          anisotropicFilteringLevel: 1
+          choiceResolutionW: 4
+          choiceResolutionH: 4
+          choiceFilteringMode: 0
+          choiceCompressionQuality: 1
+          choiceCompressionType: 0
+        detailAlbedoArraySettings:
+          resolution:
+            width: 512
+            height: 512
+          filteringMode: 0
+          compressionType: 0
+          compressionQuality: 1
+          anisotropicFilteringLevel: 1
+          choiceResolutionW: 4
+          choiceResolutionH: 4
+          choiceFilteringMode: 0
+          choiceCompressionQuality: 1
+          choiceCompressionType: 0
+        detailNormalArraySettings:
+          resolution:
+            width: 512
+            height: 512
+          filteringMode: 0
+          compressionType: 0
+          compressionQuality: 1
+          anisotropicFilteringLevel: 1
+          choiceResolutionW: 4
+          choiceResolutionH: 4
+          choiceFilteringMode: 0
+          choiceCompressionQuality: 1
+          choiceCompressionType: 0
 --- !u!205 &3194342622558403233
 LODGroup:
   m_ObjectHideFlags: 0
@@ -621,24 +790,24 @@ LODGroup:
   m_GameObject: {fileID: 334114095066393200}
   serializedVersion: 2
   m_LocalReferencePoint: {x: -0.0000029206276, y: 0.002338022, z: 0.22227612}
-  m_Size: 0.5570102
+  m_Size: 1
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.6
+  - screenRelativeHeight: 0.11992076
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 698184285543133227}
-  - screenRelativeHeight: 0.4
+  - screenRelativeHeight: 0.08080071
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5288238371059574759}
-  - screenRelativeHeight: 0.15
+  - screenRelativeHeight: 0.039661147
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5270007365340190906}
-  - screenRelativeHeight: 0.1
+  - screenRelativeHeight: 0.016341528
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 672489900256006122}

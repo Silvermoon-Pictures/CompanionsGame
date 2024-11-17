@@ -61,14 +61,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4488053506655289733}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.50746125, y: 0.49242577, z: 0.49242577, w: -0.50746125}
-  m_LocalPosition: {x: 0, y: -0.1, z: -2.02}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7257022236420258825}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 270, y: 0, z: -88.277}
+  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 180}
 --- !u!33 &7323734576621782037
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -167,7 +167,7 @@ MonoBehaviour:
         objectsHistory:
           rid: 6497500561315201071
         objectMeshPairs:
-          rid: 6497500561315201076
+          rid: 6497500574251745406
         currentLodLevelSettings:
         - reductionStrength: 0
           transitionHeight: 0.6
@@ -277,8 +277,8 @@ MonoBehaviour:
         foldoutAutoLOD: 0
         foldoutBatchFew: 0
         foldoutAutoLODMultiple: 0
-        objPositionPrevFrame: {x: 0, y: -0.11, z: 0}
-        objScalePrevFrame: {x: 0.74999994, y: 0.74999994, z: 0.75}
+        objPositionPrevFrame: {x: 0, y: -0.1, z: -2.02}
+        objScalePrevFrame: {x: 0.7500002, y: 0.7500002, z: 0.75000024}
         considerChildrenBatchFew: 1
         autoLODSavePath: Assets/POLYFEW_LODs
         foldoutAdditionalOpts: 0
@@ -439,13 +439,13 @@ MonoBehaviour:
       data:
         originalRenderers: []
         lodParentObject: {fileID: 5480992570419807401}
-    - rid: 6497500561315201076
+    - rid: 6497500574251745406
       type: {class: DataContainer/ObjectMeshPair, ns: BrainFailProductions.PolyFew,
         asm: Assembly-CSharp}
       data:
-        _Buckets: ffffffff02000000ffffffff03000000ffffffffffffffff01000000
-        _HashCodes: 6a75cb7ff413cb7fe813cb7fdc13cb7f000000000000000000000000
-        _Next: ffffffffffffffff00000000ffffffff000000000000000000000000
+        _Buckets: 03000000ffffffffffffffff0100000002000000ffffffff00000000
+        _HashCodes: 6637030086370300803703006e370300000000000000000000000000
+        _Next: ffffffffffffffffffffffffffffffff000000000000000000000000
         _Count: 4
         _Version: 4
         _FreeList: -1
