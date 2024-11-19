@@ -6,11 +6,6 @@ using Random = UnityEngine.Random;
 
 namespace Silvermoon.Movement
 {
-    public interface IDirectionProvider
-    {
-        Vector3 Direction { get; }
-    }
-
     public interface ISpeedProvider
     {
         float GetSpeed();
@@ -47,8 +42,7 @@ namespace Silvermoon.Movement
         private Vector3 velocity;
         public Vector3 Velocity => velocity;
         private CollisionFlags collisionFlags;
-
-        private IDirectionProvider directionProvider;
+        
         private ISpeedProvider speedProvider;
 
         private void Awake()
@@ -63,8 +57,7 @@ namespace Silvermoon.Movement
             characterController.material = physicMaterial;
             
             DefaultSpeed = speed;
-
-            directionProvider = GetComponent(typeof(IDirectionProvider)) as IDirectionProvider;
+            
             speedProvider = GetComponent(typeof(ISpeedProvider)) as ISpeedProvider;
         }
 
@@ -87,7 +80,6 @@ namespace Silvermoon.Movement
 
         private void Update()
         {
-            Vector3 direction = directionProvider?.Direction ?? transform.forward;
             float speed = speedProvider?.GetSpeed() ?? this.speed;
 
             var context = new MovementContext(Time.deltaTime)
@@ -100,7 +92,6 @@ namespace Silvermoon.Movement
                 drag = Drag,
                 request = request,
                 position = transform.position,
-                direction = direction,
             };
 
             stateMachine.Transition(context);

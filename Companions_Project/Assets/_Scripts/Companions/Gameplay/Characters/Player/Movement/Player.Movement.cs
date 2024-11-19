@@ -3,10 +3,8 @@ using Companions.Systems;
 using Silvermoon.Movement;
 using UnityEngine;
 
-public partial class Player : IDirectionProvider, ISpeedProvider
+public partial class Player : ISpeedProvider
 {
-    public Vector3 Direction => CameraSystem.Camera.transform.forward;
-
     private MovementComponent movementComponent;
 
     public float SprintSpeed = 8f;

@@ -1,17 +1,14 @@
 using Companions.Systems;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-    [SerializeField] private Transform body;
     [SerializeField] private Transform followTransform;
     [SerializeField]
     [Range(0f, 50f)]
     private float sensitivity = 2.0f;
     
     private Vector2 lookInput;
-    private Vector2 moveInput;
 
     private float pitch;
     private float yaw;
@@ -19,7 +16,6 @@ public class PlayerCamera : MonoBehaviour
     private void OnEnable()
     {
         GameInputSystem.onLook += OnLook;
-        GameInputSystem.onMove += OnMove;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -27,17 +23,11 @@ public class PlayerCamera : MonoBehaviour
     private void OnDisable()
     {
         GameInputSystem.onLook -= OnLook;
-        GameInputSystem.onMove -= OnMove;
     }
 
     private void OnLook(Vector2 value)
     {
         lookInput = value;
-    }
-    
-    private void OnMove(Vector2 value)
-    {
-        moveInput = value;
     }
 
     private void Update()
@@ -54,10 +44,5 @@ public class PlayerCamera : MonoBehaviour
             angle.x = 40;
         
         follow.localEulerAngles = angle;
-        if (moveInput is { x: 0, y: 0 }) 
-            return; 
-        
-        body.rotation = Quaternion.Euler(0, follow.rotation.eulerAngles.y, 0);
-        follow.localEulerAngles = new Vector3(angle.x, 0, 0);
     }
 }

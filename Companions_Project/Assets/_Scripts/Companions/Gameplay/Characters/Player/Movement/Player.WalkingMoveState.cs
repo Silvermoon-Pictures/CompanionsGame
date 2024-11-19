@@ -1,3 +1,4 @@
+using Companions.Systems;
 using UnityEngine;
 using Silvermoon.Movement;
 using Silvermoon.Utils;
@@ -24,13 +25,18 @@ public partial class Player
         {
             base.Update(context);
 
+            Vector3 direction = CameraSystem.Camera.transform.forward;
             Vector2 moveInput = player.inputComponent.MoveInput;
-            Vector3 rightDirection = -Vector3.Cross(context.direction, Vector3.up);
-            Vector3 movement = (rightDirection * moveInput.x + context.direction * moveInput.y) * context.speed;
+            Vector3 rightDirection = -Vector3.Cross(direction, Vector3.up);
+            Vector3 movement = (rightDirection * moveInput.x + direction * moveInput.y) * context.speed;
 
             float currentHorizontalSpeed = new Vector3(context.velocity.x, 0.0f, context.velocity.z).magnitude;
             animator.SetFloat(Speed, currentHorizontalSpeed);
             animator.SetBool(Grounded, context.OnGround);
+            
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
+            context.transform.rotation = Quaternion.Slerp(context.transform.rotation, targetRotation, Time.deltaTime * 10);
 
             context.velocity = movement.WithY(context.velocity.y);
         }
