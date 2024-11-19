@@ -96,19 +96,19 @@ public class CutsceneComponent : MonoBehaviour, ICompanionComponent
             CutsceneSystem.Play(videoPlayer);
         
         onCutsceneStarted?.Invoke();
-        PlayerSystem.Player.DisableCamera();
+        CameraSystem.DisableCamera();
     }
 
     private void OnCutsceneEnd(PlayableDirector _)
     {
         onCutsceneStopped?.Invoke();
-        PlayerSystem.Player.EnableCamera();
+        CameraSystem.EnableCamera();
     }
     
     private void OnVideoEnded(VideoPlayer _)
     {
         onCutsceneStopped?.Invoke();
-        PlayerSystem.Player.EnableCamera();
+        CameraSystem.EnableCamera();
     }
     
     private static bool IsPlayerInColliderBounds(Collider collider)
