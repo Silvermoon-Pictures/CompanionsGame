@@ -1,7 +1,8 @@
+using Companions.Common;
 using Companions.Systems;
 using UnityEngine;
 
-public class PlayerCamera : MonoBehaviour
+public class PlayerCamera : MonoBehaviour, ICompanionComponent
 {
     [SerializeField] private Transform followTransform;
     [SerializeField]
@@ -18,11 +19,17 @@ public class PlayerCamera : MonoBehaviour
         GameInputSystem.onLook += OnLook;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
     }
 
     private void OnDisable()
     {
         GameInputSystem.onLook -= OnLook;
+    }
+
+    void ICompanionComponent.WorldLoaded()
+    {
+        CameraSystem.SetupFollowTarget(followTransform);
     }
 
     private void OnLook(Vector2 value)

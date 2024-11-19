@@ -43,6 +43,11 @@ namespace Companions.Systems
         {
             MainVirtualCamera.gameObject.SetActive(false);
         }
+
+        public static void SetupFollowTarget(Transform follow)
+        {
+            MainVirtualCamera.Follow = follow;
+        }
     }
 }
 
