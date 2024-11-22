@@ -531,7 +531,7 @@ MonoBehaviour:
         objectsHistory:
           rid: 6497500686763687969
         objectMeshPairs:
-          rid: 6497500686763687976
+          rid: 6497500689013669897
         currentLodLevelSettings:
         - reductionStrength: 0
           transitionHeight: 0.6
@@ -641,7 +641,7 @@ MonoBehaviour:
         foldoutAutoLOD: 0
         foldoutBatchFew: 0
         foldoutAutoLODMultiple: 0
-        objPositionPrevFrame: {x: 6.256, y: -0.036, z: 0.94}
+        objPositionPrevFrame: {x: 6.256, y: 0, z: 0.94}
         objScalePrevFrame: {x: 2, y: 2, z: 2}
         considerChildrenBatchFew: 1
         autoLODSavePath: Assets/POLYFEW_LODs
@@ -798,34 +798,46 @@ MonoBehaviour:
           choiceFilteringMode: 0
           choiceCompressionQuality: 1
           choiceCompressionType: 0
-    - rid: 6497500686763687976
+    - rid: 6497500686763687977
+      type: {class: DataContainer/LODBackup, ns: BrainFailProductions.PolyFew, asm: Assembly-CSharp}
+      data:
+        originalRenderers: []
+        lodParentObject: {fileID: 6513644051049616360}
+    - rid: 6497500689013669897
       type: {class: DataContainer/ObjectMeshPair, ns: BrainFailProductions.PolyFew,
         asm: Assembly-CSharp}
       data:
-        _Buckets: ffffffff00000000ffffffff
-        _HashCodes: 2e8202000000000000000000
-        _Next: ffffffff0000000000000000
-        _Count: 1
-        _Version: 1
+        _Buckets: ffffffffffffffff00000000ffffffff03000000ffffffff02000000
+        _HashCodes: fe45020000460200e64502000e460200000000000000000000000000
+        _Next: ffffffffffffffffffffffff01000000000000000000000000000000
+        _Count: 4
+        _Version: 4
         _FreeList: -1
         _FreeCount: 0
         _Keys:
         - {fileID: 7050100807540182135}
+        - {fileID: 7059337430597085223}
+        - {fileID: 843583296898709124}
+        - {fileID: 8138034781340484916}
+        - {fileID: 0}
         - {fileID: 0}
         - {fileID: 0}
         _Values:
         - attachedToMeshFilter: 1
           mesh: {fileID: -7790213828703697861, guid: d801ab338c26866419d72dba1e16df58,
             type: 3}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: 151f4dec5b3b9cd4b8fb1139fbf3f5b3, type: 2}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: c979054ea2506364096d5fdf3513774a, type: 2}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: 32564843e01828249881fcecba11c934, type: 2}
         - attachedToMeshFilter: 0
           mesh: {fileID: 0}
         - attachedToMeshFilter: 0
           mesh: {fileID: 0}
-    - rid: 6497500686763687977
-      type: {class: DataContainer/LODBackup, ns: BrainFailProductions.PolyFew, asm: Assembly-CSharp}
-      data:
-        originalRenderers: []
-        lodParentObject: {fileID: 6513644051049616360}
+        - attachedToMeshFilter: 0
+          mesh: {fileID: 0}
 --- !u!205 &7250787352307957612
 LODGroup:
   m_ObjectHideFlags: 0
