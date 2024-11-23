@@ -491,7 +491,7 @@ MonoBehaviour:
         objectsHistory:
           rid: 6497500243152076801
         objectMeshPairs:
-          rid: 6497500324692230153
+          rid: 6497500720854728712
         currentLodLevelSettings:
         - reductionStrength: 0
           transitionHeight: 0.6
@@ -596,12 +596,12 @@ MonoBehaviour:
         reductionPending: 0
         prevFeasibleTarget: {fileID: 0}
         runOnThreads: 0
-        triangleCount: 3168
+        triangleCount: 406
         lastDrawer: {fileID: 0}
         foldoutAutoLOD: 0
         foldoutBatchFew: 0
         foldoutAutoLODMultiple: 0
-        objPositionPrevFrame: {x: -45.584698, y: 0.53900003, z: -40.2437}
+        objPositionPrevFrame: {x: 1.739, y: 0, z: 1.945}
         objScalePrevFrame: {x: 1, y: 1.0000002, z: 1.0000002}
         considerChildrenBatchFew: 1
         autoLODSavePath: Assets/POLYFEW_LODs
@@ -758,34 +758,46 @@ MonoBehaviour:
           choiceFilteringMode: 0
           choiceCompressionQuality: 1
           choiceCompressionType: 0
-    - rid: 6497500324692230153
-      type: {class: DataContainer/ObjectMeshPair, ns: BrainFailProductions.PolyFew,
-        asm: Assembly-CSharp}
-      data:
-        _Buckets: ffffffff00000000ffffffff
-        _HashCodes: d84204000000000000000000
-        _Next: ffffffff0000000000000000
-        _Count: 1
-        _Version: 1
-        _FreeList: -1
-        _FreeCount: 0
-        _Keys:
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-        _Values:
-        - attachedToMeshFilter: 1
-          mesh: {fileID: 2432050486728313545, guid: 239d476884a49854c85506784d291099,
-            type: 3}
-        - attachedToMeshFilter: 0
-          mesh: {fileID: 0}
-        - attachedToMeshFilter: 0
-          mesh: {fileID: 0}
     - rid: 6497500324692230170
       type: {class: DataContainer/LODBackup, ns: BrainFailProductions.PolyFew, asm: Assembly-CSharp}
       data:
         originalRenderers: []
         lodParentObject: {fileID: 635499505029011218}
+    - rid: 6497500720854728712
+      type: {class: DataContainer/ObjectMeshPair, ns: BrainFailProductions.PolyFew,
+        asm: Assembly-CSharp}
+      data:
+        _Buckets: ffffffffffffffff00000000ffffffffffffffff0200000003000000
+        _HashCodes: 92600200b26002008e600200a4600200000000000000000000000000
+        _Next: ffffffffffffffffffffffff01000000000000000000000000000000
+        _Count: 4
+        _Version: 4
+        _FreeList: -1
+        _FreeCount: 0
+        _Keys:
+        - {fileID: 1262143792317382769}
+        - {fileID: 6531779777410804010}
+        - {fileID: 811348439908674077}
+        - {fileID: 4074337366545652228}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        _Values:
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 258607722238030762, guid: 21e23444c3ecbd145ba7a1b021f1e1a9,
+            type: 3}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: d1a754ecfc7b5b8479e69c1c18b164fe, type: 2}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: 540f417877f98de4c80361d63f8881d3, type: 2}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: 51498de02a16d73418390a9812eb47ad, type: 2}
+        - attachedToMeshFilter: 0
+          mesh: {fileID: 0}
+        - attachedToMeshFilter: 0
+          mesh: {fileID: 0}
+        - attachedToMeshFilter: 0
+          mesh: {fileID: 0}
 --- !u!205 &3254274354215603671
 LODGroup:
   m_ObjectHideFlags: 0
@@ -795,24 +807,24 @@ LODGroup:
   m_GameObject: {fileID: 1262143792317382769}
   serializedVersion: 2
   m_LocalReferencePoint: {x: -0.0000006854534, y: 0.00000047683716, z: 0.4130479}
-  m_Size: 0.84820247
+  m_Size: 1
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.6
+  - screenRelativeHeight: 0.19952111
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3325404656007310872}
-  - screenRelativeHeight: 0.4
+  - screenRelativeHeight: 0.10151882
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4921337213130125084}
-  - screenRelativeHeight: 0.15
+  - screenRelativeHeight: 0.047583934
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5930936351833274078}
-  - screenRelativeHeight: 0.1
+  - screenRelativeHeight: 0.018379739
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 2656353845378859940}
