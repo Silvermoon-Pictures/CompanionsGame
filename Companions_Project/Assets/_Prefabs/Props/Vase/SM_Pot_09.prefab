@@ -390,52 +390,52 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 53e82dab091d65947807fa4582207f9d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.300769
+      value: 3.055
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53e82dab091d65947807fa4582207f9d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.84012485
+      value: -2.8996747
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53e82dab091d65947807fa4582207f9d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.8324394
+      value: 3.4850287
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53e82dab091d65947807fa4582207f9d,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.68341005
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53e82dab091d65947807fa4582207f9d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: -0.68341005
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53e82dab091d65947807fa4582207f9d,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.18152326
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53e82dab091d65947807fa4582207f9d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.18152326
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53e82dab091d65947807fa4582207f9d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 60.25
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53e82dab091d65947807fa4582207f9d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53e82dab091d65947807fa4582207f9d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 53e82dab091d65947807fa4582207f9d,
         type: 3}
@@ -459,6 +459,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 9171628635398804000}
+    - targetCorrespondingSourceObject: {fileID: -1060605148171069688, guid: 53e82dab091d65947807fa4582207f9d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5512023554416901559}
   m_SourcePrefab: {fileID: 100100000, guid: 53e82dab091d65947807fa4582207f9d, type: 3}
 --- !u!1 &2061083020142019789 stripped
 GameObject:
@@ -491,7 +495,7 @@ MonoBehaviour:
         objectsHistory:
           rid: 6497500574251745291
         objectMeshPairs:
-          rid: 6497500583973355563
+          rid: 6497500734036377633
         currentLodLevelSettings:
         - reductionStrength: 0
           transitionHeight: 0.6
@@ -601,8 +605,8 @@ MonoBehaviour:
         foldoutAutoLOD: 0
         foldoutBatchFew: 0
         foldoutAutoLODMultiple: 0
-        objPositionPrevFrame: {x: -5.300769, y: 0.84012485, z: -5.8324394}
-        objScalePrevFrame: {x: 1, y: 1.0000002, z: 1.0000002}
+        objPositionPrevFrame: {x: 3.346, y: 3.2870297, z: 4.3989024}
+        objScalePrevFrame: {x: 1, y: 1, z: 0.9999999}
         considerChildrenBatchFew: 1
         autoLODSavePath: Assets/POLYFEW_LODs
         foldoutAdditionalOpts: 0
@@ -758,34 +762,46 @@ MonoBehaviour:
           choiceFilteringMode: 0
           choiceCompressionQuality: 1
           choiceCompressionType: 0
-    - rid: 6497500583973355563
+    - rid: 6497500583973355564
+      type: {class: DataContainer/LODBackup, ns: BrainFailProductions.PolyFew, asm: Assembly-CSharp}
+      data:
+        originalRenderers: []
+        lodParentObject: {fileID: 5127333264566861746}
+    - rid: 6497500734036377633
       type: {class: DataContainer/ObjectMeshPair, ns: BrainFailProductions.PolyFew,
         asm: Assembly-CSharp}
       data:
-        _Buckets: ffffffffffffffff00000000
-        _HashCodes: 9aaaf77f0000000000000000
-        _Next: ffffffff0000000000000000
-        _Count: 1
-        _Version: 1
+        _Buckets: ffffffff03000000ffffffffffffffff01000000ffffffff02000000
+        _HashCodes: 68e202005a47fc7f4e47fc7f4247fc7f000000000000000000000000
+        _Next: ffffffff00000000ffffffffffffffff000000000000000000000000
+        _Count: 4
+        _Version: 4
         _FreeList: -1
         _FreeCount: 0
         _Keys:
         - {fileID: 2061083020142019789}
+        - {fileID: 8728110815100691644}
+        - {fileID: 4284182635593911704}
+        - {fileID: 8396313874917397399}
+        - {fileID: 0}
         - {fileID: 0}
         - {fileID: 0}
         _Values:
         - attachedToMeshFilter: 1
           mesh: {fileID: 1207021878747835144, guid: 53e82dab091d65947807fa4582207f9d,
             type: 3}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: 91725ab8293e06f4199a9abf803a08b1, type: 2}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: 90ce503052a8387459ca0fafc8a7c8b2, type: 2}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: 669293d3488f9644cb87dc4fa814f494, type: 2}
         - attachedToMeshFilter: 0
           mesh: {fileID: 0}
         - attachedToMeshFilter: 0
           mesh: {fileID: 0}
-    - rid: 6497500583973355564
-      type: {class: DataContainer/LODBackup, ns: BrainFailProductions.PolyFew, asm: Assembly-CSharp}
-      data:
-        originalRenderers: []
-        lodParentObject: {fileID: 5127333264566861746}
+        - attachedToMeshFilter: 0
+          mesh: {fileID: 0}
 --- !u!205 &9171628635398804000
 LODGroup:
   m_ObjectHideFlags: 0
@@ -817,6 +833,27 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2728887168395053567}
   m_Enabled: 1
+--- !u!65 &5512023554416901559
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061083020142019789}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.40312153, y: 0.3930144, z: 0.4576842}
+  m_Center: {x: -0.0000022128224, y: -0.0000002607699, z: 0.22955315}
 --- !u!23 &3885832151321250087 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6354780192107141858, guid: 53e82dab091d65947807fa4582207f9d,

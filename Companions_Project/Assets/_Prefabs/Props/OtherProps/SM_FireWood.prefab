@@ -458,6 +458,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2829523752189829751}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6f22aa82619b9f440a5f6de5d18a7e9e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6000700817657129790}
   m_SourcePrefab: {fileID: 100100000, guid: 6f22aa82619b9f440a5f6de5d18a7e9e, type: 3}
 --- !u!23 &2483414845319241908 stripped
 MeshRenderer:
@@ -502,7 +506,7 @@ MonoBehaviour:
         objectsHistory:
           rid: 6497500243152076801
         objectMeshPairs:
-          rid: 6497500372482654247
+          rid: 6497500734036377643
         currentLodLevelSettings:
         - reductionStrength: 0
           transitionHeight: 0.6
@@ -606,14 +610,14 @@ MonoBehaviour:
         reductionStrength: 0
         reductionPending: 0
         prevFeasibleTarget: {fileID: 4140533005867336033}
-        runOnThreads: 0
+        runOnThreads: 1
         triangleCount: 2400
         lastDrawer: {fileID: 0}
         foldoutAutoLOD: 0
         foldoutBatchFew: 0
         foldoutAutoLODMultiple: 0
-        objPositionPrevFrame: {x: 110.63, y: -0.003699541, z: -43.70459}
-        objScalePrevFrame: {x: 1, y: 1.0000002, z: 1.0000002}
+        objPositionPrevFrame: {x: -6.67, y: 0.00000047683716, z: 5.268002}
+        objScalePrevFrame: {x: 1, y: 1.0000005, z: 1.0000005}
         considerChildrenBatchFew: 1
         autoLODSavePath: Assets/POLYFEW_LODs
         foldoutAdditionalOpts: 0
@@ -769,34 +773,46 @@ MonoBehaviour:
           choiceFilteringMode: 0
           choiceCompressionQuality: 1
           choiceCompressionType: 0
-    - rid: 6497500372482654247
+    - rid: 6497500372482654248
+      type: {class: DataContainer/LODBackup, ns: BrainFailProductions.PolyFew, asm: Assembly-CSharp}
+      data:
+        originalRenderers: []
+        lodParentObject: {fileID: 3978203234010175572}
+    - rid: 6497500734036377643
       type: {class: DataContainer/ObjectMeshPair, ns: BrainFailProductions.PolyFew,
         asm: Assembly-CSharp}
       data:
-        _Buckets: ffffffff00000000ffffffff
-        _HashCodes: 9ee6da7f0000000000000000
-        _Next: ffffffff0000000000000000
-        _Count: 1
-        _Version: 1
+        _Buckets: ffffffffffffffff010000000000000002000000ffffffff03000000
+        _HashCodes: da4c0300e04c0300e24c0300e44c0300000000000000000000000000
+        _Next: ffffffffffffffffffffffffffffffff000000000000000000000000
+        _Count: 4
+        _Version: 4
         _FreeList: -1
         _FreeCount: 0
         _Keys:
         - {fileID: 4140533005867336033}
+        - {fileID: 4830963570008134550}
+        - {fileID: 4945452150972849503}
+        - {fileID: 5350923150497924039}
+        - {fileID: 0}
         - {fileID: 0}
         - {fileID: 0}
         _Values:
         - attachedToMeshFilter: 1
           mesh: {fileID: -3879065526503202222, guid: 6f22aa82619b9f440a5f6de5d18a7e9e,
             type: 3}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: dce1f7124c6a52949aeaa20a845b0ff0, type: 2}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: e2d1dd6302e69fb4da67ab1c0b3f5ace, type: 2}
+        - attachedToMeshFilter: 1
+          mesh: {fileID: 4300000, guid: 2ce83d7fbb6e64846b7306f5ec4ac4ae, type: 2}
         - attachedToMeshFilter: 0
           mesh: {fileID: 0}
         - attachedToMeshFilter: 0
           mesh: {fileID: 0}
-    - rid: 6497500372482654248
-      type: {class: DataContainer/LODBackup, ns: BrainFailProductions.PolyFew, asm: Assembly-CSharp}
-      data:
-        originalRenderers: []
-        lodParentObject: {fileID: 3978203234010175572}
+        - attachedToMeshFilter: 0
+          mesh: {fileID: 0}
 --- !u!205 &2829523752189829751
 LODGroup:
   m_ObjectHideFlags: 0
@@ -828,3 +844,24 @@ LODGroup:
     renderers:
     - renderer: {fileID: 6530136426452397515}
   m_Enabled: 1
+--- !u!65 &6000700817657129790
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4140533005867336033}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.1306167, y: 2.4997058, z: 0.6951074}
+  m_Center: {x: -0.02286017, y: 0.016887967, z: 0.35125336}
